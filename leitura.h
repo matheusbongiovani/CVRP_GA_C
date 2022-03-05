@@ -9,6 +9,4 @@
 
 FILE* inicializaArquivo(FILE* file, char * nomeArq);
 void leArquivo(FILE* file, char* buffer, size_t bufsize, ListaPonto * lista, Grafo * grafo);
-double converteNumero (char * token);
-void verificaTotalDeDemanda(double totalDeDemandas, int quantVeiculos, double capacidadeVeiculos);
 #endif //VNS_LEITURA_H

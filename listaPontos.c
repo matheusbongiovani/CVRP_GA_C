@@ -38,14 +38,14 @@ void inserePonto(Ponto* p, ListaPonto* lista){
     }
 }
 
-Ponto * procurandoPonto(double rotulo, ListaPonto * lista){
+Ponto * procurandoPonto(int id, ListaPonto * lista){
     Celula * p = lista->prim;
     for(p = lista->prim; p!=NULL; p=p->prox){
-        if(retornaRotulo(p->ponto) == rotulo){
+        if(retornaRotulo(p->ponto) == id){
             return p->ponto;
         }
     }
-    printf("Ponto %d nao encontrado\n", rotulo);
+    printf("Ponto %d nao encontrado\n", id);
 }
 
 
