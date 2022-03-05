@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import sys
 import time
 import random
@@ -8,10 +6,10 @@ import matplotlib.pyplot as plt
 #Classe Gene, que representa as cidades da instância.
 class Gene(object):
     def __init__(self, x=0, y=0, demand=0, id=0):
+        self.id = id
         self.x = x
         self.y = y
         self.demand = demand
-        self.id = id
     # Posteriormente anexado à matriz de distancias reduzindo contas repitidas
     def distance(self, p):
         dx = self.x - p.x
