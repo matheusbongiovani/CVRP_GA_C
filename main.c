@@ -44,6 +44,9 @@ int main(int argc, char ** argv) {
     /* Geração da matriz que guarda distancia entre cidades */
     geraMatrizDistancias(grafo, lista);
 
+
+    
+
     return 0;
 }
 
