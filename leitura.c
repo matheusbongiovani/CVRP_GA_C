@@ -14,9 +14,8 @@ FILE *inicializaArquivo(FILE *file, char *nomeArq)
 
 void leArquivo(FILE* file, char* buffer, size_t bufsize, ListaPonto * lista, Grafo * grafo){
     char *token; /* Recebe dados separados pelo strtok */
-    const char s[2] = "k"; /* Separador do strtok */
-    token = strtok(buffer, s); /* Tira o inicio da linha */
-    token = strtok(NULL, s); /* Pega a quantidade de veiculos que restou */
+    token = strtok(buffer, "k"); /* Tira o inicio da linha */
+    token = strtok(NULL, "k"); /* Pega a quantidade de veiculos que restou */
     int k_rotas = atoi(token);
 
     int i = 0;
