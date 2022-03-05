@@ -3,7 +3,7 @@
 struct grafo{
     int nVeiculos;
     int nCidades;
-    int capacidadeV;
+    double capacidadeV;
     double demandaTotal;
     double ** matrizDistancias;
 };
@@ -14,7 +14,7 @@ Grafo * criaGrafo(){
     return grafo;
 }
 
-void inicializaGrafo(Grafo * grafo, int nVeiculos, int nCidades, int capacidadeV, double demandaTotal){
+void inicializaGrafo(Grafo * grafo, int nVeiculos, int nCidades, double capacidadeV, double demandaTotal){
     grafo->nVeiculos = nVeiculos;
     grafo->nCidades = nCidades; /* Inclui uma unidade referente ao depósito */
     grafo->capacidadeV  = capacidadeV;

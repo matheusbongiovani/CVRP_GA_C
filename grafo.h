@@ -6,7 +6,7 @@
 
 typedef struct grafo Grafo;
 Grafo * criaGrafo();
-void inicializaGrafo(Grafo * grafo, int nVeiculos, int nCidades, int capacidadeV, double demandaTotal);
+void inicializaGrafo(Grafo * grafo, int nVeiculos, int nCidades, double capacidadeV, double demandaTotal);
 int retornaNCidades(Grafo * grafo);
 int retornaNVeiculos(Grafo * grafo);
 double retornaCapacidade(Grafo * grafo);

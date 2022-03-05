@@ -21,7 +21,7 @@ void insereDemanda(Ponto * ponto, double demand){
     ponto->demand = demand;
 };
 
-double retornaRotulo (Ponto * p){
+double retornId(Ponto * p){
     return p->id;
 }
 
@@ -35,7 +35,6 @@ void recebeCoordenadas (double coord1, double coord2, Ponto * ponto){
 }
 
 double distanciaEntrePontos(Ponto* ponto1, Ponto* ponto2){
-    int i = 0;
     double Totalsoma = 0, soma = 0;
 
     /* Realiza o cálculo da distância euclidiana entre dois pontos */

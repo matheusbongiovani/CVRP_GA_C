@@ -8,7 +8,7 @@ typedef struct ponto Ponto;
 
 void recebeCoordenadas (double coord1, double coord2, Ponto * ponto);
 Ponto* criaPonto(int id, double x, double y);
-double retornaRotulo (Ponto * p);
+double retornId(Ponto * p);
 void insereDemanda(Ponto * ponto, double demand);
 
 double retornaDemanda(Ponto * ponto);

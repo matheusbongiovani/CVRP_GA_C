@@ -20,7 +20,7 @@ char * defineBuffer (FILE * file, size_t bufsize){
 
 
 int main(int argc, char ** argv) {
-    clock_t start_t, end_t;
+    clock_t start_t, end_t, elapsed_t;
     double total_t;
     start_t = clock();
     printf("Starting of the program, start_t = %ld\n", start_t);
@@ -45,7 +45,9 @@ int main(int argc, char ** argv) {
     geraMatrizDistancias(grafo, lista);
 
 
-    
+
+    destroiLista(lista);
+    destroiGrafo(grafo);
 
     return 0;
 }

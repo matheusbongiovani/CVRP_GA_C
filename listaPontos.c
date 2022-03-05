@@ -41,7 +41,7 @@ void inserePonto(Ponto* p, ListaPonto* lista){
 Ponto * procurandoPonto(int id, ListaPonto * lista){
     Celula * p = lista->prim;
     for(p = lista->prim; p!=NULL; p=p->prox){
-        if(retornaRotulo(p->ponto) == id){
+        if(retornId(p->ponto) == id){
             return p->ponto;
         }
     }
@@ -61,7 +61,9 @@ void distanciaPontos(ListaPonto* lista, double ** matriz, int numCidades){
             /* Calcula a distância entre os pontos */
             dist = distanciaEntrePontos(procurandoPonto(i, lista), procurandoPonto(j, lista));
             matriz[i][j] = dist;
+            // printf("%.1f ", dist);
         }
+        // printf("\n");
     }
 }
 
