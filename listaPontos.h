@@ -1,5 +1,5 @@
-#ifndef VNS_LISTAPONTOS_H
-#define VNS_LISTAPONTOS_H
+#ifndef LISTAPONTOS_H
+#define LISTAPONTOS_H
 #include <stdio.h>
 #include "ponto.h"
 
@@ -11,5 +11,4 @@ Ponto * procurandoPonto(int id, ListaPonto * lista);
 void distanciaPontos(ListaPonto* lista, double ** matriz, int numCidades);
 void destroiLista(ListaPonto* lista);
 
-
-#endif //VNS_LISTAPONTOS_H
+#endif // LISTAPONTOS_H

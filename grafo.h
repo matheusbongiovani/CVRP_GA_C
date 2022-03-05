@@ -1,5 +1,5 @@
-#ifndef VNS_GRAFO_H
-#define VNS_GRAFO_H
+#ifndef GRAFO_H
+#define GRAFO_H
 
 #include <stdlib.h>
 #include "listaPontos.h"
@@ -15,4 +15,4 @@ void geraMatrizDistancias(Grafo * grafo, ListaPonto * lista);
 double retornaDistancia(Grafo * grafo, int cidade1, int cidade2);
 void destroiGrafo(Grafo * grafo);
 
-#endif //VNS_GRAFO_H
+#endif // GRAFO_H

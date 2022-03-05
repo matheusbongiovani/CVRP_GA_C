@@ -1,5 +1,5 @@
-#ifndef VNS_PONTO_H
-#define VNS_PONTO_H
+#ifndef PONTO_H
+#define PONTO_H
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
@@ -16,4 +16,4 @@ double distanciaEntrePontos(Ponto* ponto1, Ponto* ponto2);
 
 void destroiPonto (Ponto * p);
 
-#endif 
+#endif // PONTO_H
