@@ -20,6 +20,10 @@ char * defineBuffer (FILE * file, size_t bufsize){
 
 
 int main(int argc, char ** argv) {
+    if (argc != 2){
+        printf("Sintaxe: ./main A-n32-k5.vrp\n");
+        exit(1);
+    }
     clock_t start_t, end_t, elapsed_t;
     double total_t;
     start_t = clock();
