@@ -1,6 +1,6 @@
 #include "genetics.h"
 
-int calculaTamanhoVetorRotas(Grafo * grafo){
+int calculaTamanhoVetorRotas(Grafo* grafo){
     /* O vetor irá conter cada rota e cada rota será delimitada por um depósito no início e no fim
      *
      * Exemplo de vetor com 2 rotas:
@@ -9,18 +9,18 @@ int calculaTamanhoVetorRotas(Grafo * grafo){
     return retornaNCidades(grafo) + retornaNVeiculos(grafo);
 }
 
-int * alocaVetor(int tamVetor){
-    int * vetorRotas = (int*) malloc (sizeof (int)* (tamVetor));
+int* alocaVetor(int tamVetor){
+    int* vetorRotas = (int*) malloc (sizeof (int)* (tamVetor));
     return vetorRotas;
 }
 
-void imprimeVetor(int * vetorRotas, int k){
+void imprimeVetor(int* vetorRotas, int k){
     for(int i = 0; i < k; i++){
         printf("%d ", vetorRotas[i]);
     }
 }
 
-void imprimeResultado(int * vetorRotas, int k, double custo){
+void imprimeResultado(int* vetorRotas, int k, double custo){
 
     int y = 1; /* conta os zeros encontrados nas rotas para dar inicio e fim a rota */
     printf("Route #1: ");
