@@ -7,7 +7,7 @@
 #include "listaPontos.h"
 #include "grafo.h"
 
-FILE* inicializaArquivo(FILE* file, char * nomeArq);
-void leArquivo(FILE* file, char* buffer, size_t bufsize, ListaPonto * lista, Grafo * grafo);
+FILE* inicializaArquivo(FILE* file, char* nomeArq);
+void leArquivo(FILE* file, char* buffer, size_t bufsize, ListaPonto* lista, Grafo* grafo);
 
 #endif // LEITURA_H
