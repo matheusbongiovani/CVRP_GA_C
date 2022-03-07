@@ -49,7 +49,7 @@ void leArquivo(FILE* file, char* buffer, size_t bufsize, ListaPonto * lista, Gra
     token = strtok(NULL, " ");
     /* Recebe NULL para continuar de onde parou */
 
-    int capacidade = atoi(token);
+    double capacidade = atof(token);
 
     /* Pulando mais 2 linhas para chegar ate as coordenadas das cidades */
     i = 0;
@@ -64,7 +64,7 @@ void leArquivo(FILE* file, char* buffer, size_t bufsize, ListaPonto * lista, Gra
     while (i < n_genes)
     {                                /* Leitura das coordenadas do ponto que foi lido */
         token = strtok(buffer, " "); /* Separa os dados da string */
-        double nomePonto = atoi(token);
+        int nomePonto = atoi(token);
         token = strtok(NULL, " "); /* Separa os dados da string */
         double coordx = atof(token);
         token = strtok(NULL, " "); /* Separa os dados da string */
@@ -87,7 +87,7 @@ void leArquivo(FILE* file, char* buffer, size_t bufsize, ListaPonto * lista, Gra
         getline(&buffer, &bufsize, file); /* Pulando pra proxima linha */
 
         token = strtok(buffer, " "); /* Separa os dados da string */
-        double id_ponto = atof(token);
+        int id_ponto = atoi(token);
 
         token = strtok(NULL, " "); /* Separa os dados da string. Recebe NULL para continuar de onde parou */
         double demandaCidade = atof(token);

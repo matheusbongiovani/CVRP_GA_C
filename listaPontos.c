@@ -50,14 +50,11 @@ Ponto * procurandoPonto(int id, ListaPonto * lista){
 
 
 void distanciaPontos(ListaPonto* lista, double ** matriz, int numCidades){
-    // Calcula distância entre os pontos da lista dois a dois sem repetir e coloca no vetor de arestas 
-
     int i, j ;
     double dist = 0;
-    // For faz a busca na lista dos pontos dois a dois desde que os pontos sejam diferentes
-    // e, como melhoria, faz o for parar quando um ponto for igual ao ponto comparado 
+    // Matrix quadrada contendo distância entre todas as cidades
     for(i = 0; i < numCidades ; i++){
-        for(j = 0; j < numCidades && j!=i; j++){
+        for(j = 0; j < numCidades; j++){
             // Calcula a distância entre os pontos 
             dist = distanciaEntrePontos(procurandoPonto(i, lista), procurandoPonto(j, lista));
             matriz[i][j] = dist;

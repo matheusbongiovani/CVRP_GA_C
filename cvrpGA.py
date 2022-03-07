@@ -6,10 +6,10 @@ import matplotlib.pyplot as plt
 #Classe Gene, que representa as cidades da instância.
 class Gene(object):
     def __init__(self, x=0, y=0, demand=0, id=0):
-        self.id = id
         self.x = x
         self.y = y
         self.demand = demand
+        self.id = id
     # Posteriormente anexado à matriz de distancias reduzindo contas repitidas
     def distance(self, p):
         dx = self.x - p.x
@@ -39,7 +39,6 @@ if len(sys.argv) != 2:
     sys.exit('-------------------------------------------------')
 else:
     arg1 = sys.argv[1]
-    
 
 
 header_array = []
@@ -298,7 +297,7 @@ def inicializar():
                 best_fitness_atual = fit_value
                 best_solution_atual = solution
 
-        array_of_best_fitness.append(best_fitness_atual)
+        array_of_best_fitness.append(best_fitness_global)
         
         if best_fitness_atual >= best_fitness_global:
             iteracoes_sem_melhora += 1
@@ -310,7 +309,6 @@ def inicializar():
             num_iteracoes_melhor_solucao = index_geracao_atual
             current_mutate_prob = initial_mutate_prob
             time_to_best_solution = time.time() - start_time
-        
 
         # Checar o tempo de execução para anteder a condição de parada
         execution_time = time.time()
@@ -396,3 +394,14 @@ for each in plot_sol:
         list_to_plot.append(array_of_genes[0])
 
 plt.show()
+
+# ### Grático para plotar extra A-n32...
+# plt.xkcd()
+# fitness_final = array_of_best_fitness[-1]
+# # plt.grid()
+# plt.ylim(fitness_final-250,fitness_final+250)
+# stringBestcost = "Obtida:" + str(array_of_best_fitness[-1])
+# plt.plot(array_of_best_fitness, color='g', label=stringBestcost)
+# plt.axhline(y=784, color='b', linestyle='-', label="Melhor: 784")
+# plt.legend(loc="upper right")
+# plt.show()

@@ -1,8 +1,5 @@
-# valgrind --leak-check=full --track-origins=yes -v ./trab1 ./exemplos/0.txt 3 out.txt
+# valgrind --leak-check=full --track-origins=yes -v ./main ./A-n32-k5.vrp 
 
-# all: comp 
-# 	./trab1 ./exemplos/0.txt 3 out.txt
-	
 comp:  gcc
 	@echo "Compilado."
 

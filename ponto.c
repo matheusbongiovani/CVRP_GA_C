@@ -8,7 +8,7 @@ struct ponto{
 };
 
 Ponto* criaPonto(int id, double x, double y){
-    /* Aloca novo ponto */
+    // Aloca novo ponto
     Ponto* novo = (Ponto*) malloc(sizeof(Ponto));
     novo->id = id;
     novo->x = x;
@@ -37,7 +37,7 @@ void recebeCoordenadas (double coord1, double coord2, Ponto * ponto){
 double distanciaEntrePontos(Ponto* ponto1, Ponto* ponto2){
     double Totalsoma = 0, soma = 0;
 
-    /* Realiza o cálculo da distância euclidiana entre dois pontos */
+    // Realiza o cálculo da distância euclidiana entre dois pontos
         soma = ponto1->x - ponto2->x;
         soma = soma * soma;
         Totalsoma += soma;
@@ -52,6 +52,6 @@ double distanciaEntrePontos(Ponto* ponto1, Ponto* ponto2){
     return Totalsoma;
 }
 
-void destroiPonto (Ponto * p){
+void destroiPonto(Ponto * p){
     free(p);
 }
