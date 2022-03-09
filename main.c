@@ -50,32 +50,27 @@ int main(int argc, char** argv) {
 
 
 
-
+    int tamLista = tamanhoLista(lista);
 
 
     destroiLista(lista);
     destroiGrafo(grafo);
 
 
-    end_t = clock();
-    while(1){
-        end_t = clock();
-        total_t = (double)end_t - (double)start_t;
-        total_t =  (total_t/ CLOCKS_PER_SEC); // Sem funções printf(), o tempo dá certo
-        // printf("current elapseed: %lf\n", total_t );
-        if (total_t > 0.5){
-            // printf("Total time taken by CPU: %lf\n", total_t ); //Em microsegundos (10^-6)
-            // printf("Exiting of the program...\n");
-            break;
-        }
-    }
 
+    // //////////////// FUNCTION LOOP TIME
     // end_t = clock();
-    // printf("End of the big loop, end_t = %ld\n", end_t);
-    // double subtracao = (double)end_t - (double)start_t;
-    // total_t =  subtracao/ CLOCKS_PER_SEC;
-    // printf("Total time taken by CPU: %lf\n", total_t ); //Em microsegundos (10^-6)
-    // printf("Exiting of the program...\n");
+    // while(1){
+    //     end_t = clock();
+    //     total_t = (double)end_t - (double)start_t;
+    //     total_t =  (total_t/ CLOCKS_PER_SEC); // Sem funções printf(), o tempo dá certo
+    //     // printf("current elapseed: %lf\n", total_t );
+    //     if (total_t > 0.5){
+    //         // printf("Total time taken by CPU: %lf\n", total_t ); //Em microsegundos (10^-6)
+    //         // printf("Exiting of the program...\n");
+    //         break;
+    //     }
+    // }
 
     return 0;
 }

@@ -5,6 +5,17 @@
 #include <stdlib.h>
 #include <time.h>
 
+
+
+
+
+
+
+
+
+
+
+
 void vns(int* vetorRotas, int tamVetor, Grafo * grafo, ListaPonto * listaPontos);
 int * buscaLocal(int* rotaVizinha, int * vetorRotas, int  tamVetor, Grafo * grafo, double custo);
 int calculaTamanhoVetorRotas(Grafo * grafo);

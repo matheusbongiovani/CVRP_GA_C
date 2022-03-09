@@ -1,5 +1,46 @@
 #include "genetics.h"
 
+double fitness(ListaPonto* list){
+    double cost = 0;
+    int i = 0;
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 int calculaTamanhoVetorRotas(Grafo* grafo){
     /* O vetor irá conter cada rota e cada rota será delimitada por um depósito no início e no fim
      *

@@ -21,7 +21,7 @@ ListaPonto* inicializaListaPonto(){
     return lista;
 }
 
-void inserePonto(Ponto* p, ListaPonto* lista){
+void appendPonto(Ponto* p, ListaPonto* lista){
     // Insere ponto no fim da lista
     Celula* nova = (Celula*)malloc(sizeof (Celula));
 
@@ -62,6 +62,17 @@ void distanciaPontos(ListaPonto* lista, double ** matriz, int numCidades){
         }
         // printf("\n");
     }
+}
+
+int tamanhoLista(ListaPonto* lista){
+    int i = 0;
+    Celula* p = lista->prim;
+
+    while(p!=NULL){
+        p = p->prox;
+        i++;
+    }
+    return i;
 }
 
 void destroiLista(ListaPonto* lista){

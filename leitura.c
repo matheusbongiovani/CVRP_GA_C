@@ -74,7 +74,7 @@ void leArquivo(FILE* file, char* buffer, size_t bufsize, ListaPonto * lista, Gra
         /* Registrando coordenadas lidas no ponto */
         Ponto *ponto = criaPonto(nomePonto - 1, coordx, coordy); /* nomePonto-1 porque a resposta será de 0 até nCidades-1 */
         /* Insere ponto lido na lista de pontos */
-        inserePonto(ponto, lista);
+        appendPonto(ponto, lista);
 
         i++;
         getline(&buffer, &bufsize, file); /* Pulando pra proxima linha */

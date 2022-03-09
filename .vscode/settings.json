@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "listapontos.h": "c"
+        "listapontos.h": "c",
+        "genetics.h": "c"
     }
 }

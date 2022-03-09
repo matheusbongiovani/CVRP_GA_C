@@ -6,9 +6,10 @@
 typedef struct listaPonto ListaPonto;
 typedef struct aresta Aresta;
 ListaPonto* inicializaListaPonto();
-void inserePonto(Ponto* p, ListaPonto* lista);
+void appendPonto(Ponto* p, ListaPonto* lista);
 Ponto* procurandoPonto(int id, ListaPonto* lista);
 void distanciaPontos(ListaPonto* lista, double** matriz, int numCidades);
+int tamanhoLista(ListaPonto* lista);
 void destroiLista(ListaPonto* lista);
 
 #endif // LISTAPONTOS_H
