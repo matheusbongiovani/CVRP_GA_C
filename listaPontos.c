@@ -99,6 +99,21 @@ void distanciaPontos(ListaPonto* lista, double** matriz, int numCidades){
     }
 }
 
+ListaPonto* duplicarLista(ListaPonto* entrada){
+    ListaPonto* duplicada = inicializaListaPonto();
+    Celula* p;
+    Celula* t;
+    p = entrada->prim;
+
+    while(p!=NULL){
+        t = p->prox;
+        appendPonto(p->ponto,duplicada);
+        p = t;
+    }
+
+    return duplicada;
+}
+
 
 void destroiLista(ListaPonto* lista){
     Celula* p;

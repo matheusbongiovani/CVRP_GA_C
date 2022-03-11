@@ -1,22 +1,57 @@
 #include "genetics.h"
 
-double fitness(ListaPonto* lista, Grafo* grafo){
+double fitness(ListaPonto* solucao, Grafo* grafo){
     double cost = 0;
     int i = 0;
-    int tamlist = tamanhoLista(lista);
+    int tamlist = tamanhoLista(solucao);
 
     //1º nó da 1ª rota
-    cost += retornaDistancia(grafo, 0, retornId(retornaPontoPosicaoNaLista(0,lista)));
+    cost += retornaDistancia(grafo, 0, retornId(retornaPontoPosicaoNaLista(0,solucao)));
     
     for(i = 0; i < tamlist-1; i++)
-        cost += retornaDistancia(grafo,retornId(retornaPontoPosicaoNaLista(i,lista)), retornId(retornaPontoPosicaoNaLista(i+1,lista)));
+        cost += retornaDistancia(grafo,retornId(retornaPontoPosicaoNaLista(i,solucao)), retornId(retornaPontoPosicaoNaLista(i+1,solucao)));
 
     //último nó da última rota
-    cost += retornaDistancia(grafo, retornId(retornaPontoPosicaoNaLista(i,lista)), 0);
+    cost += retornaDistancia(grafo, retornId(retornaPontoPosicaoNaLista(i,solucao)), 0);
+
+    // Checar nº de rotas, e aplicar penalidade caso exceda capacidade máxima
+    i = 0;
+    int num_of_depots = 1;
+    while (i < tamlist){
+        if (retornId(retornaPontoPosicaoNaLista(i,solucao)) == 0)
+            num_of_depots++;
+        i++;
+    }
+
+    // //fazer isto apenas após colocar os 0 intermediarios
+    // if (num_of_depots != retornaNVeiculos(grafo)){
+    //     i = 0;
+    //     double weight = 0;
+    //     double penalty = 0;
+    //     double demandAtual = 0;
+    //     double capMaxVeiculo = retornaCapacidadeMaxVeiculo(grafo);
+    //     while (i < tamlist){
+    //         demandAtual = retornaDemanda(retornaPontoPosicaoNaLista(i,solucao));
+    //         weight += demandAtual;
+    //         if (demandAtual == 0){
+    //             if (weight > capMaxVeiculo){
+    //                 // penalty*50 performed better
+    //                 penalty += (weight - capMaxVeiculo)*50;
+    //                 cost += penalty;
+    //                 weight = 0;
+    //             }
+    //         i++;
+    //         }
+    //     }
+    // } 
 
     return cost;
-
 }
+
+// ListaPonto* tornarFactivel(ListaPonto* solucao, Grafo* grafo){
+
+
+// }
 
 
 
@@ -105,7 +140,7 @@ void geraSolucaoInicialRandom(Grafo * grafo, int * vetorRotaAleatorio, ListaPont
             proximaCidade, deposito = 0, aux, k=1;
     double proximoCusto, custoAtual, demandaAtual, novaDemanda = 0;
     double demandaTotal = 0;
-    double capacidade = retornaCapacidade(grafo); /* Se refere a capacidade de cada veículo */
+    double capacidade = retornaCapacidadeMaxVeiculo(grafo); /* Se refere a capacidade de cada veículo */
 
     while(nCidades-1 != contador){
         proximoCusto = 0;
@@ -233,7 +268,7 @@ int * geraXisLinha(int * xLinha, int * vetorRotas, int tamVetor, double custo, L
     /* O x' não precisa ter um custo melhor que o de x, porém precisamos garantir que a capacidade
      * dos veículos não seja ultrapassada */
 
-    double capacidadeVeiculos = retornaCapacidade(grafo);
+    double capacidadeVeiculos = retornaCapacidadeMaxVeiculo(grafo);
 
     /* O custo se refere ao custo do vetorRotas que é passado como parâmetro */
     for (int i = 0; i < tamVetor; ++i){

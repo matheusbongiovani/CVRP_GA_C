@@ -66,6 +66,7 @@ int main(int argc, char** argv) {
 
 
 
+    ListaPonto* duplicada = duplicarLista(lista);
 
 
 
@@ -77,6 +78,7 @@ int main(int argc, char** argv) {
 
 
 
+    int porraDebugaDireito = 0;
 
 
 

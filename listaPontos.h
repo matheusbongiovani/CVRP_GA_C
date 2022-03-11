@@ -13,7 +13,7 @@ Ponto* procurandoPonto(int id, ListaPonto* lista);
 Ponto* retornaPontoPosicaoNaLista(int i,ListaPonto* lista);
 
 
-
+ListaPonto* duplicarLista(ListaPonto* entrada);
 void distanciaPontos(ListaPonto* lista, double** matriz, int numCidades);
 void destroiLista(ListaPonto* lista);
 

@@ -34,7 +34,7 @@ double retornaDemandaTotal(Grafo * grafo){
     return grafo->demandaTotal;
 }
 
-double retornaCapacidade(Grafo * grafo){
+double retornaCapacidadeMaxVeiculo(Grafo * grafo){
     return grafo->capacidadeV;
 }
 
