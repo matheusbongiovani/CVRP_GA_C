@@ -49,7 +49,7 @@ void appendPonto(Ponto* p, ListaPonto* lista){
     }
 }
 
-Ponto* extractDepot(ListaPonto* lista){
+Ponto* tirar1elemDaLista(ListaPonto* lista){
     Celula* celDepot = lista->prim;
     Ponto* depot = celDepot->ponto;
 
@@ -58,6 +58,50 @@ Ponto* extractDepot(ListaPonto* lista){
     free(celDepot);
 
     return depot;
+}
+
+void removePontoPeloId(int id, ListaPonto* lista){
+    Celula* ant = NULL;
+    Celula* p = lista->prim;
+
+    while(p!=NULL && retornId(p->ponto) != id){   
+        ant = p;
+        p = p->prox;
+    }
+    if(p==NULL)
+        return;
+    if(p==lista->prim && p==lista->ult){
+        lista->prim = lista->ult = NULL;
+        free(p);
+        return;
+    }
+    if(p==lista->ult){
+        lista->ult = ant;
+        ant->prox = NULL;
+        free(p);
+        return;
+    }
+    if(p==lista->prim)
+        lista->prim = p->prox;
+    else
+        ant->prox = p->prox;
+    
+    free(p);
+
+}
+
+void removeDepositosDaLista(ListaPonto* lista){
+    Celula* next = NULL;
+    Celula* p = lista->prim;
+
+    while(p!=NULL){
+        next = p->prox;
+        if(retornId(p->ponto) == 0){
+            removePontoPeloId(0,lista);
+            p = next;
+        }else
+            p = p->prox;
+    }
 }
 
 Ponto* procurandoPonto(int id, ListaPonto* lista){
@@ -105,15 +149,30 @@ ListaPonto* duplicarLista(ListaPonto* entrada){
     Celula* t;
     p = entrada->prim;
 
+    int i = 0;
     while(p!=NULL){
         t = p->prox;
         appendPonto(p->ponto,duplicada);
         p = t;
+        i++;
     }
 
     return duplicada;
 }
 
+
+void destroiListaDuplicada(ListaPonto* lista){
+    Celula* p;
+    Celula* t;
+    p = lista->prim;
+
+    while(p!=NULL){
+        t = p->prox;
+        free(p);
+        p = t;
+    }
+    free(lista);
+}
 
 void destroiLista(ListaPonto* lista){
     Celula* p;

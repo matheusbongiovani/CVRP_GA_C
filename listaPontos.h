@@ -8,13 +8,14 @@ typedef struct celula Celula;
 ListaPonto* inicializaListaPonto();
 int tamanhoLista(ListaPonto* lista);
 void appendPonto(Ponto* p, ListaPonto* lista);
-Ponto* extractDepot(ListaPonto* lista);
+Ponto* tirar1elemDaLista(ListaPonto* lista);
 Ponto* procurandoPonto(int id, ListaPonto* lista);
 Ponto* retornaPontoPosicaoNaLista(int i,ListaPonto* lista);
-
-
+void removePontoPeloId(int id, ListaPonto* lista);
+void removeDepositosDaLista(ListaPonto* lista);
 ListaPonto* duplicarLista(ListaPonto* entrada);
 void distanciaPontos(ListaPonto* lista, double** matriz, int numCidades);
+void destroiListaDuplicada(ListaPonto* lista);
 void destroiLista(ListaPonto* lista);
 
 #endif // LISTAPONTOS_H

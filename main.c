@@ -59,21 +59,25 @@ int main(int argc, char** argv) {
     // Ponto* pontoAtPos = retornaPontoPosicaoNaLista(4, lista); // retorna ponto at pos i in lista
 
 
-    // Ponto* depot = extractDepot(lista);  //remove depot da lista, posteriormente tem q: free(depot)
 
-    double fitvalue = fitness(lista, grafo);
+
 
 
 
 
     ListaPonto* duplicada = duplicarLista(lista);
 
+    Ponto* depot = tirar1elemDaLista(lista);  //remove depot da lista, posteriormente tem q: free(depot)
+
+    double fitvalue = fitness(lista, grafo);
+
+    Ponto* elem1 = tirar1elemDaLista(lista);
 
 
+    duplicada = tornarFactivel(duplicada, grafo);
 
-
-
-
+    appendPonto(depot,duplicada);
+    appendPonto(elem1,duplicada);
 
 
 
@@ -82,6 +86,10 @@ int main(int argc, char** argv) {
 
 
 
+
+    destroiListaDuplicada(duplicada);
+    free(depot);
+    free(elem1);
 
 
     free(solutionVector);

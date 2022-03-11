@@ -48,10 +48,19 @@ double fitness(ListaPonto* solucao, Grafo* grafo){
     return cost;
 }
 
-// ListaPonto* tornarFactivel(ListaPonto* solucao, Grafo* grafo){
+ListaPonto* tornarFactivel(ListaPonto* solucao, Grafo* grafo){
+    ListaPonto* solucaoAjustada = duplicarLista(solucao);
+    int* seqEntrada = criaVetorDeIntDe1ateNcidades(retornaNCidades(grafo)-1);
+
+    // int pa = seqEntrada[10]; retorna 11
+    // int pb = seqEntrada[20]; retorna 21
 
 
-// }
+
+    free(seqEntrada);
+    destroiListaDuplicada(solucao);
+    return solucaoAjustada;
+}
 
 
 
@@ -97,8 +106,11 @@ int calculaTamanhoVetorRotas(Grafo* grafo){
     return retornaNCidades(grafo) + retornaNVeiculos(grafo);
 }
 
-int* alocaVetor(int tamVetor){
+int* criaVetorDeIntDe1ateNcidades(int tamVetor){
     int* vetorRotas = (int*) malloc (sizeof (int)* (tamVetor));
+    for(int i=0; i<tamVetor;i++)
+        vetorRotas[i] = i+1;
+
     return vetorRotas;
 }
 
@@ -326,7 +338,7 @@ void vns(int* vetorRotas, int tamVetor, Grafo * grafo, ListaPonto * listaPontos)
 
     /* Alocando o vetor que conterá as rotas atualizadas de todos os veículos de acordo com a necessidade */
     int * vetorRotasNovas;
-    int * rotaVizinha = alocaVetor(tamVetor);
+    int * rotaVizinha = criaVetorDeIntDe1ateNcidades(tamVetor);
 
     time_t t;
     srand((unsigned)time(&t));
