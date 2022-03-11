@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include "leitura.h"
-#include "grafo.h"
-#include "listaPontos.h"
 #include "ponto.h"
+#include "listaPontos.h"
+#include "grafo.h"
+#include "genetics.h"
 #include <time.h>
 
 char* defineBuffer (FILE* file, size_t bufsize){
@@ -48,14 +49,43 @@ int main(int argc, char** argv) {
     geraMatrizDistancias(grafo, lista);
 
 
-
-
     int tamLista = tamanhoLista(lista);
 
+// tamanho do vetor com folga pra 2 veiculos a mais que o mín de veículos da melhor solução
+    int tamMaxlist = calculaTamanhoVetorRotas(grafo) + 2;
 
+    int* solutionVector = (int*) malloc (sizeof(int)* tamMaxlist);
+
+    // Ponto* pontoAtPos = retornaPontoPosicaoNaLista(4, lista); // retorna ponto at pos i in lista
+
+
+    // Ponto* depot = extractDepot(lista);  //remove depot da lista, posteriormente tem q: free(depot)
+
+    double fitvalue = fitness(lista, grafo);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    free(solutionVector);
+    // destroiPonto(depot);
     destroiLista(lista);
     destroiGrafo(grafo);
-
 
 
     // //////////////// FUNCTION LOOP TIME

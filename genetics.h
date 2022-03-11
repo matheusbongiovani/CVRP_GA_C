@@ -6,6 +6,7 @@
 #include <time.h>
 
 
+double fitness(ListaPonto* lista, Grafo* grafo);
 
 
 

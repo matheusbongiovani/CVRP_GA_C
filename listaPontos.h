@@ -4,12 +4,17 @@
 #include "ponto.h"
 
 typedef struct listaPonto ListaPonto;
-typedef struct aresta Aresta;
+typedef struct celula Celula;
 ListaPonto* inicializaListaPonto();
-void appendPonto(Ponto* p, ListaPonto* lista);
-Ponto* procurandoPonto(int id, ListaPonto* lista);
-void distanciaPontos(ListaPonto* lista, double** matriz, int numCidades);
 int tamanhoLista(ListaPonto* lista);
+void appendPonto(Ponto* p, ListaPonto* lista);
+Ponto* extractDepot(ListaPonto* lista);
+Ponto* procurandoPonto(int id, ListaPonto* lista);
+Ponto* retornaPontoPosicaoNaLista(int i,ListaPonto* lista);
+
+
+
+void distanciaPontos(ListaPonto* lista, double** matriz, int numCidades);
 void destroiLista(ListaPonto* lista);
 
 #endif // LISTAPONTOS_H

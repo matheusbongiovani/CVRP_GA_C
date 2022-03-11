@@ -21,6 +21,17 @@ ListaPonto* inicializaListaPonto(){
     return lista;
 }
 
+int tamanhoLista(ListaPonto* lista){
+    int i = 0;
+    Celula* p = lista->prim;
+    while(p!=NULL){
+        p = p->prox;
+        i++;
+    }
+    return i;
+}
+
+
 void appendPonto(Ponto* p, ListaPonto* lista){
     // Insere ponto no fim da lista
     Celula* nova = (Celula*)malloc(sizeof (Celula));
@@ -38,8 +49,19 @@ void appendPonto(Ponto* p, ListaPonto* lista){
     }
 }
 
-Ponto * procurandoPonto(int id, ListaPonto * lista){
-    Celula * p = lista->prim;
+Ponto* extractDepot(ListaPonto* lista){
+    Celula* celDepot = lista->prim;
+    Ponto* depot = celDepot->ponto;
+
+    lista->prim = celDepot->prox;
+
+    free(celDepot);
+
+    return depot;
+}
+
+Ponto* procurandoPonto(int id, ListaPonto* lista){
+    Celula* p = lista->prim;
     for(p = lista->prim; p!=NULL; p=p->prox){
         if(retornId(p->ponto) == id){
             return p->ponto;
@@ -48,9 +70,22 @@ Ponto * procurandoPonto(int id, ListaPonto * lista){
     printf("Ponto %d nao encontrado\n", id);
 }
 
+Ponto* retornaPontoPosicaoNaLista(int i, ListaPonto* lista){
+    Celula* p = lista->prim;
+    int j;
+    for(j = 0; p!=NULL; p=p->prox){
+        if(j == i){
+            return p->ponto;
+        }
+        j++;
+    }
+    printf("Sem Ponto na posicao %d\n", i);
+}
 
-void distanciaPontos(ListaPonto* lista, double ** matriz, int numCidades){
-    int i, j ;
+
+
+void distanciaPontos(ListaPonto* lista, double** matriz, int numCidades){
+    int i, j;
     double dist = 0;
     // Matrix quadrada contendo distância entre todas as cidades
     for(i = 0; i < numCidades ; i++){
@@ -64,16 +99,6 @@ void distanciaPontos(ListaPonto* lista, double ** matriz, int numCidades){
     }
 }
 
-int tamanhoLista(ListaPonto* lista){
-    int i = 0;
-    Celula* p = lista->prim;
-
-    while(p!=NULL){
-        p = p->prox;
-        i++;
-    }
-    return i;
-}
 
 void destroiLista(ListaPonto* lista){
     Celula* p;

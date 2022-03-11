@@ -1,9 +1,21 @@
 #include "genetics.h"
 
-double fitness(ListaPonto* list){
+double fitness(ListaPonto* lista, Grafo* grafo){
     double cost = 0;
     int i = 0;
+    int tamlist = tamanhoLista(lista);
+
+    //1º nó da 1ª rota
+    cost += retornaDistancia(grafo, 0, retornId(retornaPontoPosicaoNaLista(0,lista)));
     
+    for(i = 0; i < tamlist-1; i++)
+        cost += retornaDistancia(grafo,retornId(retornaPontoPosicaoNaLista(i,lista)), retornId(retornaPontoPosicaoNaLista(i+1,lista)));
+
+    //último nó da última rota
+    cost += retornaDistancia(grafo, retornId(retornaPontoPosicaoNaLista(i,lista)), 0);
+
+    return cost;
+
 }
 
 

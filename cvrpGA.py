@@ -227,7 +227,7 @@ def tournament_select_two(old_pop):
             if fitness_value < best:
                 selecteds.append(cromo)
                 best = fitness_value
-        best_cromo = selecteds.pop()
+        best_cromo = selecteds.pop()    #possivel implementar só pegando o bestFit
         return best_cromo
     
     parent1 = best_fit_parents()
