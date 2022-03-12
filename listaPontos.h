@@ -4,7 +4,6 @@
 #include "ponto.h"
 
 typedef struct listaPonto ListaPonto;
-typedef struct celula Celula;
 ListaPonto* inicializaListaPonto();
 int tamanhoLista(ListaPonto* lista);
 void appendPonto(Ponto* p, ListaPonto* lista);

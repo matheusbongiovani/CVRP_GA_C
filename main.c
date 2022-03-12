@@ -48,15 +48,7 @@ int main(int argc, char** argv) {
     // Geração da matriz que guarda distancia entre cidades 
     geraMatrizDistancias(grafo, listaEntrada);
 
-
-
-// tamanho do vetor com folga pra 2 veiculos a mais que o mín de veículos da melhor solução
-    int tamMaxlist = calculaTamanhoVetorRotas(grafo) + 2;
-
-    int* solutionVector = (int*) malloc (sizeof(int)* tamMaxlist);
-
-
-
+//----------------------------------------------------------------------
 
 
     ListaPonto* duplicada = duplicarLista(listaEntrada);
@@ -69,6 +61,15 @@ int main(int argc, char** argv) {
 
     duplicada = tornarFactivel(duplicada, grafo, listaEntrada);
 
+    int tamanhoPopulacao = retornaNCidades(grafo)*2;
+
+
+
+    ListaPopulacao* poplist = AlocarPoplist();
+
+    appendSolucaoNaPopulacao(duplicada,poplist);
+    appendSolucaoNaPopulacao(listaEntrada,poplist);
+    appendSolucaoNaPopulacao(duplicada,poplist);
 
 
 
@@ -79,9 +80,8 @@ int main(int argc, char** argv) {
 
 
     destroiListaDuplicada(duplicada);
-
+    destroiPopulacao(poplist);
     // free(depot);
-    free(solutionVector);
     destroiLista(listaEntrada);
     destroiGrafo(grafo);
 

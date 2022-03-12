@@ -14,7 +14,7 @@ struct listaPonto{
 
 ListaPonto* inicializaListaPonto(){
     // Aloca a lista de pontos 
-    ListaPonto* lista = (ListaPonto*)malloc(sizeof (ListaPonto));
+    ListaPonto* lista = (ListaPonto*)malloc(sizeof(ListaPonto));
     lista->prim = NULL;
     lista->ult = NULL;
 
@@ -34,7 +34,7 @@ int tamanhoLista(ListaPonto* lista){
 
 void appendPonto(Ponto* p, ListaPonto* lista){
     // Insere ponto no fim da lista
-    Celula* nova = (Celula*)malloc(sizeof (Celula));
+    Celula* nova = (Celula*)malloc(sizeof(Celula));
 
     nova->ponto = p;
     nova->prox = NULL;
@@ -50,7 +50,7 @@ void appendPonto(Ponto* p, ListaPonto* lista){
 }
 
 void insereDepotAantesPos(int i, Ponto* novoP, ListaPonto* lista){
-    Celula* nova = (Celula*)malloc(sizeof (Celula));
+    Celula* nova = (Celula*)malloc(sizeof(Celula));
     nova->ponto = novoP;
     nova->prox = NULL;
     Celula* p = lista->prim;

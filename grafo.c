@@ -10,7 +10,7 @@ struct grafo{
 
 Grafo * criaGrafo(){
     // Aloca estrutura grafo 
-    Grafo * grafo = (Grafo*) malloc(sizeof (Grafo));
+    Grafo * grafo = (Grafo*) malloc(sizeof(Grafo));
     return grafo;
 }
 
@@ -47,7 +47,7 @@ void insereMatrizDistancias(Grafo * grafo, double ** matriz){
 }
 
 void geraMatrizDistancias(Grafo * grafo, ListaPonto * lista){
-    double ** matrizDistancias = (double **) malloc(sizeof (double*)*(grafo->nCidades));
+    double ** matrizDistancias = (double **) malloc(sizeof(double*)*(grafo->nCidades));
     for(int i = 0; i < grafo->nCidades; i++){
         matrizDistancias[i] = (double *) malloc(sizeof(double)*(grafo->nCidades));
     }

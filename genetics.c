@@ -1,5 +1,56 @@
 #include "genetics.h"
 
+typedef struct celula Celula;
+
+struct celula{
+    ListaPonto* listap;
+    Celula* prox;
+};
+
+struct listaPopulacao{
+    Celula* prim;
+    Celula* ult;
+};
+
+ListaPopulacao* AlocarPoplist(){
+    ListaPopulacao* vetorPopulacao = (ListaPopulacao*)malloc(sizeof(ListaPopulacao));
+    vetorPopulacao->prim = NULL;
+    vetorPopulacao->ult = NULL;
+
+    return vetorPopulacao;
+}
+
+void appendSolucaoNaPopulacao(ListaPonto* solucao, ListaPopulacao* populacao){
+    Celula* nova = (Celula*)malloc(sizeof(Celula));
+    nova->listap = solucao;
+    nova->prox = NULL;
+
+    if(populacao->ult == NULL){
+        populacao->prim = populacao->ult = nova;
+    }else{
+        populacao->ult->prox = nova;
+        populacao->ult = nova;
+    }
+}
+
+void destroiPopulacao(ListaPopulacao* popList){
+    Celula* p;
+    Celula* t;
+    p = popList->prim;
+
+    while(p!=NULL){
+        t = p->prox;
+        free(p);
+        p = t;
+    }
+    free(popList);
+}
+
+
+
+
+
+
 double fitness(ListaPonto* solucao, Grafo* grafo){
     double cost = 0;
     int i = 0;
@@ -117,9 +168,20 @@ ListaPonto* tornarFactivel(ListaPonto* solucao, Grafo* grafo, ListaPonto* entrad
     return solucao;
 }
 
+ListaPopulacao* criarPopulacaoInicial(ListaPonto* listaEntrada, int tamPop){
+    ListaPopulacao* initialPop = AlocarPoplist();
+    ListaPonto* solucao = duplicarLista(listaEntrada);
+    Ponto* depot = tirar1elemDaLista(solucao);
+    free(depot);
 
+    int tam = 0;
+    while(tam < tamPop){
+        
+    }
 
+    
 
+}
 
 
 
@@ -162,7 +224,7 @@ int calculaTamanhoVetorRotas(Grafo* grafo){
 }
 
 int* criaVetorDeIntDe1ateNcidades(int tamVetor){
-    int* vetorRotas = (int*) malloc (sizeof (int)* (tamVetor));
+    int* vetorRotas = (int*) malloc (sizeof(int)* (tamVetor));
     for(int i=0; i<tamVetor;i++)
         vetorRotas[i] = i+1;
 

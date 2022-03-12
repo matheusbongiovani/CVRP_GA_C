@@ -6,12 +6,15 @@
 #include <time.h>
 
 
+typedef struct listaPopulacao ListaPopulacao;
+ListaPopulacao* AlocarPoplist();
+void appendSolucaoNaPopulacao(ListaPonto* solucao, ListaPopulacao* populacao);
+
+
 double fitness(ListaPonto* lista, Grafo* grafo);
 ListaPonto* tornarFactivel(ListaPonto* solucao, Grafo* grafo, ListaPonto* entradaInicial);
 
-
-
-
+void destroiPopulacao(ListaPopulacao* popList);
 
 
 void vns(int* vetorRotas, int tamVetor, Grafo * grafo, ListaPonto * listaPontos);
