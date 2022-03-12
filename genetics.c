@@ -40,6 +40,7 @@ void destroiPopulacao(ListaPopulacao* popList){
 
     while(p!=NULL){
         t = p->prox;
+        destroiListaDuplicada(p->listap);
         free(p);
         p = t;
     }
@@ -101,9 +102,6 @@ double fitness(ListaPonto* solucao, Grafo* grafo){
 
 ListaPonto* tornarFactivel(ListaPonto* solucao, Grafo* grafo, ListaPonto* entradaInicial){
     int nCidades = retornaNCidades(grafo);
-    // int pa = seqEntrada[10]; retorna 11
-    // int pb = seqEntrada[20]; retorna 21
-
     removeDepositosDaLista(solucao);
 
     // boleanos para fazer ajuste de cidades repetidas e que faltam
@@ -163,15 +161,13 @@ ListaPonto* tornarFactivel(ListaPonto* solucao, Grafo* grafo, ListaPonto* entrad
         }
         i++;
     }
-
-
     return solucao;
 }
 
 ListaPopulacao* criarPopulacaoInicial(ListaPonto* listaEntrada, int tamPop){
     ListaPopulacao* initialPop = AlocarPoplist();
     ListaPonto* solucao = duplicarLista(listaEntrada);
-    Ponto* depot = tirar1elemDaLista(solucao);
+    Ponto* depot = extractDepotDaLista(solucao);
     free(depot);
 
     int tam = 0;
@@ -182,11 +178,6 @@ ListaPopulacao* criarPopulacaoInicial(ListaPonto* listaEntrada, int tamPop){
     
 
 }
-
-
-
-
-
 
 
 

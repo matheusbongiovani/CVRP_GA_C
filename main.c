@@ -48,29 +48,21 @@ int main(int argc, char** argv) {
     // Geração da matriz que guarda distancia entre cidades 
     geraMatrizDistancias(grafo, listaEntrada);
 
+    int tamanhoPopulacao = retornaNCidades(grafo)*2;
 //----------------------------------------------------------------------
 
+    // ListaPonto* duplicada = duplicarLista(listaEntrada);
 
-    ListaPonto* duplicada = duplicarLista(listaEntrada);
-
-    // Ponto* depot = tirar1elemDaLista(duplicada);  //remove depot da lista, posteriormente tem q: free(depot)
-
+    // Ponto* depot = extractDepotDaLista(duplicada);  //remove depot da lista, posteriormente tem q: free(depot)
 
     double fitvalue = fitness(listaEntrada, grafo);
 
-
-    duplicada = tornarFactivel(duplicada, grafo, listaEntrada);
-
-    int tamanhoPopulacao = retornaNCidades(grafo)*2;
-
+    ListaPonto* soll = shuffleListaPonto(listaEntrada);
 
 
     ListaPopulacao* poplist = AlocarPoplist();
 
-    appendSolucaoNaPopulacao(duplicada,poplist);
-    appendSolucaoNaPopulacao(listaEntrada,poplist);
-    appendSolucaoNaPopulacao(duplicada,poplist);
-
+    appendSolucaoNaPopulacao(soll, poplist);
 
 
 
@@ -79,9 +71,8 @@ int main(int argc, char** argv) {
 
 
 
-    destroiListaDuplicada(duplicada);
+    // destroiListaDuplicada(duplicada);
     destroiPopulacao(poplist);
-    // free(depot);
     destroiLista(listaEntrada);
     destroiGrafo(grafo);
 

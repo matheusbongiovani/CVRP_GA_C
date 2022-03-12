@@ -67,7 +67,7 @@ void insereDepotAantesPos(int i, Ponto* novoP, ListaPonto* lista){
 
 }
 
-Ponto* tirar1elemDaLista(ListaPonto* lista){
+Ponto* extractDepotDaLista(ListaPonto* lista){
     Celula* celDepot = lista->prim;
     Ponto* depot = celDepot->ponto;
 
@@ -246,4 +246,44 @@ void destroiLista(ListaPonto* lista){
         p = t;
     }
     free(lista);
+} 
+
+
+// shuffleListaPonto() recebe a lista com o depot incluso da entrada, e retorna as cidades randomizadas (sem depot).
+ListaPonto* shuffleListaPonto(ListaPonto* entrada){
+    ListaPonto* solucao = duplicarLista(entrada);
+    extractDepotDaLista(solucao);
+    int N = tamanhoLista(entrada)-1;
+    int cidades[N]; // Vetor de cidades de 0 a 31 (para o primeiro exemplo, sendo 0 o depot)
+    int i;
+    for(i = 0; i < N ; i++){
+        cidades[i] = i+1; // De 1 a nCidades-1(==31)
+    }
+
+    time_t randt;
+    srand((unsigned)time(&randt));
+    // ----------- r random beteween 1 ~ N
+    // int r= rand()% N;
+    // r++;
+    // printf("%d ",r);
+    for (i = 0; i < N-1; ++i){
+        int j = rand() % (N-i) + i;
+        int temp = cidades[i];
+        cidades[i] = cidades[j];
+        cidades[j] = temp;
+    }
+    // for (i = 0; i < N; i++)
+    //     printf("%d ", cidades[i]);
+    // printf("\n");
+
+    Celula* p = solucao->prim;
+    solucao->ult->ponto = procuraPontoPeloId(cidades[N-1],entrada);
+    Celula* t;
+    for (i = 0; i < N; ++i){
+        t = p->prox;
+        Ponto* ponto = procuraPontoPeloId(cidades[i],entrada);
+        p->ponto = ponto;
+        p = t;
+    }
+    return solucao;
 }
