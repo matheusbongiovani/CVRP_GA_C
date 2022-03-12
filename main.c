@@ -37,47 +37,38 @@ int main(int argc, char** argv) {
     char* buffer = defineBuffer(file, bufsize);
 
     // Inicializa lista que guarda todos os pontos 
-    ListaPonto* lista = inicializaListaPonto();
+    ListaPonto* listaEntrada = inicializaListaPonto();
 
     // Inicializa grafo que conterá informações lidas 
     Grafo* grafo = criaGrafo();
 
     // Lê o arquivo e preenche a lista de pontos com todos os pontos(cidades), suas coordenadas e demandas 
-    leArquivo(file, buffer, bufsize, lista, grafo);
+    leArquivo(file, buffer, bufsize, listaEntrada, grafo);
 
     // Geração da matriz que guarda distancia entre cidades 
-    geraMatrizDistancias(grafo, lista);
+    geraMatrizDistancias(grafo, listaEntrada);
 
 
-    int tamLista = tamanhoLista(lista);
 
 // tamanho do vetor com folga pra 2 veiculos a mais que o mín de veículos da melhor solução
     int tamMaxlist = calculaTamanhoVetorRotas(grafo) + 2;
 
     int* solutionVector = (int*) malloc (sizeof(int)* tamMaxlist);
 
-    // Ponto* pontoAtPos = retornaPontoPosicaoNaLista(4, lista); // retorna ponto at pos i in lista
 
 
 
 
+    ListaPonto* duplicada = duplicarLista(listaEntrada);
+
+    // Ponto* depot = tirar1elemDaLista(duplicada);  //remove depot da lista, posteriormente tem q: free(depot)
 
 
+    double fitvalue = fitness(listaEntrada, grafo);
 
 
-    ListaPonto* duplicada = duplicarLista(lista);
+    duplicada = tornarFactivel(duplicada, grafo, listaEntrada);
 
-    Ponto* depot = tirar1elemDaLista(lista);  //remove depot da lista, posteriormente tem q: free(depot)
-
-    double fitvalue = fitness(lista, grafo);
-
-    Ponto* elem1 = tirar1elemDaLista(lista);
-
-
-    duplicada = tornarFactivel(duplicada, grafo);
-
-    appendPonto(depot,duplicada);
-    appendPonto(elem1,duplicada);
 
 
 
@@ -88,13 +79,10 @@ int main(int argc, char** argv) {
 
 
     destroiListaDuplicada(duplicada);
-    free(depot);
-    free(elem1);
 
-
+    // free(depot);
     free(solutionVector);
-    // destroiPonto(depot);
-    destroiLista(lista);
+    destroiLista(listaEntrada);
     destroiGrafo(grafo);
 
 

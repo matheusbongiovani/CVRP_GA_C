@@ -49,6 +49,24 @@ void appendPonto(Ponto* p, ListaPonto* lista){
     }
 }
 
+void insereDepotAantesPos(int i, Ponto* novoP, ListaPonto* lista){
+    Celula* nova = (Celula*)malloc(sizeof (Celula));
+    nova->ponto = novoP;
+    nova->prox = NULL;
+    Celula* p = lista->prim;
+
+    int j; // j=1 para p->prox apontar para nova, e nova estar na pos(i)
+    for(j=1; p!=NULL; p=p->prox){
+        if(j==i){
+            nova->prox = p->prox;
+            p->prox = nova;
+            break;
+        }
+        j++;
+    }
+
+}
+
 Ponto* tirar1elemDaLista(ListaPonto* lista){
     Celula* celDepot = lista->prim;
     Ponto* depot = celDepot->ponto;
@@ -58,6 +76,37 @@ Ponto* tirar1elemDaLista(ListaPonto* lista){
     free(celDepot);
 
     return depot;
+}
+
+void removePontoNaPos(int i, ListaPonto* lista){
+    Celula* ant = NULL;
+    Celula* p = lista->prim;
+    int j = 0;
+
+    while(p!=NULL && j!=i){   
+        ant = p;
+        p = p->prox;
+    }
+    if(p==NULL)
+        return;
+    if(p==lista->prim && p==lista->ult){
+        lista->prim = lista->ult = NULL;
+        free(p);
+        return;
+    }
+    if(p==lista->ult){
+        lista->ult = ant;
+        ant->prox = NULL;
+        free(p);
+        return;
+    }
+    if(p==lista->prim)
+        lista->prim = p->prox;
+    else
+        ant->prox = p->prox;
+    
+    free(p);
+
 }
 
 void removePontoPeloId(int id, ListaPonto* lista){
@@ -104,28 +153,39 @@ void removeDepositosDaLista(ListaPonto* lista){
     }
 }
 
-Ponto* procurandoPonto(int id, ListaPonto* lista){
+Ponto* procuraPontoPeloId(int id, ListaPonto* lista){
     Celula* p = lista->prim;
     for(p = lista->prim; p!=NULL; p=p->prox){
         if(retornId(p->ponto) == id){
             return p->ponto;
         }
     }
-    printf("Ponto %d nao encontrado\n", id);
+    return NULL;
 }
+
 
 Ponto* retornaPontoPosicaoNaLista(int i, ListaPonto* lista){
     Celula* p = lista->prim;
     int j;
     for(j = 0; p!=NULL; p=p->prox){
-        if(j == i){
+        if(i==j){
             return p->ponto;
         }
         j++;
     }
-    printf("Sem Ponto na posicao %d\n", i);
+    return NULL;
 }
 
+void atualizarPontoAtPos(int i, Ponto* novo ,ListaPonto* lista){
+    Celula* p = lista->prim;
+    int j;
+    for(j = 0; p!=NULL; p=p->prox){
+        if(i==j){
+            p->ponto = novo;
+        }
+        j++;
+    }
+}
 
 
 void distanciaPontos(ListaPonto* lista, double** matriz, int numCidades){
@@ -135,7 +195,7 @@ void distanciaPontos(ListaPonto* lista, double** matriz, int numCidades){
     for(i = 0; i < numCidades ; i++){
         for(j = 0; j < numCidades; j++){
             // Calcula a distância entre os pontos 
-            dist = distanciaEntrePontos(procurandoPonto(i, lista), procurandoPonto(j, lista));
+            dist = distanciaEntrePontos(procuraPontoPeloId(i, lista), procuraPontoPeloId(j, lista));
             matriz[i][j] = dist;
             // printf("%.1f ", dist);
         }

@@ -93,7 +93,7 @@ void leArquivo(FILE* file, char* buffer, size_t bufsize, ListaPonto * lista, Gra
         double demandaCidade = atof(token);
 
         /* Insere demanda no ponto correspondente */
-        insereDemanda(procurandoPonto(id_ponto - 1, lista), demandaCidade);
+        insereDemanda(procuraPontoPeloId(id_ponto - 1, lista), demandaCidade);
         totalDeDemandas += demandaCidade;
         i++;
     }

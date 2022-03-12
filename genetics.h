@@ -7,10 +7,7 @@
 
 
 double fitness(ListaPonto* lista, Grafo* grafo);
-ListaPonto* tornarFactivel(ListaPonto* solucao, Grafo* grafo);
-
-
-
+ListaPonto* tornarFactivel(ListaPonto* solucao, Grafo* grafo, ListaPonto* entradaInicial);
 
 
 

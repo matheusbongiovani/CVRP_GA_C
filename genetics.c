@@ -48,18 +48,73 @@ double fitness(ListaPonto* solucao, Grafo* grafo){
     return cost;
 }
 
-ListaPonto* tornarFactivel(ListaPonto* solucao, Grafo* grafo){
-    ListaPonto* solucaoAjustada = duplicarLista(solucao);
-    int* seqEntrada = criaVetorDeIntDe1ateNcidades(retornaNCidades(grafo)-1);
-
+ListaPonto* tornarFactivel(ListaPonto* solucao, Grafo* grafo, ListaPonto* entradaInicial){
+    int nCidades = retornaNCidades(grafo);
     // int pa = seqEntrada[10]; retorna 11
     // int pb = seqEntrada[20]; retorna 21
 
+    removeDepositosDaLista(solucao);
+
+    // boleanos para fazer ajuste de cidades repetidas e que faltam
+    int ajustar = 1;
+    int noDuplicates = 0;
+    int i1 = 0;
+    int i2 = 0;
+    int idpos1 = 0;
+    int idpos2 = 0;
+    int cidadeId = 1;
+    int tamlist = tamanhoLista(solucao);
 
 
-    free(seqEntrada);
-    destroiListaDuplicada(solucao);
-    return solucaoAjustada;
+    while(ajustar){
+        ajustar = 0;
+        while(i1 < tamlist){
+            while(i2 < i1){
+                idpos1 = retornId(retornaPontoPosicaoNaLista(i1,solucao));
+                idpos2 = retornId(retornaPontoPosicaoNaLista(i2,solucao));
+                if(idpos1==idpos2){
+                    noDuplicates = 1;
+                    while(cidadeId < nCidades){
+                        if(procuraPontoPeloId(cidadeId,solucao)==NULL){
+                            Ponto* Pfaltando = procuraPontoPeloId(cidadeId,entradaInicial);
+                            atualizarPontoAtPos(i1,Pfaltando,solucao);
+                            noDuplicates = 0;
+                            break;
+                        }
+                    if (noDuplicates)
+                        removePontoNaPos(i1,solucao);
+                    }
+                    ajustar = 1;
+                }
+                if (ajustar)
+                    break;
+                i2++;
+            }
+            if (ajustar)
+                break;
+            i1++;
+        }
+    }
+
+    double total = 0;
+    double demandaCidadeI = 0;
+    int i = 0;
+    tamlist = tamanhoLista(solucao);
+    double kCapMax = retornaCapacidadeMaxVeiculo(grafo);
+    Ponto* depot = procuraPontoPeloId(0,entradaInicial);
+
+    while(i < tamlist){
+        demandaCidadeI = retornaDemanda(retornaPontoPosicaoNaLista(i,solucao));
+        total += demandaCidadeI;
+        if(total > kCapMax){
+            insereDepotAantesPos(i, depot, solucao);
+            total = 0;
+        }
+        i++;
+    }
+
+
+    return solucao;
 }
 
 
@@ -161,7 +216,7 @@ void geraSolucaoInicialRandom(Grafo * grafo, int * vetorRotaAleatorio, ListaPont
         aux = 0;
         for(int i = 0; i < nCidades; i++){
             proximaCidade = cidades[i];
-            novaDemanda = retornaDemanda(procurandoPonto(cidades[i], listaPontos));
+            novaDemanda = retornaDemanda(procuraPontoPeloId(cidades[i], listaPontos));
             /* A próxima cidade deve ser a mais próxima da cidade atual e sua demanda não deve utrapassar a capacidade do carro,
              * portanto, é feita uma verificação entre a cidade atual e todas as outras */
             if(proximaCidade != deposito && demandaTotal+novaDemanda < capacidade){
@@ -304,7 +359,7 @@ int * geraXisLinha(int * xLinha, int * vetorRotas, int tamVetor, double custo, L
                 for (int i = 0; i < tamVetor; i++) {
                     if (xLinha[i] != deposito) {
                         /* Retornando a demanda de uma cidade a partir de seu rótulo */
-                        demanda = retornaDemanda(procurandoPonto(xLinha[i], listaPontos));
+                        demanda = retornaDemanda(procuraPontoPeloId(xLinha[i], listaPontos));
                         capacidadeDaRota += demanda;
                     } else {
                         capacidadeDaRota = 0;
