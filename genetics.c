@@ -173,7 +173,7 @@ ListaPopulacao* criarPopulacaoInicial(ListaPonto* listaEntrada, Grafo* grafo, in
         ListaPonto* solucao = shuffleListaPonto(listaEntrada);
         solucao = tornarFactivel(solucao, grafo, listaEntrada);
         int asfjdsaifj = tamanhoLista(solucao);
-        aplicarMutacao(solucao, 0.90, listaEntrada); // REMOVER DPSSSSS
+        // aplicarMutacao(solucao, 0.90, listaEntrada); // REMOVER DPSSSSS
         appendSolucaoNaPopulacao(solucao,initialPop);        
         tam++;
     }
@@ -188,13 +188,15 @@ ListaPonto* aplicarMutacao(ListaPonto* solucao, double probMutate, ListaPonto* e
         int index1 = rand() % tamL;
         int index2 = rand() % (tamL-index1);
         index2 += index1;
-        
-
+        reverseEntreCuts(solucao, index1,index2, entrada);     
     }
-    reverseEntreCuts(solucao, 20,25, entrada);
     return solucao;
-
 }
+
+// ListaPonto* tournamentSelect(ListaPopulacao* popList){
+
+
+// }
 
 
 
