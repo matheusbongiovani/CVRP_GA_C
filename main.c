@@ -25,6 +25,8 @@ int main(int argc, char** argv) {
         printf("Sintaxe: ./main A-n32-k5.vrp\n");
         exit(1);
     }
+    time_t t;
+    srand((unsigned)time(&t));
     clock_t start_t, end_t;
     double total_t;
     start_t = clock();

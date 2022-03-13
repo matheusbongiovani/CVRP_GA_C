@@ -172,8 +172,7 @@ ListaPopulacao* criarPopulacaoInicial(ListaPonto* listaEntrada, Grafo* grafo, in
     while(tam < tamPop){
         ListaPonto* solucao = shuffleListaPonto(listaEntrada);
         solucao = tornarFactivel(solucao, grafo, listaEntrada);
-        int asfjdsaifj = tamanhoLista(solucao);
-        // aplicarMutacao(solucao, 0.90, listaEntrada); // REMOVER DPSSSSS
+        aplicarMutacao(solucao, 0.90, listaEntrada); // REMOVER DPSSSSS
         appendSolucaoNaPopulacao(solucao,initialPop);        
         tam++;
     }
@@ -187,8 +186,8 @@ ListaPonto* aplicarMutacao(ListaPonto* solucao, double probMutate, ListaPonto* e
         int tamL = (tamanhoLista(solucao)-1); // -1 porque começa de 0.
         int index1 = rand() % tamL;
         int index2 = rand() % (tamL-index1);
-        index2 += index1;
-        reverseEntreCuts(solucao, index1,index2, entrada);     
+        index2 += index1 +1;
+        reverseEntreCuts(solucao, index1,index2, entrada);
     }
     return solucao;
 }
@@ -465,8 +464,8 @@ void vns(int* vetorRotas, int tamVetor, Grafo * grafo, ListaPonto * listaPontos)
     int * vetorRotasNovas;
     int * rotaVizinha = criaVetorDeIntDe1ateNcidades(tamVetor);
 
-    time_t t;
-    srand((unsigned)time(&t));
+    // time_t t;
+    // srand((unsigned)time(&t));
     int r= rand()%(retornaNCidades(grafo));
     /* Geração gulosa de uma solução inicial x */
     geraSolucaoInicialRandom(grafo, vetorRotas, listaPontos, r);

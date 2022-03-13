@@ -323,7 +323,7 @@ void reverseEntreCuts(ListaPonto* solucao, int cut1, int cut2, ListaPonto* entra
         i++;
     }
     j = 0;
-    // imprimeListaPonto(solucao);
+    imprimeListaPonto(solucao);
     for(i=cut1; i<=cut2; i++){
         Ponto* ponto = procuraPontoPeloId(toReverse[j],entrada);
         p->ponto = ponto;
@@ -331,5 +331,5 @@ void reverseEntreCuts(ListaPonto* solucao, int cut1, int cut2, ListaPonto* entra
         j++;
     }
 
-    // imprimeListaPonto(solucao);
+    imprimeListaPonto(solucao);
 }
