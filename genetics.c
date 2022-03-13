@@ -148,11 +148,10 @@ ListaPonto* tornarFactivel(ListaPonto* solucao, Grafo* grafo, ListaPonto* entrad
     double total = 0;
     double demandaCidadeI = 0;
     int i = 0;
-    tamlist = tamanhoLista(solucao);
     double kCapMax = retornaCapacidadeMaxVeiculo(grafo);
     Ponto* depot = procuraPontoPeloId(0,entradaInicial);
 
-    while(i < tamlist){
+    while(i < tamanhoLista(solucao)){
         demandaCidadeI = retornaDemanda(retornaPontoPosicaoNaLista(i,solucao));
         total += demandaCidadeI;
         if(total > kCapMax){
@@ -161,25 +160,40 @@ ListaPonto* tornarFactivel(ListaPonto* solucao, Grafo* grafo, ListaPonto* entrad
         }
         i++;
     }
+
+    int tam = tamanhoLista(solucao);
     return solucao;
 }
 
-ListaPopulacao* criarPopulacaoInicial(ListaPonto* listaEntrada, int tamPop){
+ListaPopulacao* criarPopulacaoInicial(ListaPonto* listaEntrada, Grafo* grafo, int tamPop){
     ListaPopulacao* initialPop = AlocarPoplist();
-    ListaPonto* solucao = duplicarLista(listaEntrada);
-    Ponto* depot = extractDepotDaLista(solucao);
-    free(depot);
 
     int tam = 0;
     while(tam < tamPop){
-        
+        ListaPonto* solucao = shuffleListaPonto(listaEntrada);
+        solucao = tornarFactivel(solucao, grafo, listaEntrada);
+        int asfjdsaifj = tamanhoLista(solucao);
+        aplicarMutacao(solucao, 0.90);
+        appendSolucaoNaPopulacao(solucao,initialPop);        
+        tam++;
     }
-
-    
-
+    return initialPop;
 }
 
+ListaPonto* aplicarMutacao(ListaPonto* solucao, double probMutate){
+    int prob0a100 = rand() % 100;
+    double rprob = (double)prob0a100/100;
+    if (rprob < probMutate){
+        int tamL = (tamanhoLista(solucao)-1); // -1 porque começa de 0.
+        int index1 = rand() % tamL;
+        int index2 = rand() % (tamL-index1);
+        index2 += index1;   
 
+    }
+
+    return solucao;
+
+}
 
 
 

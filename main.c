@@ -51,24 +51,11 @@ int main(int argc, char** argv) {
     int tamanhoPopulacao = retornaNCidades(grafo)*2;
 //----------------------------------------------------------------------
 
-    // ListaPonto* duplicada = duplicarLista(listaEntrada);
 
-    // Ponto* depot = extractDepotDaLista(duplicada);  //remove depot da lista, posteriormente tem q: free(depot)
-
-    double fitvalue = fitness(listaEntrada, grafo);
-
-    ListaPonto* soll = shuffleListaPonto(listaEntrada);
-
-
-    ListaPopulacao* poplist = AlocarPoplist();
-
-    appendSolucaoNaPopulacao(soll, poplist);
-
+    ListaPopulacao* poplist = criarPopulacaoInicial(listaEntrada, grafo, tamanhoPopulacao);
 
 
     int porraDebugaDireito = 0;
-
-
 
 
     // destroiListaDuplicada(duplicada);

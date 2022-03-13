@@ -14,6 +14,13 @@ void appendSolucaoNaPopulacao(ListaPonto* solucao, ListaPopulacao* populacao);
 
 double fitness(ListaPonto* lista, Grafo* grafo);
 ListaPonto* tornarFactivel(ListaPonto* solucao, Grafo* grafo, ListaPonto* entradaInicial);
+ListaPonto* aplicarMutacao(ListaPonto* solucao, double probMutate);
+
+
+
+ListaPopulacao* criarPopulacaoInicial(ListaPonto* listaEntrada, Grafo* grafo, int tamPop);
+
+
 
 void destroiPopulacao(ListaPopulacao* popList);
 
