@@ -220,6 +220,20 @@ ListaPonto* duplicarLista(ListaPonto* entrada){
     return duplicada;
 }
 
+void imprimeListaPonto(ListaPonto* lista){
+    Celula* p;
+    Celula* t;
+    p = lista->prim;
+    
+
+    while(p!=NULL){
+        t = p->prox;
+        printf("%d ",retornId(p->ponto));
+        p = t;
+    }
+    printf("\n");
+}
+
 
 void destroiListaDuplicada(ListaPonto* lista){
     Celula* p;
@@ -260,8 +274,6 @@ ListaPonto* shuffleListaPonto(ListaPonto* entrada){
         cidades[i] = i+1; // De 1 a nCidades-1(==31)
     }
 
-    time_t randt;
-    srand((unsigned)time(&randt));
     // ----------- r random beteween 1 ~ N
     // int r= rand()% N;
     // r++;
@@ -285,5 +297,39 @@ ListaPonto* shuffleListaPonto(ListaPonto* entrada){
         p->ponto = ponto;
         p = t;
     }
+    // imprimeListaPonto(solucao);
+
     return solucao;
+}
+
+void reverseEntreCuts(ListaPonto* solucao, int cut1, int cut2, ListaPonto* entrada){
+    int N = tamanhoLista(solucao);
+    int elem[N];
+    int toReverse[(cut2-cut1)+1];
+    int i;
+    for(i = 0; i < N ; i++){
+        elem[i] = retornId(retornaPontoPosicaoNaLista(i,solucao)); // De 1 a nCidades-1(==31)
+    }
+
+    int j = 0;
+    for(i=cut2; i>=cut1;i--){
+        toReverse[j] = elem[i];
+        // printf("%d ", toReverse[j]);
+        j++;
+    }
+    Celula* p = solucao->prim;
+    // pular elementos da lista até chegar no trecho para reverse()
+    for(i = 0; i < cut1;p = p->prox){
+        i++;
+    }
+    j = 0;
+    // imprimeListaPonto(solucao);
+    for(i=cut1; i<=cut2; i++){
+        Ponto* ponto = procuraPontoPeloId(toReverse[j],entrada);
+        p->ponto = ponto;
+        p = p->prox;
+        j++;
+    }
+
+    // imprimeListaPonto(solucao);
 }

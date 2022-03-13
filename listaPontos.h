@@ -24,4 +24,9 @@ void destroiLista(ListaPonto* lista);
 
 ListaPonto* shuffleListaPonto(ListaPonto* entrada);
 
+
+void reverseEntreCuts(ListaPonto* solucao, int cut1, int cut2, ListaPonto* entrada);
+
+void imprimeListaPonto(ListaPonto* lista);
+
 #endif // LISTAPONTOS_H

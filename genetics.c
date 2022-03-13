@@ -173,24 +173,25 @@ ListaPopulacao* criarPopulacaoInicial(ListaPonto* listaEntrada, Grafo* grafo, in
         ListaPonto* solucao = shuffleListaPonto(listaEntrada);
         solucao = tornarFactivel(solucao, grafo, listaEntrada);
         int asfjdsaifj = tamanhoLista(solucao);
-        aplicarMutacao(solucao, 0.90);
+        aplicarMutacao(solucao, 0.90, listaEntrada); // REMOVER DPSSSSS
         appendSolucaoNaPopulacao(solucao,initialPop);        
         tam++;
     }
     return initialPop;
 }
 
-ListaPonto* aplicarMutacao(ListaPonto* solucao, double probMutate){
+ListaPonto* aplicarMutacao(ListaPonto* solucao, double probMutate, ListaPonto* entrada){
     int prob0a100 = rand() % 100;
     double rprob = (double)prob0a100/100;
     if (rprob < probMutate){
         int tamL = (tamanhoLista(solucao)-1); // -1 porque começa de 0.
         int index1 = rand() % tamL;
         int index2 = rand() % (tamL-index1);
-        index2 += index1;   
+        index2 += index1;
+        
 
     }
-
+    reverseEntreCuts(solucao, 20,25, entrada);
     return solucao;
 
 }

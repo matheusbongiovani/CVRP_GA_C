@@ -21,7 +21,7 @@ void insereDemanda(Ponto * ponto, double demand){
     ponto->demand = demand;
 };
 
-double retornId(Ponto * p){
+int retornId(Ponto * p){
     return p->id;
 }
 
