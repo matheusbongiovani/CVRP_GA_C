@@ -280,7 +280,7 @@ ListaPonto* shuffleListaPonto(ListaPonto* entrada){
     // r++;
     // printf("%d ",r);
     for (i = 0; i < N-1; ++i){
-        int j = rand() % (N-i) + i;
+        int j = rand() % N;
         int temp = cidades[i];
         cidades[i] = cidades[j];
         cidades[j] = temp;
