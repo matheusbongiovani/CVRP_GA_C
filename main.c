@@ -18,8 +18,6 @@ char* defineBuffer (FILE* file, size_t bufsize){
     return buffer;
 }
 
-
-
 int main(int argc, char** argv) {
     if (argc != 2){
         printf("Sintaxe: ./main A-n32-k5.vrp\n");
@@ -49,24 +47,21 @@ int main(int argc, char** argv) {
 
     // Geração da matriz que guarda distancia entre cidades 
     geraMatrizDistancias(grafo, listaEntrada);
-
-    int tamanhoPopulacao = retornaNCidades(grafo)*2;
 //----------------------------------------------------------------------
 
-
-    ListaPopulacao* poplist = criarPopulacaoInicial(listaEntrada, grafo, tamanhoPopulacao);
-
-
-    int porraDebugaDireito = 0;
+    // ListaPopulacao* poplist;
+    // ListaPonto* bestSolution = runGeneticAlgorithm(2, listaEntrada, 0.05, grafo, poplist);
+    runGeneticAlgorithm(2, listaEntrada, 0.05, grafo);
 
 
-    // destroiListaDuplicada(duplicada);
-    destroiPopulacao(poplist);
+    // destroiPopulacao(poplist);
+
+
     destroiLista(listaEntrada);
     destroiGrafo(grafo);
 
 
-    // //////////////// FUNCTION LOOP TIME
+    // // //////////////// FUNCTION LOOP TIME
     // end_t = clock();
     // while(1){
     //     end_t = clock();

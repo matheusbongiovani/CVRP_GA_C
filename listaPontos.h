@@ -26,6 +26,7 @@ ListaPonto* shuffleListaPonto(ListaPonto* entrada);
 
 
 void reverseEntreCuts(ListaPonto* solucao, int cut1, int cut2, ListaPonto* entrada);
+void aplicarCrossover(ListaPonto* lp1, ListaPonto* lp2,  int cut1, int cut2, ListaPonto* entrada);
 
 void imprimeListaPonto(ListaPonto* lista);
 

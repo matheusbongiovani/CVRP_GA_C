@@ -197,9 +197,7 @@ void distanciaPontos(ListaPonto* lista, double** matriz, int numCidades){
             // Calcula a distância entre os pontos 
             dist = distanciaEntrePontos(procuraPontoPeloId(i, lista), procuraPontoPeloId(j, lista));
             matriz[i][j] = dist;
-            // printf("%.1f ", dist);
         }
-        // printf("\n");
     }
 }
 
@@ -224,14 +222,17 @@ void imprimeListaPonto(ListaPonto* lista){
     Celula* p;
     Celula* t;
     p = lista->prim;
-    
-
+    int len = 0;
+    printf("[ ");
     while(p!=NULL){
         t = p->prox;
         printf("%d ",retornId(p->ponto));
         p = t;
+        
+        len++;
     }
-    printf("\n");
+    // printf("]\n");
+    printf("] len:%d \n",len);
 }
 
 
@@ -297,7 +298,6 @@ ListaPonto* shuffleListaPonto(ListaPonto* entrada){
         p->ponto = ponto;
         p = t;
     }
-    // imprimeListaPonto(solucao);
 
     return solucao;
 }
@@ -323,13 +323,67 @@ void reverseEntreCuts(ListaPonto* solucao, int cut1, int cut2, ListaPonto* entra
         i++;
     }
     j = 0;
-    imprimeListaPonto(solucao);
     for(i=cut1; i<=cut2; i++){
         Ponto* ponto = procuraPontoPeloId(toReverse[j],entrada);
         p->ponto = ponto;
         p = p->prox;
         j++;
     }
+}
 
-    imprimeListaPonto(solucao);
+void aplicarCrossover(ListaPonto* lp1, ListaPonto* lp2,  int cut1, int cut2, ListaPonto* entrada){
+    // Gera gera filhos por trecho dos pais. Cortes representados por '/'
+    // f1 =  p1/p2/p1 ; f2 = p2/p1/p2 
+    int N1 = tamanhoLista(lp1);
+    int N2 = tamanhoLista(lp2);
+    
+    int elem1[N1];
+    int elem2[N2];
+    int entreCuts1[(cut2-cut1)+1];
+    int entreCuts2[(cut2-cut1)+1];
+    int i, j;
+    for(i = 0; i < N1 ; i++){
+        elem1[i] = retornId(retornaPontoPosicaoNaLista(i,lp1)); // De 1 a nCidades-1(==31)
+    }
+    for(i = 0; i < N2 ; i++){
+        elem2[i] = retornId(retornaPontoPosicaoNaLista(i,lp2)); // De 1 a nCidades-1(==31)
+    }
+
+    j = 0;
+    for(i=cut1; i<=cut2;i++){
+        entreCuts1[j] = elem1[i];
+        j++;
+    }
+    j = 0;
+    for(i=cut1; i<=cut2;i++){
+        entreCuts2[j] = elem2[i];
+        j++;
+    }
+
+    Celula* cp1 = lp1->prim;
+    j = 0;
+    // pular elementos da lista até chegar no trecho para cortar()
+    for(i = 0; i < cut1; cp1 = cp1->prox){
+        i++;
+    }
+    for(i=cut1; i<=cut2; i++){
+        Ponto* ponto = procuraPontoPeloId(entreCuts1[j],entrada);
+        cp1->ponto = ponto;
+        cp1 = cp1->prox;
+        j++;
+    }
+
+
+    Celula* cp2 = lp2->prim;
+    j = 0;
+    for(i = 0; i < cut1; cp2 = cp2->prox){
+        i++;
+    }
+    for(i=cut1; i<=cut2; i++){
+        Ponto* ponto = procuraPontoPeloId(entreCuts2[j],entrada);
+        cp2->ponto = ponto;
+        cp2 = cp2->prox;
+        j++;
+    }
+
 }

@@ -8,8 +8,10 @@
 
 typedef struct listaPopulacao ListaPopulacao;
 ListaPopulacao* AlocarPoplist();
+int tamanhoListaPopulacao(ListaPopulacao* pop);
+ListaPopulacao* duplicarPopulacao(ListaPopulacao* oldPop);
 void appendSolucaoNaPopulacao(ListaPonto* solucao, ListaPopulacao* populacao);
-
+ListaPonto* retornaSolucaoNoIndexDaPopulacao(int i, ListaPopulacao* poplist);
 
 
 double fitness(ListaPonto* lista, Grafo* grafo);
@@ -19,26 +21,13 @@ ListaPonto* aplicarMutacao(ListaPonto* solucao, double probMutate, ListaPonto* e
 
 
 ListaPopulacao* criarPopulacaoInicial(ListaPonto* listaEntrada, Grafo* grafo, int tamPop);
+ListaPopulacao* SelectApplyCrossoverMutateAndAppendToNewPop(ListaPonto* entrada,  double probMutate, Grafo* grafo, ListaPopulacao* oldPop);
 
-
+ListaPonto* runGeneticAlgorithm(double timeToExec, ListaPonto* entrada,  double probMutate, Grafo* grafo);
 
 void destroiPopulacao(ListaPopulacao* popList);
 
 
 
-
-
-
-
-
-
-
-void vns(int* vetorRotas, int tamVetor, Grafo * grafo, ListaPonto * listaPontos);
-int * buscaLocal(int* rotaVizinha, int * vetorRotas, int  tamVetor, Grafo * grafo, double custo);
-int calculaTamanhoVetorRotas(Grafo * grafo);
-int * criaVetorDeIntDe1ateNcidades(int tamVetor);
-void geraSolucaoInicialRandom(Grafo * grafo, int * vetorRotaAleatorio, ListaPonto * listaPontos, int numAleatorio);
-int * geraXisLinha(int * xLinha, int * vetorRotas, int tamVetor, double custo, ListaPonto * listaPontos, Grafo * grafo);
-void imprimeResultado(int * vetorRotas, int k, double custo);
 
 #endif // GENETICS_H
