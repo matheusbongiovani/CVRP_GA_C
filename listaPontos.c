@@ -226,7 +226,7 @@ void imprimeListaPonto(ListaPonto* lista){
     printf("[ ");
     while(p!=NULL){
         t = p->prox;
-        printf("%d ",retornId(p->ponto));
+        printf("%d, ",retornId(p->ponto));
         p = t;
         
         len++;
@@ -368,10 +368,15 @@ void aplicarCrossover(ListaPonto* lp1, ListaPonto* lp2,  int cut1, int cut2, Lis
     }
     for(i=cut1; i<=cut2; i++){
         Ponto* ponto = procuraPontoPeloId(entreCuts2[j],entrada);
-        cp1->ponto = ponto;
-        cp1 = cp1->prox;
-        j++;
+        if(cp1->ponto == NULL){
+            appendPonto(ponto,lp1);
+        }else{
+            cp1->ponto = ponto;
+            cp1 = cp1->prox;
+            j++;
+        }
     }
+
 
     Celula* cp2 = lp2->prim;
     j = 0;
@@ -380,8 +385,12 @@ void aplicarCrossover(ListaPonto* lp1, ListaPonto* lp2,  int cut1, int cut2, Lis
     }
     for(i=cut1; i<=cut2; i++){
         Ponto* ponto = procuraPontoPeloId(entreCuts1[j],entrada);
-        cp2->ponto = ponto;
-        cp2 = cp2->prox;
-        j++;
+        if(cp2->ponto == NULL){
+            appendPonto(ponto,lp2);
+        }else{
+            cp2->ponto = ponto;
+            cp2 = cp2->prox;
+            j++;
+        }
     }
 }

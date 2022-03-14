@@ -51,7 +51,7 @@ int main(int argc, char** argv) {
 
     // ListaPopulacao* poplist;
     // ListaPonto* bestSolution = runGeneticAlgorithm(2, listaEntrada, 0.05, grafo, poplist);
-    runGeneticAlgorithm(5, listaEntrada, 0.05, grafo);
+    ListaPonto* bestSolution =runGeneticAlgorithm(5, listaEntrada, 0.05, grafo);
 
 
     // destroiPopulacao(poplist);

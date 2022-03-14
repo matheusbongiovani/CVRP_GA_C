@@ -85,24 +85,25 @@ double fitness(ListaPonto* solucao, Grafo* grafo){
         i++;
     }
 
-    //fazer isto apenas após colocar os 0 intermediarios
+    i = 0;
+    double weight = 0;
+    double penalty = 0;
+    double demandAtual = 0;
+    int IdDemandaAtual = 0;
+    double capMaxVeiculo = retornaCapacidadeMaxVeiculo(grafo);
+
     if (num_of_depots != retornaNVeiculos(grafo)){
-        i = 0;
-        double weight = 0;
-        double penalty = 0;
-        double demandAtual = 0;
-        double capMaxVeiculo = retornaCapacidadeMaxVeiculo(grafo);
-        while (i < tamlist){
+        for(i = 0;i < tamlist; i++){
             demandAtual = retornaDemanda(retornaPontoPosicaoNaLista(i,solucao));
             weight += demandAtual;
-            if (demandAtual == 0){
+            IdDemandaAtual = (demandAtual + 0.1); // demanda do depot = 0;
+            if (IdDemandaAtual == 0){
                 if (weight > capMaxVeiculo){
                     // penalty*50 performed better
                     penalty += (weight - capMaxVeiculo)*50;
                     cost += penalty;
                     weight = 0;
                 }
-            i++;
             }
         }
     } 
@@ -121,19 +122,23 @@ ListaPonto* tornarFactivel(ListaPonto* solucao, Grafo* grafo, ListaPonto* entrad
     int i2 = 0;
     int idpos1 = 0;
     int idpos2 = 0;
-    int cidadeId = 1;
+    int cidadeId = 1; // começa pela cidade1 (desconsidera depot)
     int tamlist = tamanhoLista(solucao);
 
+    imprimeListaPonto(solucao);
+
+
+    // esta funfandoo!!!
 
     while(ajustar){
         ajustar = 0;
-        while(i1 < tamlist){
-            while(i2 < i1){
+        for(i1 = 0; i1 < tamanhoLista(solucao);i1++){
+            for(i2 = 0; i2 < i1; i2++){
                 idpos1 = retornId(retornaPontoPosicaoNaLista(i1,solucao));
                 idpos2 = retornId(retornaPontoPosicaoNaLista(i2,solucao));
                 if(idpos1==idpos2){
                     noDuplicates = 1;
-                    while(cidadeId < nCidades){
+                    for(cidadeId = 1; cidadeId < nCidades; cidadeId++){
                         if(procuraPontoPeloId(cidadeId,solucao)==NULL){
                             Ponto* Pfaltando = procuraPontoPeloId(cidadeId,entradaInicial);
                             atualizarPontoAtPos(i1,Pfaltando,solucao);
@@ -147,13 +152,14 @@ ListaPonto* tornarFactivel(ListaPonto* solucao, Grafo* grafo, ListaPonto* entrad
                 }
                 if (ajustar)
                     break;
-                i2++;
             }
             if (ajustar)
                 break;
-            i1++;
         }
     }
+
+    imprimeListaPonto(solucao);
+
 
     double total = 0;
     double demandaCidadeI = 0;
@@ -172,6 +178,8 @@ ListaPonto* tornarFactivel(ListaPonto* solucao, Grafo* grafo, ListaPonto* entrad
     }
 
     int tam = tamanhoLista(solucao);
+
+    imprimeListaPonto(solucao);
     return solucao;
 }
 
@@ -252,7 +260,6 @@ ListaPopulacao* duplicarPopulacao(ListaPopulacao* oldPop){
 ListaPopulacao* SelectApplyCrossoverMutateAndAppendToNewPop(ListaPonto* entrada,  double probMutate, Grafo* grafo, ListaPopulacao* oldPop){
     ListaPopulacao* newPop = AlocarPoplist();
 
-    // int tasdfasf = tamanhoListaPopulacao(oldPop);
     // Para termos a população constante, iteramos o tamanho da população divido por 2
     // já que em cada iteração são gerado 2 membros da nova geração
     int tamPop = retornaNCidades(grafo)*2;
@@ -261,9 +268,11 @@ ListaPopulacao* SelectApplyCrossoverMutateAndAppendToNewPop(ListaPonto* entrada,
         ListaPonto* lp1 = tournamentSelect(oldPop, grafo);
         ListaPonto* lp2 = tournamentSelect(oldPop, grafo);
 
-        int tamL = (tamanhoLista(lp1)-1); // -1 porque começa de 0.
-        int index1 = rand() % tamL;      // index de cortes
-        int index2 = rand() % (tamL-index1);
+        int tamL1 = (tamanhoLista(lp1)-1);
+        int tamL2 = (tamanhoLista(lp2)-1);
+        int tamLMin = (tamL1<tamL2) ? tamL1 : tamL2 ; // -1 porque começa de 0.
+        int index1 = rand() % tamLMin;      // index de cortes
+        int index2 = rand() % (tamLMin-index1);
         index2 += index1 +1;
         // faz com que as listas lp1 e lp2 se tornem os decendentes da prox geracao
         // novaListaEntreCuts == Crossover()
