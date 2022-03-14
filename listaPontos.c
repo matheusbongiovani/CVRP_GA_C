@@ -367,12 +367,11 @@ void aplicarCrossover(ListaPonto* lp1, ListaPonto* lp2,  int cut1, int cut2, Lis
         i++;
     }
     for(i=cut1; i<=cut2; i++){
-        Ponto* ponto = procuraPontoPeloId(entreCuts1[j],entrada);
+        Ponto* ponto = procuraPontoPeloId(entreCuts2[j],entrada);
         cp1->ponto = ponto;
         cp1 = cp1->prox;
         j++;
     }
-
 
     Celula* cp2 = lp2->prim;
     j = 0;
@@ -380,10 +379,9 @@ void aplicarCrossover(ListaPonto* lp1, ListaPonto* lp2,  int cut1, int cut2, Lis
         i++;
     }
     for(i=cut1; i<=cut2; i++){
-        Ponto* ponto = procuraPontoPeloId(entreCuts2[j],entrada);
+        Ponto* ponto = procuraPontoPeloId(entreCuts1[j],entrada);
         cp2->ponto = ponto;
         cp2 = cp2->prox;
         j++;
     }
-
 }
