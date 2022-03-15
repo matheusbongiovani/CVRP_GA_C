@@ -22,7 +22,9 @@ void insereDemanda(Ponto * ponto, double demand){
 };
 
 int retornId(Ponto * p){
-    return p->id;
+    if (p!= NULL)
+        return p->id;
+    return 9999;
 }
 
 double retornaDemanda(Ponto * ponto){

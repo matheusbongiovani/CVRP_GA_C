@@ -49,6 +49,8 @@ void appendPonto(Ponto* p, ListaPonto* lista){
     }
 }
 
+
+// parar de usar ess função 'insereDepotAantesPos' ...
 void insereDepotAantesPos(int i, Ponto* novoP, ListaPonto* lista){
     Celula* nova = (Celula*)malloc(sizeof(Celula));
     nova->ponto = novoP;
@@ -307,6 +309,7 @@ ListaPonto* shuffleListaPonto(ListaPonto* entrada){
 
 void reverseEntreCuts(ListaPonto* solucao, int cut1, int cut2, ListaPonto* entrada){
     int N = tamanhoLista(solucao);
+    // int* elem = (int*)malloc(sizeof(int)*N)
     int elem[N];
     int toReverse[(cut2-cut1)+1];
     int i;
