@@ -236,8 +236,8 @@ void imprimeListaPonto(ListaPonto* lista){
         
         len++;
     }
-    // printf("]\n");
-    printf("] len:%d \n",len);
+    printf("]\n");
+    // printf("] len:%d \n",len);
 }
 
 
@@ -272,7 +272,7 @@ void destroiLista(ListaPonto* lista){
 // shuffleListaPonto() recebe a lista com o depot incluso da entrada, e retorna as cidades randomizadas (sem depot).
 ListaPonto* shuffleListaPonto(ListaPonto* entrada){
     ListaPonto* solucao = duplicarLista(entrada);
-    extractDepotDaLista(solucao);
+    removeDepositosDaLista(solucao);
     int N = tamanhoLista(entrada)-1;
     int cidades[N]; // Vetor de cidades de 0 a 31 (para o primeiro exemplo, sendo 0 o depot)
     int i;
@@ -280,19 +280,12 @@ ListaPonto* shuffleListaPonto(ListaPonto* entrada){
         cidades[i] = i+1; // De 1 a nCidades-1(==31)
     }
 
-    // ----------- r random beteween 1 ~ N
-    // int r= rand()% N;
-    // r++;
-    // printf("%d ",r);
     for (i = 0; i < N-1; ++i){
         int j = rand() % N;
         int temp = cidades[i];
         cidades[i] = cidades[j];
         cidades[j] = temp;
     }
-    // for (i = 0; i < N; i++)
-    //     printf("%d ", cidades[i]);
-    // printf("\n");
 
     Celula* p = solucao->prim;
     solucao->ult->ponto = procuraPontoPeloId(cidades[N-1],entrada);

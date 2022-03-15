@@ -111,12 +111,13 @@ double fitness(ListaPonto* solucao, Grafo* grafo){
     return cost;
 }
 
+// entra a solucao, remove os depots, aplica ajustar e retorna ListaPonto*
 ListaPonto* tornarFactivel(ListaPonto* solucao, Grafo* grafo, ListaPonto* entradaInicial){
     int nCidades = retornaNCidades(grafo);
 
     // boleanos para fazer ajuste de cidades repetidas e que faltam
     int ajustar = 1;
-    int noDuplicates = 0;
+    int duplicados = 0;
     int i1 = 0;
     int i2 = 0;
     int idpos1 = 0;
@@ -139,15 +140,15 @@ ListaPonto* tornarFactivel(ListaPonto* solucao, Grafo* grafo, ListaPonto* entrad
                 idpos1 = retornId(retornaPontoPosicaoNaLista(i1,solucao));
                 idpos2 = retornId(retornaPontoPosicaoNaLista(i2,solucao));
                 if(idpos1==idpos2){
-                    noDuplicates = 1;
+                    duplicados = 1;
                     for(cidadeId = 1; cidadeId < nCidades; cidadeId++){
                         if(procuraPontoPeloId(cidadeId,solucao)==NULL){
                             Ponto* Pfaltando = procuraPontoPeloId(cidadeId,entradaInicial);
                             atualizarPontoAtPos(i1,Pfaltando,solucao);
-                            noDuplicates = 0;
+                            duplicados = 0;
                             break;
                         }
-                    if (noDuplicates)
+                    if (duplicados)
                         removePontoNaPos(i1,solucao);
                     }
                     ajustar = 1;
@@ -175,10 +176,6 @@ ListaPonto* tornarFactivel(ListaPonto* solucao, Grafo* grafo, ListaPonto* entrad
         }
         i++;
     }
-
-    int tam = tamanhoLista(solucao);
-
-    imprimeListaPonto(solucao);
     return solucao;
 }
 
@@ -356,4 +353,22 @@ ListaPonto* runGeneticAlgorithm(double timeToExec, ListaPonto* entrada,  double 
 
     return bestSolutionGlobal;
 
+}
+
+
+void imprimePopulation(ListaPopulacao* pop){
+    Celula* p;
+    Celula* t;
+    p = pop->prim;
+    int len = 0;
+    printf("[ ");
+    while(p!=NULL){
+        t = p->prox;
+        imprimeListaPonto(p->listap);
+        p = t;
+        
+        len++;
+    }
+    printf("]\n");
+    // printf("] len:%d \n",len);
 }

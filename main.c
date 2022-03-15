@@ -48,16 +48,40 @@ int main(int argc, char** argv) {
     // Geração da matriz que guarda distancia entre cidades 
     geraMatrizDistancias(grafo, listaEntrada);
 //----------------------------------------------------------------------
+
+    int tamEntrada = retornaNCidades(grafo)*2;
+
+
+
+
     ListaPonto* duplicada = duplicarLista(listaEntrada);
 
-    // imprimeListaPonto(duplicada);
-    // imprimeListaPonto(listaEntrada);
-    // aplicarMutacao(duplicada, 1, listaEntrada); // APLICAR MUTAÇÃO: OK!
-    // imprimeListaPonto(duplicada);
-    // imprimeListaPonto(listaEntrada);
+    imprimeListaPonto(duplicada);
+    imprimeListaPonto(listaEntrada);
+    tornarFactivel(duplicada, grafo, listaEntrada); // ok...
+    double fitt = fitness(duplicada, grafo);
+    printf("fit: %lf",fitt);
+    imprimeListaPonto(duplicada);
+    imprimeListaPonto(listaEntrada);
+
+    ListaPonto* asdf = shuffleListaPonto(listaEntrada);
+    imprimeListaPonto(asdf);
+    tornarFactivel(asdf, grafo, listaEntrada);
+    imprimeListaPonto(asdf);
+    asdf = aplicarMutacao(asdf, 1, listaEntrada);
+    imprimeListaPonto(asdf);
 
 
-    
+
+    ListaPopulacao* initialPop = criarPopulacaoInicial(listaEntrada, grafo, tamEntrada);
+
+    destroiPopulacao(initialPop);
+
+
+    destroiListaDuplicada(asdf);
+    destroiListaDuplicada(duplicada);
+
+
     // ListaPopulacao* poplist;
     // ListaPonto* bestSolution = runGeneticAlgorithm(2, listaEntrada, 0.05, grafo, poplist);
     // ListaPonto* bestSolution =runGeneticAlgorithm(5, listaEntrada, 0.05, grafo);
@@ -67,7 +91,6 @@ int main(int argc, char** argv) {
 
 
 
-    destroiListaDuplicada(duplicada);
     destroiLista(listaEntrada);
     destroiGrafo(grafo);
 

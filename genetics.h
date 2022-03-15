@@ -25,6 +25,8 @@ ListaPopulacao* SelectApplyCrossoverMutateAndAppendToNewPop(ListaPonto* entrada,
 
 ListaPonto* runGeneticAlgorithm(double timeToExec, ListaPonto* entrada,  double probMutate, Grafo* grafo);
 
+
+void imprimePopulation(ListaPopulacao* pop);
 void destroiPopulacao(ListaPopulacao* popList);
 
 
