@@ -113,7 +113,6 @@ double fitness(ListaPonto* solucao, Grafo* grafo){
 
 ListaPonto* tornarFactivel(ListaPonto* solucao, Grafo* grafo, ListaPonto* entradaInicial){
     int nCidades = retornaNCidades(grafo);
-    removeDepositosDaLista(solucao);
 
     // boleanos para fazer ajuste de cidades repetidas e que faltam
     int ajustar = 1;
@@ -122,13 +121,16 @@ ListaPonto* tornarFactivel(ListaPonto* solucao, Grafo* grafo, ListaPonto* entrad
     int i2 = 0;
     int idpos1 = 0;
     int idpos2 = 0;
+    // ListaPonto *p1, *p2;
     int cidadeId = 1; // começa pela cidade1 (desconsidera depot)
     int tamlist = tamanhoLista(solucao);
 
-    imprimeListaPonto(solucao);
+    // imprimeListaPonto(solucao);
 
 
-    // esta funfandoo!!!
+    // adjust n esta funfandoo!!!
+
+    removeDepositosDaLista(solucao);
 
     while(ajustar){
         ajustar = 0;
@@ -157,9 +159,6 @@ ListaPonto* tornarFactivel(ListaPonto* solucao, Grafo* grafo, ListaPonto* entrad
                 break;
         }
     }
-
-    imprimeListaPonto(solucao);
-
 
     double total = 0;
     double demandaCidadeI = 0;

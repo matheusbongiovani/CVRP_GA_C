@@ -166,8 +166,10 @@ Ponto* procuraPontoPeloId(int id, ListaPonto* lista){
 
 Ponto* retornaPontoPosicaoNaLista(int i, ListaPonto* lista){
     Celula* p = lista->prim;
+    int size = tamanhoLista(lista);
     int j;
-    for(j = 0; p!=NULL; p=p->prox){
+    for(j = 0; j < size; p=p->prox){
+        // printf("i: %d, tamSize: %d \n",i, tamanhoLista(lista));
         if(i==j){
             return p->ponto;
         }
@@ -177,6 +179,7 @@ Ponto* retornaPontoPosicaoNaLista(int i, ListaPonto* lista){
 }
 
 void atualizarPontoAtPos(int i, Ponto* novo ,ListaPonto* lista){
+    Celula* ant;
     Celula* p = lista->prim;
     int j;
     for(j = 0; p!=NULL; p=p->prox){
@@ -336,6 +339,7 @@ void aplicarCrossover(ListaPonto* lp1, ListaPonto* lp2,  int cut1, int cut2, Lis
     // f1 =  p1/p2/p1 ; f2 = p2/p1/p2 
     int N1 = tamanhoLista(lp1);
     int N2 = tamanhoLista(lp2);
+
     
     int elem1[N1];
     int elem2[N2];
@@ -393,4 +397,5 @@ void aplicarCrossover(ListaPonto* lp1, ListaPonto* lp2,  int cut1, int cut2, Lis
             j++;
         }
     }
+
 }
