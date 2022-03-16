@@ -129,8 +129,7 @@ ListaPonto* tornarFactivel(ListaPonto* solucao, Grafo* grafo, ListaPonto* entrad
     // imprimeListaPonto(solucao);
 
 
-    // adjust n esta funfandoo!!!
-
+    // adjust n esta funfando direito!!!
     removeDepositosDaLista(solucao);
 
     while(ajustar){
@@ -139,6 +138,7 @@ ListaPonto* tornarFactivel(ListaPonto* solucao, Grafo* grafo, ListaPonto* entrad
             for(i2 = 0; i2 < i1; i2++){
                 idpos1 = retornId(retornaPontoPosicaoNaLista(i1,solucao));
                 idpos2 = retornId(retornaPontoPosicaoNaLista(i2,solucao));
+                // int yowtf = 0;
                 if(idpos1==idpos2){
                     duplicados = 1;
                     for(cidadeId = 1; cidadeId < nCidades; cidadeId++){
@@ -161,6 +161,7 @@ ListaPonto* tornarFactivel(ListaPonto* solucao, Grafo* grafo, ListaPonto* entrad
         }
     }
 
+    imprimeListaPonto(solucao);
     double total = 0;
     double demandaCidadeI = 0;
     int i = 0;
@@ -235,26 +236,26 @@ ListaPonto* tournamentSelect(ListaPopulacao* popList, Grafo* grafo){
     }
    return retornaSolucaoNoIndexDaPopulacao(iSelecionado, popList);
 }
+// // ------------- NÃO FUNCIONANDO!!! ----------------
+// ListaPopulacao* duplicarPopulacao(ListaPopulacao* oldPop){
+//     ListaPopulacao* newPop = AlocarPoplist();
+//     Celula* p;
+//     Celula* t;
+//     p = oldPop->prim;
 
-ListaPopulacao* duplicarPopulacao(ListaPopulacao* oldPop){
-    ListaPopulacao* newPop = AlocarPoplist();
-    Celula* p;
-    Celula* t;
-    p = oldPop->prim;
+//     int i = 0;
+//     while(p!=NULL){
+//         appendSolucaoNaPopulacao(p->listap, newPop);
+//         t = p->prox;
+//         p = t;
+//         i++;
+//     }
 
-    int i = 0;
-    while(p!=NULL){
-        appendSolucaoNaPopulacao(p->listap, newPop);
-        t = p->prox;
-        p = t;
-        i++;
-    }
-
-    return newPop;
-}
+//     return newPop;
+// }
 
 ListaPopulacao* SelectApplyCrossoverMutateAndAppendToNewPop(ListaPonto* entrada,  double probMutate, Grafo* grafo, ListaPopulacao* oldPop){
-    ListaPopulacao* newPop = AlocarPoplist();
+    // ListaPopulacao* newPop = AlocarPoplist();
 
     // Para termos a população constante, iteramos o tamanho da população divido por 2
     // já que em cada iteração são gerado 2 membros da nova geração
@@ -272,7 +273,7 @@ ListaPopulacao* SelectApplyCrossoverMutateAndAppendToNewPop(ListaPonto* entrada,
         index2 += index1 +1;
         // faz com que as listas lp1 e lp2 se tornem os decendentes da prox geracao
         // novaListaEntreCuts == Crossover()
-        aplicarCrossover(lp1, lp2, index1, index2, entrada);
+        // aplicarCrossover(lp1, lp2, index1, index2, entrada);
     
         lp1 = aplicarMutacao(lp1, probMutate, entrada);
         lp2 = aplicarMutacao(lp2, probMutate, entrada);
@@ -280,11 +281,12 @@ ListaPopulacao* SelectApplyCrossoverMutateAndAppendToNewPop(ListaPonto* entrada,
         lp1 = tornarFactivel(lp1, grafo, entrada);
         lp2 = tornarFactivel(lp2, grafo, entrada);
 
-        appendSolucaoNaPopulacao(lp1, newPop);
-        appendSolucaoNaPopulacao(lp2, newPop);
+        // appendSolucaoNaPopulacao(lp1, newPop);
+        // appendSolucaoNaPopulacao(lp2, newPop);
     }
     // destroiPopulacao(oldPop);
-    return newPop;
+    // return newPop;
+    return oldPop;
 }
 
 ListaPonto* runGeneticAlgorithm(double timeToExec, ListaPonto* entrada,  double probMutate, Grafo* grafo){
@@ -350,6 +352,7 @@ ListaPonto* runGeneticAlgorithm(double timeToExec, ListaPonto* entrada,  double 
     printf("-----------------------------------------------------------------------------\n");
     imprimeListaPonto(bestSolutionGlobal);
 
+    destroiPopulacao(poplist);
 
     return bestSolutionGlobal;
 

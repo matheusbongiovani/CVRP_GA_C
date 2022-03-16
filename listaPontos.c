@@ -21,6 +21,7 @@ ListaPonto* inicializaListaPonto(){
     return lista;
 }
 
+// dando mt problema...........
 int tamanhoLista(ListaPonto* lista){
     int i = 0;
     Celula* p = lista->prim;
@@ -168,10 +169,8 @@ Ponto* procuraPontoPeloId(int id, ListaPonto* lista){
 
 Ponto* retornaPontoPosicaoNaLista(int i, ListaPonto* lista){
     Celula* p = lista->prim;
-    int size = tamanhoLista(lista);
     int j;
-    for(j = 0; j < size; p=p->prox){
-        // printf("i: %d, tamSize: %d \n",i, tamanhoLista(lista));
+    for(j = 0; p!=NULL; p=p->prox){
         if(i==j){
             return p->ponto;
         }
@@ -181,7 +180,6 @@ Ponto* retornaPontoPosicaoNaLista(int i, ListaPonto* lista){
 }
 
 void atualizarPontoAtPos(int i, Ponto* novo ,ListaPonto* lista){
-    Celula* ant;
     Celula* p = lista->prim;
     int j;
     for(j = 0; p!=NULL; p=p->prox){
@@ -212,12 +210,10 @@ ListaPonto* duplicarLista(ListaPonto* entrada){
     Celula* t;
     p = entrada->prim;
 
-    int i = 0;
     while(p!=NULL){
         t = p->prox;
         appendPonto(p->ponto,duplicada);
         p = t;
-        i++;
     }
 
     return duplicada;
@@ -302,9 +298,10 @@ ListaPonto* shuffleListaPonto(ListaPonto* entrada){
 
 void reverseEntreCuts(ListaPonto* solucao, int cut1, int cut2, ListaPonto* entrada){
     int N = tamanhoLista(solucao);
-    // int* elem = (int*)malloc(sizeof(int)*N)
-    int elem[N];
-    int toReverse[(cut2-cut1)+1];
+    int* elem = (int*)malloc(sizeof(int)*N);
+    // int elem[N];
+
+    int* toReverse = (int*)malloc(sizeof(int)*((cut2-cut1)+1));
     int i;
     for(i = 0; i < N ; i++){
         elem[i] = retornId(retornaPontoPosicaoNaLista(i,solucao)); // De 1 a nCidades-1(==31)
@@ -328,6 +325,8 @@ void reverseEntreCuts(ListaPonto* solucao, int cut1, int cut2, ListaPonto* entra
         p = p->prox;
         j++;
     }
+    free(elem);
+    free(toReverse);
 }
 
 void aplicarCrossover(ListaPonto* lp1, ListaPonto* lp2,  int cut1, int cut2, ListaPonto* entrada){
@@ -337,10 +336,10 @@ void aplicarCrossover(ListaPonto* lp1, ListaPonto* lp2,  int cut1, int cut2, Lis
     int N2 = tamanhoLista(lp2);
 
     
-    int elem1[N1];
-    int elem2[N2];
-    int entreCuts1[(cut2-cut1)+1];
-    int entreCuts2[(cut2-cut1)+1];
+    int* elem1 = (int*)malloc(sizeof(int)*N1);
+    int* elem2 = (int*)malloc(sizeof(int)*N2);
+    int* entreCuts1 = (int*)malloc(sizeof(int)*((cut2-cut1)+1));
+    int* entreCuts2 = (int*)malloc(sizeof(int)*((cut2-cut1)+1));
     int i, j;
     for(i = 0; i < N1 ; i++){
         elem1[i] = retornId(retornaPontoPosicaoNaLista(i,lp1)); // De 1 a nCidades-1(==31)
@@ -393,5 +392,9 @@ void aplicarCrossover(ListaPonto* lp1, ListaPonto* lp2,  int cut1, int cut2, Lis
             j++;
         }
     }
+    free(elem1);
+    free(elem2);
+    free(entreCuts1);
+    free(entreCuts2);
 
 }

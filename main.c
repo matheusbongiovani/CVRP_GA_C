@@ -56,29 +56,31 @@ int main(int argc, char** argv) {
 
     ListaPonto* duplicada = duplicarLista(listaEntrada);
 
-    imprimeListaPonto(duplicada);
-    imprimeListaPonto(listaEntrada);
-    tornarFactivel(duplicada, grafo, listaEntrada); // ok...
-    double fitt = fitness(duplicada, grafo);
-    printf("fit: %lf",fitt);
-    imprimeListaPonto(duplicada);
-    imprimeListaPonto(listaEntrada);
+    // imprimeListaPonto(duplicada);
+    // imprimeListaPonto(listaEntrada);
+    // tornarFactivel(duplicada, grafo, listaEntrada); // ok...
+    // double fitt = fitness(duplicada, grafo);
+    // printf("fit: %lf",fitt);
+    // imprimeListaPonto(duplicada);
+    // imprimeListaPonto(listaEntrada);
 
-    ListaPonto* asdf = shuffleListaPonto(listaEntrada);
-    imprimeListaPonto(asdf);
-    tornarFactivel(asdf, grafo, listaEntrada);
-    imprimeListaPonto(asdf);
-    asdf = aplicarMutacao(asdf, 1, listaEntrada);
-    imprimeListaPonto(asdf);
 
 
 
     ListaPopulacao* initialPop = criarPopulacaoInicial(listaEntrada, grafo, tamEntrada);
 
+
+
+    // initialPop = SelectApplyCrossoverMutateAndAppendToNewPop(listaEntrada, 0.05, grafo, initialPop);
+
+
+
     destroiPopulacao(initialPop);
 
+    runGeneticAlgorithm(300, listaEntrada, 0.05, grafo);
 
-    destroiListaDuplicada(asdf);
+
+
     destroiListaDuplicada(duplicada);
 
 
