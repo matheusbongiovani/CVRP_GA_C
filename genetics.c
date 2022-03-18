@@ -43,6 +43,26 @@ void appendSolucaoNaPopulacao(ListaPonto* solucao, ListaPopulacao* populacao){
     }
 }
 
+void distribuirZeros(ListaPonto* solucao, Grafo* grafo, ListaPonto* entradaInicial){
+    double total = 0;
+    double demandaCidadeI = 0;
+    int i = 0;
+    double kCapMax = retornaCapacidadeMaxVeiculo(grafo);
+    Ponto* depot = procuraPontoPeloId(0,entradaInicial);
+
+    while(i < tamanhoLista(solucao)){
+        demandaCidadeI = retornaDemanda(retornaPontoPosicaoNaLista(i,solucao));
+        total += demandaCidadeI;
+        if(total > kCapMax){
+            insereDepotAantesPos(i, depot, solucao);
+            total = 0;
+        }
+        i++;
+    }
+}
+
+
+
 void destroiPopulacao(ListaPopulacao* popList){
     Celula* p;
     Celula* t;
@@ -75,6 +95,10 @@ double fitness(ListaPonto* solucao, Grafo* grafo){
 
     //último nó da última rota
     cost += retornaDistancia(grafo, retornId(retornaPontoPosicaoNaLista(i,solucao)), 0);
+
+
+
+    removerZerosDoLado(solucao);
 
     // Checar nº de rotas, e aplicar penalidade caso exceda capacidade máxima
     i = 0;
@@ -116,7 +140,6 @@ ListaPonto* tornarFactivel(ListaPonto* solucao, Grafo* grafo, ListaPonto* entrad
     int nCidades = retornaNCidades(grafo);
 
     // boleanos para fazer ajuste de cidades repetidas e que faltam
-    int ajustar = 1;
     int duplicados = 0;
     int i1 = 0;
     int i2 = 0;
@@ -132,13 +155,14 @@ ListaPonto* tornarFactivel(ListaPonto* solucao, Grafo* grafo, ListaPonto* entrad
     // adjust n esta funfando direito!!!
     removeDepositosDaLista(solucao);
 
+
+    int ajustar = 1;
     while(ajustar){
         ajustar = 0;
         for(i1 = 0; i1 < tamanhoLista(solucao);i1++){
             for(i2 = 0; i2 < i1; i2++){
                 idpos1 = retornId(retornaPontoPosicaoNaLista(i1,solucao));
                 idpos2 = retornId(retornaPontoPosicaoNaLista(i2,solucao));
-                // int yowtf = 0;
                 if(idpos1==idpos2){
                     duplicados = 1;
                     for(cidadeId = 1; cidadeId < nCidades; cidadeId++){
@@ -161,22 +185,9 @@ ListaPonto* tornarFactivel(ListaPonto* solucao, Grafo* grafo, ListaPonto* entrad
         }
     }
 
-    imprimeListaPonto(solucao);
-    double total = 0;
-    double demandaCidadeI = 0;
-    int i = 0;
-    double kCapMax = retornaCapacidadeMaxVeiculo(grafo);
-    Ponto* depot = procuraPontoPeloId(0,entradaInicial);
+    distribuirZeros(solucao, grafo, entradaInicial);
+    removeDepositosDaLista(solucao);
 
-    while(i < tamanhoLista(solucao)){
-        demandaCidadeI = retornaDemanda(retornaPontoPosicaoNaLista(i,solucao));
-        total += demandaCidadeI;
-        if(total > kCapMax){
-            insereDepotAantesPos(i, depot, solucao);
-            total = 0;
-        }
-        i++;
-    }
     return solucao;
 }
 
@@ -236,26 +247,25 @@ ListaPonto* tournamentSelect(ListaPopulacao* popList, Grafo* grafo){
     }
    return retornaSolucaoNoIndexDaPopulacao(iSelecionado, popList);
 }
-// // ------------- NÃO FUNCIONANDO!!! ----------------
-// ListaPopulacao* duplicarPopulacao(ListaPopulacao* oldPop){
-//     ListaPopulacao* newPop = AlocarPoplist();
-//     Celula* p;
-//     Celula* t;
-//     p = oldPop->prim;
+// ------------- NÃO FUNCIONANDO!!! ----------------
+ListaPopulacao* duplicarPopulacao(ListaPopulacao* oldPop){
+    ListaPopulacao* newPop = AlocarPoplist();
+    Celula* p;
+    Celula* t;
+    p = oldPop->prim;
 
-//     int i = 0;
-//     while(p!=NULL){
-//         appendSolucaoNaPopulacao(p->listap, newPop);
-//         t = p->prox;
-//         p = t;
-//         i++;
-//     }
+    while(p!=NULL){
+        appendSolucaoNaPopulacao(p->listap, newPop);
+        t = p->prox;
+        p = t;
+    }
 
-//     return newPop;
-// }
+    return newPop;
+}
 
 ListaPopulacao* SelectApplyCrossoverMutateAndAppendToNewPop(ListaPonto* entrada,  double probMutate, Grafo* grafo, ListaPopulacao* oldPop){
-    // ListaPopulacao* newPop = AlocarPoplist();
+    ListaPopulacao* newPop = AlocarPoplist();
+    newPop = duplicarPopulacao(oldPop);
 
     // Para termos a população constante, iteramos o tamanho da população divido por 2
     // já que em cada iteração são gerado 2 membros da nova geração
@@ -273,7 +283,7 @@ ListaPopulacao* SelectApplyCrossoverMutateAndAppendToNewPop(ListaPonto* entrada,
         index2 += index1 +1;
         // faz com que as listas lp1 e lp2 se tornem os decendentes da prox geracao
         // novaListaEntreCuts == Crossover()
-        // aplicarCrossover(lp1, lp2, index1, index2, entrada);
+        aplicarCrossover(lp1, lp2, index1, index2, entrada);
     
         lp1 = aplicarMutacao(lp1, probMutate, entrada);
         lp2 = aplicarMutacao(lp2, probMutate, entrada);
@@ -284,7 +294,7 @@ ListaPopulacao* SelectApplyCrossoverMutateAndAppendToNewPop(ListaPonto* entrada,
         // appendSolucaoNaPopulacao(lp1, newPop);
         // appendSolucaoNaPopulacao(lp2, newPop);
     }
-    // destroiPopulacao(oldPop);
+    destroiPopulacao(oldPop);
     // return newPop;
     return oldPop;
 }

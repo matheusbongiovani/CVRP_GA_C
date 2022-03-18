@@ -49,40 +49,68 @@ int main(int argc, char** argv) {
     geraMatrizDistancias(grafo, listaEntrada);
 //----------------------------------------------------------------------
 
+    imprimeListaPonto(listaEntrada);
+
     int tamEntrada = retornaNCidades(grafo)*2;
 
 
 
 
-    ListaPonto* duplicada = duplicarLista(listaEntrada);
+    // ListaPopulacao* initialPop = criarPopulacaoInicial(listaEntrada, grafo, tamEntrada);
 
-    // imprimeListaPonto(duplicada);
-    // imprimeListaPonto(listaEntrada);
-    // tornarFactivel(duplicada, grafo, listaEntrada); // ok...
-    // double fitt = fitness(duplicada, grafo);
-    // printf("fit: %lf",fitt);
-    // imprimeListaPonto(duplicada);
-    // imprimeListaPonto(listaEntrada);
-
-
-
-
-    ListaPopulacao* initialPop = criarPopulacaoInicial(listaEntrada, grafo, tamEntrada);
 
 
 
     // initialPop = SelectApplyCrossoverMutateAndAppendToNewPop(listaEntrada, 0.05, grafo, initialPop);
 
 
-
-    destroiPopulacao(initialPop);
-
-    runGeneticAlgorithm(300, listaEntrada, 0.05, grafo);
+    // destroiPopulacao(initialPop);
 
 
+    // runGeneticAlgorithm(300, listaEntrada, 0.05, grafo);
 
-    destroiListaDuplicada(duplicada);
 
+    ListaPonto* duplicada = duplicarLista(listaEntrada);
+
+    Ponto* depot = extractDepotDaLista(duplicada);
+
+    Ponto* elem1 = extractDepotDaLista(duplicada);
+
+    imprimeListaPonto(duplicada);
+    appendPonto(depot,duplicada);
+
+    imprimeListaPonto(duplicada);
+    appendPonto(depot,duplicada);
+
+    imprimeListaPonto(duplicada);
+    appendPonto(elem1,duplicada);
+
+    insereDepotAantesPos(3,depot,duplicada);
+    insereDepotAantesPos(3,depot,duplicada);
+
+    insereDepotAantesPos(1,depot,duplicada);
+    insereDepotAantesPos(1,depot,duplicada);
+    insereDepotAantesPos(1,depot,duplicada);
+    insereDepotAantesPos(1,depot,duplicada);
+    insereDepotAantesPos(1,depot,duplicada);
+
+
+    imprimeListaPonto(duplicada);
+    appendPonto(depot,duplicada);
+
+    imprimeListaPonto(duplicada);
+    appendPonto(depot,duplicada);
+
+    imprimeListaPonto(duplicada);
+
+    removerZerosDoLado(duplicada);
+
+
+    imprimeListaPonto(duplicada);
+
+    removeDepositosDaLista(duplicada);
+
+    imprimeListaPonto(duplicada);
 
     // ListaPopulacao* poplist;
     // ListaPonto* bestSolution = runGeneticAlgorithm(2, listaEntrada, 0.05, grafo, poplist);
@@ -91,8 +119,7 @@ int main(int argc, char** argv) {
 
     // destroiPopulacao(poplist);
 
-
-
+    destroiListaDuplicada(duplicada);
     destroiLista(listaEntrada);
     destroiGrafo(grafo);
 

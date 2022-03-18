@@ -30,4 +30,6 @@ void aplicarCrossover(ListaPonto* lp1, ListaPonto* lp2,  int cut1, int cut2, Lis
 
 void imprimeListaPonto(ListaPonto* lista);
 
+void removerZerosDoLado(ListaPonto* solucao);
+
 #endif // LISTAPONTOS_H
