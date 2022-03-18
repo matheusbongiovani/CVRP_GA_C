@@ -79,9 +79,6 @@ void destroiPopulacao(ListaPopulacao* popList){
 
 
 
-
-
-
 double fitness(ListaPonto* solucao, Grafo* grafo){
     double cost = 0;
     int i = 0;
@@ -209,6 +206,7 @@ ListaPonto* aplicarMutacao(ListaPonto* solucao, double probMutate, ListaPonto* e
     if (rprob < probMutate){
         int tamL = (tamanhoLista(solucao)-1); // -1 porque começa de 0.
         int index1 = rand() % tamL;
+        index1 = index1>0 ? index1 : (index1+1);
         int index2 = rand() % (tamL-index1);
         index2 += index1 +1;
         reverseEntreCuts(solucao, index1,index2, entrada);
@@ -250,9 +248,8 @@ ListaPonto* tournamentSelect(ListaPopulacao* popList, Grafo* grafo){
 // ------------- NÃO FUNCIONANDO!!! ----------------
 ListaPopulacao* duplicarPopulacao(ListaPopulacao* oldPop){
     ListaPopulacao* newPop = AlocarPoplist();
-    Celula* p;
+    Celula* p = oldPop->prim;
     Celula* t;
-    p = oldPop->prim;
 
     while(p!=NULL){
         appendSolucaoNaPopulacao(p->listap, newPop);
@@ -264,9 +261,6 @@ ListaPopulacao* duplicarPopulacao(ListaPopulacao* oldPop){
 }
 
 ListaPopulacao* SelectApplyCrossoverMutateAndAppendToNewPop(ListaPonto* entrada,  double probMutate, Grafo* grafo, ListaPopulacao* oldPop){
-    ListaPopulacao* newPop = AlocarPoplist();
-    newPop = duplicarPopulacao(oldPop);
-
     // Para termos a população constante, iteramos o tamanho da população divido por 2
     // já que em cada iteração são gerado 2 membros da nova geração
     int tamPop = retornaNCidades(grafo)*2;
@@ -294,8 +288,7 @@ ListaPopulacao* SelectApplyCrossoverMutateAndAppendToNewPop(ListaPonto* entrada,
         // appendSolucaoNaPopulacao(lp1, newPop);
         // appendSolucaoNaPopulacao(lp2, newPop);
     }
-    destroiPopulacao(oldPop);
-    // return newPop;
+
     return oldPop;
 }
 
