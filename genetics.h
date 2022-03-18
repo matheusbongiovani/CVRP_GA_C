@@ -29,4 +29,7 @@ ListaPonto* runGeneticAlgorithm(double timeToExec, ListaPonto* entrada,  double 
 void imprimePopulation(ListaPopulacao* pop);
 void destroiPopulacao(ListaPopulacao* popList);
 
+
+
+
 #endif // GENETICS_H

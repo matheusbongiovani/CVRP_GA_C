@@ -398,25 +398,6 @@ void aplicarCrossover(ListaPonto* lp1, ListaPonto* lp2,  int cut1, int cut2, Lis
             j++;
         }
     }
-<<<<<<< HEAD
-=======
-}
-
-void removerZerosDoLado(ListaPonto* solucao){
-    Celula* p = solucao->prim;
-    Celula* next;
-
-    while(p!=NULL){
-        next = p->prox;
-        if(next!=NULL && retornId(p->ponto) == 0 && retornId(next->ponto)== 0){
-            solucao->tam--;
-            p->prox = next->prox;
-            free(next);
-            continue;
-        }
-        p = p->prox;
-    }
->>>>>>> b7819be154cf09a2287d8e80bfe47dbcf8bea547
 }
 
 void removerZerosDoLado(ListaPonto* solucao){

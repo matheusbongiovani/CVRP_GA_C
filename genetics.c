@@ -79,6 +79,9 @@ void destroiPopulacao(ListaPopulacao* popList){
 
 
 
+
+
+
 double fitness(ListaPonto* solucao, Grafo* grafo){
     double cost = 0;
     int i = 0;
@@ -206,7 +209,6 @@ ListaPonto* aplicarMutacao(ListaPonto* solucao, double probMutate, ListaPonto* e
     if (rprob < probMutate){
         int tamL = (tamanhoLista(solucao)-1); // -1 porque começa de 0.
         int index1 = rand() % tamL;
-        index1 = index1>0 ? index1 : (index1+1);
         int index2 = rand() % (tamL-index1);
         index2 += index1 +1;
         reverseEntreCuts(solucao, index1,index2, entrada);
@@ -248,19 +250,6 @@ ListaPonto* tournamentSelect(ListaPopulacao* popList, Grafo* grafo){
 // ------------- NÃO FUNCIONANDO!!! ----------------
 ListaPopulacao* duplicarPopulacao(ListaPopulacao* oldPop){
     ListaPopulacao* newPop = AlocarPoplist();
-<<<<<<< HEAD
-    Celula* p = oldPop->prim;
-    Celula* t;
-
-    while(p!=NULL){
-        appendSolucaoNaPopulacao(p->listap, newPop);
-        t = p->prox;
-        p = t;
-    }
-
-    return newPop;
-}
-=======
     Celula* p;
     Celula* t;
     p = oldPop->prim;
@@ -277,9 +266,7 @@ ListaPopulacao* duplicarPopulacao(ListaPopulacao* oldPop){
 ListaPopulacao* SelectApplyCrossoverMutateAndAppendToNewPop(ListaPonto* entrada,  double probMutate, Grafo* grafo, ListaPopulacao* oldPop){
     ListaPopulacao* newPop = AlocarPoplist();
     newPop = duplicarPopulacao(oldPop);
->>>>>>> b7819be154cf09a2287d8e80bfe47dbcf8bea547
 
-ListaPopulacao* SelectApplyCrossoverMutateAndAppendToNewPop(ListaPonto* entrada,  double probMutate, Grafo* grafo, ListaPopulacao* oldPop){
     // Para termos a população constante, iteramos o tamanho da população divido por 2
     // já que em cada iteração são gerado 2 membros da nova geração
     int tamPop = retornaNCidades(grafo)*2;
@@ -307,12 +294,8 @@ ListaPopulacao* SelectApplyCrossoverMutateAndAppendToNewPop(ListaPonto* entrada,
         // appendSolucaoNaPopulacao(lp1, newPop);
         // appendSolucaoNaPopulacao(lp2, newPop);
     }
-<<<<<<< HEAD
-
-=======
     destroiPopulacao(oldPop);
     // return newPop;
->>>>>>> b7819be154cf09a2287d8e80bfe47dbcf8bea547
     return oldPop;
 }
 
