@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "ponto.h"
-#include "listaPontos.h"
+#include "vetorPontos.h"
 #include "grafo.h"
 
 FILE* inicializaArquivo(FILE* file, char* nomeArq);

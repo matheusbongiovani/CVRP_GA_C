@@ -46,6 +46,7 @@ void insereMatrizDistancias(Grafo * grafo, double ** matriz){
     grafo->matrizDistancias = matriz;
 }
 
+// SUBSTITUIR A LISTA POR VET[];
 void geraMatrizDistancias(Grafo * grafo, ListaPonto * lista){
     double ** matrizDistancias = (double **) malloc(sizeof(double*)*(grafo->nCidades));
     for(int i = 0; i < grafo->nCidades; i++){

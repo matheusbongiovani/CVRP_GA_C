@@ -1,7 +1,7 @@
 #ifndef GENETICS_H
 #define GENETICS_H
 #include "grafo.h"
-#include "listaPontos.h"
+#include "vetorPontos.h"
 #include <stdlib.h>
 #include <time.h>
 

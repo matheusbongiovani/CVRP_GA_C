@@ -2,7 +2,7 @@
 #define GRAFO_H
 
 #include <stdlib.h>
-#include "listaPontos.h"
+#include "vetorPontos.h"
 
 typedef struct grafo Grafo;
 Grafo* criaGrafo();
@@ -11,7 +11,7 @@ int retornaNCidades(Grafo* grafo);
 int retornaNVeiculos(Grafo* grafo);
 double retornaCapacidadeMaxVeiculo(Grafo* grafo);
 void insereMatrizDistancias(Grafo* grafo, double** matriz);
-void geraMatrizDistancias(Grafo* grafo, ListaPonto* lista);
+void geraMatrizDistancias(Grafo* grafo, vetorPontos* lista);
 double retornaDistancia(Grafo* grafo, int cidade1, int cidade2);
 void destroiGrafo(Grafo* grafo);
 

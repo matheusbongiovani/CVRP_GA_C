@@ -5,7 +5,7 @@ comp:  gcc
 
 #-Wall
 gcc: main.c ponto.c 
-	gcc -o main main.c  leitura.c ponto.c listaPontos.c grafo.c genetics.c -g -lm 
+	gcc -o main main.c  leitura.c ponto.c vetorPontos.c grafo.c genetics.c -g -lm 
 
 clean: 
 	@rm -f *.o main

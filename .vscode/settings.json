@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "listapontos.h": "c",
-        "genetics.h": "c"
+        "genetics.h": "c",
+        "vetorpontos.h": "c"
     }
 }

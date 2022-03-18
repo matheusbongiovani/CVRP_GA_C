@@ -12,7 +12,7 @@ FILE *inicializaArquivo(FILE *file, char *nomeArq)
 }
 
 
-void leArquivo(FILE* file, char* buffer, size_t bufsize, ListaPonto * lista, Grafo * grafo){
+void leArquivo(FILE* file, char* buffer, size_t bufsize, vetorPontos * vetPts, Grafo * grafo){
     char *token; /* Recebe dados separados pelo strtok */
     token = strtok(buffer, "k"); /* Tira o inicio da linha */
     token = strtok(NULL, "k"); /* Pega a quantidade de veiculos que restou */

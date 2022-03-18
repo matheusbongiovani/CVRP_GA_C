@@ -3,20 +3,12 @@
 #include <string.h>
 #include "leitura.h"
 #include "ponto.h"
-#include "listaPontos.h"
+#include "vetorPontos.h"
 #include "grafo.h"
 #include "genetics.h"
 #include <time.h>
 
-char* defineBuffer (FILE* file, size_t bufsize){
-    // Lê a primeira linha do arquivo e guarda no buffer 
-
-    char* buffer = NULL;
-    buffer = (char*)malloc(bufsize* sizeof(char));
-    getline(&buffer, &bufsize, file);
-
-    return buffer;
-}
+char* defineBuffer (FILE* file, size_t bufsize);
 
 int main(int argc, char** argv) {
     if (argc != 2){
@@ -36,8 +28,9 @@ int main(int argc, char** argv) {
     size_t bufsize = 1;
     char* buffer = defineBuffer(file, bufsize);
 
-    // Inicializa lista que guarda todos os pontos 
-    ListaPonto* listaEntrada = inicializaListaPonto();
+    // Inicializa lista que guarda todos os pontos
+    // AO INVÉS DE LISTA, USAR VET[N+(k*2)], o VET[entrada] eh fixo!
+    vetorPontos* vetorPontosEntrada = inicializaVetorPonto();
 
     // Inicializa grafo que conterá informações lidas 
     Grafo* grafo = criaGrafo();
@@ -49,79 +42,81 @@ int main(int argc, char** argv) {
     geraMatrizDistancias(grafo, listaEntrada);
 //----------------------------------------------------------------------
 
+    // JÁ QUE NÃO É LISTA, TER QUE FICAR USANDO ARITMÉTICA DE PONTEIROS...?
     imprimeListaPonto(listaEntrada);
 
-    int tamEntrada = retornaNCidades(grafo)*2;
+    int tamEntrada = retornaNCidades(grafo)*2; // TAM DA POPULAÇÃO
 
 
 
 
-    // ListaPopulacao* initialPop = criarPopulacaoInicial(listaEntrada, grafo, tamEntrada);
 
 
 
 
-    // initialPop = SelectApplyCrossoverMutateAndAppendToNewPop(listaEntrada, 0.05, grafo, initialPop);
 
 
-    // destroiPopulacao(initialPop);
 
 
-    // runGeneticAlgorithm(300, listaEntrada, 0.05, grafo);
 
 
-    ListaPonto* duplicada = duplicarLista(listaEntrada);
-
-    Ponto* depot = extractDepotDaLista(duplicada);
-
-    Ponto* elem1 = extractDepotDaLista(duplicada);
-
-    imprimeListaPonto(duplicada);
-    appendPonto(depot,duplicada);
-
-    imprimeListaPonto(duplicada);
-    appendPonto(depot,duplicada);
-
-    imprimeListaPonto(duplicada);
-    appendPonto(elem1,duplicada);
-
-    insereDepotAantesPos(3,depot,duplicada);
-    insereDepotAantesPos(3,depot,duplicada);
-
-    insereDepotAantesPos(1,depot,duplicada);
-    insereDepotAantesPos(1,depot,duplicada);
-    insereDepotAantesPos(1,depot,duplicada);
-    insereDepotAantesPos(1,depot,duplicada);
-    insereDepotAantesPos(1,depot,duplicada);
 
 
-    imprimeListaPonto(duplicada);
-    appendPonto(depot,duplicada);
-
-    imprimeListaPonto(duplicada);
-    appendPonto(depot,duplicada);
-
-    imprimeListaPonto(duplicada);
-
-    removerZerosDoLado(duplicada);
 
 
-    imprimeListaPonto(duplicada);
-
-    removeDepositosDaLista(duplicada);
-
-    imprimeListaPonto(duplicada);
-
-    // ListaPopulacao* poplist;
-    // ListaPonto* bestSolution = runGeneticAlgorithm(2, listaEntrada, 0.05, grafo, poplist);
-    // ListaPonto* bestSolution =runGeneticAlgorithm(5, listaEntrada, 0.05, grafo);
 
 
-    // destroiPopulacao(poplist);
 
-    destroiListaDuplicada(duplicada);
-    destroiLista(listaEntrada);
-    destroiGrafo(grafo);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    return 0;
+}
+
+char* defineBuffer (FILE* file, size_t bufsize){
+    // Lê a primeira linha do arquivo e guarda no buffer 
+
+    char* buffer = NULL;
+    buffer = (char*)malloc(bufsize* sizeof(char));
+    getline(&buffer, &bufsize, file);
+
+    return buffer;
+}
 
 
     // // //////////////// FUNCTION LOOP TIME
@@ -137,8 +132,3 @@ int main(int argc, char** argv) {
     //         break;
     //     }
     // }
-
-    return 0;
-}
-
-

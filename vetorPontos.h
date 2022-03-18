@@ -1,12 +1,22 @@
-#ifndef LISTAPONTOS_H
-#define LISTAPONTOS_H
+#ifndef VETORPONTOS_H
+#define VETORPONTOS_H
 #include <stdio.h>
 #include "ponto.h"
 #include <time.h>
 
 
-typedef struct listaPonto ListaPonto;
-ListaPonto* inicializaListaPonto();
+typedef struct vetorPontos vetorPontos;
+VetorPontos* inicializaListaPonto();
+
+
+
+
+
+
+
+
+
+
 int tamanhoLista(ListaPonto* lista);
 void appendPonto(Ponto* p, ListaPonto* lista);
 Ponto* extractDepotDaLista(ListaPonto* lista);
@@ -32,4 +42,4 @@ void imprimeListaPonto(ListaPonto* lista);
 
 void removerZerosDoLado(ListaPonto* solucao);
 
-#endif // LISTAPONTOS_H
+#endif // VETORPONTOS_H
