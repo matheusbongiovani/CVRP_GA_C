@@ -6,30 +6,24 @@
 #include <time.h>
 
 
-typedef struct listaPopulacao ListaPopulacao;
-ListaPopulacao* AlocarPoplist();
-int tamanhoListaPopulacao(ListaPopulacao* pop);
-ListaPopulacao* duplicarPopulacao(ListaPopulacao* oldPop);
-void appendSolucaoNaPopulacao(ListaPonto* solucao, ListaPopulacao* populacao);
-ListaPonto* retornaSolucaoNoIndexDaPopulacao(int i, ListaPopulacao* poplist);
 
+int* shuffleVetInt(int* solucao, Grafo* grafo);
 
-double fitness(ListaPonto* lista, Grafo* grafo);
-ListaPonto* tornarFactivel(ListaPonto* solucao, Grafo* grafo, ListaPonto* entradaInicial);
-ListaPonto* aplicarMutacao(ListaPonto* solucao, double probMutate, ListaPonto* entrada);
+// double fitness(int* solucao, Grafo* grafo);
 
-
-
-ListaPopulacao* criarPopulacaoInicial(ListaPonto* listaEntrada, Grafo* grafo, int tamPop);
-ListaPopulacao* SelectApplyCrossoverMutateAndAppendToNewPop(ListaPonto* entrada,  double probMutate, Grafo* grafo, ListaPopulacao* oldPop);
-
-ListaPonto* runGeneticAlgorithm(double timeToExec, ListaPonto* entrada,  double probMutate, Grafo* grafo);
-
-
-void imprimePopulation(ListaPopulacao* pop);
-void destroiPopulacao(ListaPopulacao* popList);
+int* criarSolucaoInt(VetorPontos* vet, Grafo* grafo);
+int** criarPopulacaoInicial(VetorPontos* vet, Grafo* grafo);
 
 
 
 
+
+int* distribuirZerosNaSolu(int* solucao, Grafo* grafo, VetorPontos* entrada);
+
+
+
+void imprimirSolInt(int* solucao, Grafo* grafo);
+void imprimirElemsPopulacao(int** populacao, Grafo* grafo);
+
+void destroiPopulacao(int** populacao, Grafo* grafo);
 #endif // GENETICS_H

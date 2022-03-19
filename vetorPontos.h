@@ -5,41 +5,25 @@
 #include <time.h>
 
 
-typedef struct vetorPontos vetorPontos;
-VetorPontos* inicializaListaPonto();
+typedef struct vetorPontos VetorPontos;
+VetorPontos* inicializaVetorPonto();
+int vetPtsTamInicial(VetorPontos* vet);
+void atualizaTamVet(int n_genes, VetorPontos* vet);
+void appendPonto(Ponto* p, VetorPontos* vet);
+
+Ponto* procuraPontoPeloId(int id, VetorPontos* vet);
+void distanciaPontos(VetorPontos* vet, double** matriz, int numCidades);
+
+void imprimeVetPtsInicial(VetorPontos* vet);
 
 
 
 
 
+void destroiVetPtsEntrada(VetorPontos* vet);
 
 
 
 
-
-int tamanhoLista(ListaPonto* lista);
-void appendPonto(Ponto* p, ListaPonto* lista);
-Ponto* extractDepotDaLista(ListaPonto* lista);
-void insereDepotAantesPos(int i, Ponto* novoP, ListaPonto* lista);
-Ponto* procuraPontoPeloId(int id, ListaPonto* lista);
-Ponto* retornaPontoPosicaoNaLista(int i,ListaPonto* lista);
-void atualizarPontoAtPos(int i, Ponto* novo ,ListaPonto* lista);
-void removePontoNaPos(int i, ListaPonto* lista);
-void removePontoPeloId(int id, ListaPonto* lista);
-void removeDepositosDaLista(ListaPonto* lista);
-ListaPonto* duplicarLista(ListaPonto* entrada);
-void distanciaPontos(ListaPonto* lista, double** matriz, int numCidades);
-void destroiListaDuplicada(ListaPonto* lista);
-void destroiLista(ListaPonto* lista);
-
-ListaPonto* shuffleListaPonto(ListaPonto* entrada);
-
-
-void reverseEntreCuts(ListaPonto* solucao, int cut1, int cut2, ListaPonto* entrada);
-void aplicarCrossover(ListaPonto* lp1, ListaPonto* lp2,  int cut1, int cut2, ListaPonto* entrada);
-
-void imprimeListaPonto(ListaPonto* lista);
-
-void removerZerosDoLado(ListaPonto* solucao);
 
 #endif // VETORPONTOS_H

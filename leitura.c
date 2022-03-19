@@ -12,7 +12,7 @@ FILE *inicializaArquivo(FILE *file, char *nomeArq)
 }
 
 
-void leArquivo(FILE* file, char* buffer, size_t bufsize, vetorPontos * vetPts, Grafo * grafo){
+void leArquivo(FILE* file, char* buffer, size_t bufsize, VetorPontos * vet, Grafo * grafo){
     char *token; /* Recebe dados separados pelo strtok */
     token = strtok(buffer, "k"); /* Tira o inicio da linha */
     token = strtok(NULL, "k"); /* Pega a quantidade de veiculos que restou */
@@ -61,10 +61,12 @@ void leArquivo(FILE* file, char* buffer, size_t bufsize, vetorPontos * vetPts, G
 
     i = 0;
     /* Leitura das coordenadas de cada cidade */
+    atualizaTamVet(n_genes, vet);
+
     while (i < n_genes)
     {                                /* Leitura das coordenadas do ponto que foi lido */
         token = strtok(buffer, " "); /* Separa os dados da string */
-        int nomePonto = atoi(token);
+        int idPonto = atoi(token);
         token = strtok(NULL, " "); /* Separa os dados da string */
         double coordx = atof(token);
         token = strtok(NULL, " "); /* Separa os dados da string */
@@ -72,9 +74,9 @@ void leArquivo(FILE* file, char* buffer, size_t bufsize, vetorPontos * vetPts, G
         /* Recebe NULL para continuar de onde parou */
 
         /* Registrando coordenadas lidas no ponto */
-        Ponto *ponto = criaPonto(nomePonto - 1, coordx, coordy); /* nomePonto-1 porque a resposta será de 0 até nCidades-1 */
+        Ponto *ponto = criaPonto(idPonto -1, coordx, coordy); /*
         /* Insere ponto lido na lista de pontos */
-        appendPonto(ponto, lista);
+        appendPonto(ponto, vet);
 
         i++;
         getline(&buffer, &bufsize, file); /* Pulando pra proxima linha */
@@ -93,7 +95,7 @@ void leArquivo(FILE* file, char* buffer, size_t bufsize, vetorPontos * vetPts, G
         double demandaCidade = atof(token);
 
         /* Insere demanda no ponto correspondente */
-        insereDemanda(procuraPontoPeloId(id_ponto - 1, lista), demandaCidade);
+        insereDemanda(procuraPontoPeloId(id_ponto -1, vet), demandaCidade);
         totalDeDemandas += demandaCidade;
         i++;
     }

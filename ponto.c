@@ -17,6 +17,11 @@ Ponto* criaPonto(int id, double x, double y){
     return novo;
 }
 
+Ponto** criaVetPontoTam(int tam){
+    
+    return malloc(sizeof(Ponto* )*tam);
+}
+
 void insereDemanda(Ponto * ponto, double demand){
     ponto->demand = demand;
 };

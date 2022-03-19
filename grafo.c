@@ -46,8 +46,7 @@ void insereMatrizDistancias(Grafo * grafo, double ** matriz){
     grafo->matrizDistancias = matriz;
 }
 
-// SUBSTITUIR A LISTA POR VET[];
-void geraMatrizDistancias(Grafo * grafo, ListaPonto * lista){
+void geraMatrizDistancias(Grafo * grafo, VetorPontos * vet){
     double ** matrizDistancias = (double **) malloc(sizeof(double*)*(grafo->nCidades));
     for(int i = 0; i < grafo->nCidades; i++){
         matrizDistancias[i] = (double *) malloc(sizeof(double)*(grafo->nCidades));
@@ -55,7 +54,7 @@ void geraMatrizDistancias(Grafo * grafo, ListaPonto * lista){
     // Terminada a alocação da matriz 
 
     // Preenchendo matriz com distâncias entre cidades 
-    distanciaPontos(lista, matrizDistancias, grafo->nCidades);
+    distanciaPontos(vet, matrizDistancias, grafo->nCidades);
 
     // Inserção da matriz no grafo 
     insereMatrizDistancias(grafo, matrizDistancias);

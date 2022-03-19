@@ -1,387 +1,151 @@
 #include "genetics.h"
 
-typedef struct celula Celula;
 
-struct celula{
-    ListaPonto* listap;
-    Celula* prox;
-};
 
-struct listaPopulacao{
-    Celula* prim;
-    Celula* ult;
-};
-
-int tamanhoListaPopulacao(ListaPopulacao* pop){
+int* shuffleVetInt(int* solucao, Grafo* grafo){
+    int N = retornaNCidades(grafo)-1 ;
     int i = 0;
-    Celula* p = pop->prim;
-    while(p!=NULL){
-        p = p->prox;
-        i++;
-    }
-    return i;
-}
-
-ListaPopulacao* AlocarPoplist(){
-    ListaPopulacao* vetorPopulacao = (ListaPopulacao*)malloc(sizeof(ListaPopulacao));
-    vetorPopulacao->prim = NULL;
-    vetorPopulacao->ult = NULL;
-
-    return vetorPopulacao;
-}
-
-void appendSolucaoNaPopulacao(ListaPonto* solucao, ListaPopulacao* populacao){
-    Celula* nova = (Celula*)malloc(sizeof(Celula));
-    nova->listap = solucao;
-    nova->prox = NULL;
-
-    if(populacao->ult == NULL){
-        populacao->prim = populacao->ult = nova;
-    }else{
-        populacao->ult->prox = nova;
-        populacao->ult = nova;
-    }
-}
-
-void distribuirZeros(ListaPonto* solucao, Grafo* grafo, ListaPonto* entradaInicial){
-    double total = 0;
-    double demandaCidadeI = 0;
-    int i = 0;
-    double kCapMax = retornaCapacidadeMaxVeiculo(grafo);
-    Ponto* depot = procuraPontoPeloId(0,entradaInicial);
-
-    while(i < tamanhoLista(solucao)){
-        demandaCidadeI = retornaDemanda(retornaPontoPosicaoNaLista(i,solucao));
-        total += demandaCidadeI;
-        if(total > kCapMax){
-            insereDepotAantesPos(i, depot, solucao);
-            total = 0;
-        }
-        i++;
-    }
-}
-
-
-
-void destroiPopulacao(ListaPopulacao* popList){
-    Celula* p;
-    Celula* t;
-    p = popList->prim;
-
-    while(p!=NULL){
-        t = p->prox;
-        destroiListaDuplicada(p->listap);
-        free(p);
-        p = t;
-    }
-    free(popList);
-}
-
-
-
-
-
-
-double fitness(ListaPonto* solucao, Grafo* grafo){
-    double cost = 0;
-    int i = 0;
-    int tamlist = tamanhoLista(solucao);
-
-    //1º nó da 1ª rota
-    cost += retornaDistancia(grafo, 0, retornId(retornaPontoPosicaoNaLista(0,solucao)));
     
-    for(i = 0; i < tamlist-1; i++)
-        cost += retornaDistancia(grafo,retornId(retornaPontoPosicaoNaLista(i,solucao)), retornId(retornaPontoPosicaoNaLista(i+1,solucao)));
-
-    //último nó da última rota
-    cost += retornaDistancia(grafo, retornId(retornaPontoPosicaoNaLista(i,solucao)), 0);
-
-
-
-    removerZerosDoLado(solucao);
-
-    // Checar nº de rotas, e aplicar penalidade caso exceda capacidade máxima
-    i = 0;
-    int num_of_depots = 1;
-    while (i < tamlist){
-        if (retornId(retornaPontoPosicaoNaLista(i,solucao)) == 0)
-            num_of_depots++;
-        i++;
+    for(i = 0; i < N-1; i++){
+        int j = rand() % N;
+        int temp = solucao[i];
+        solucao[i] = solucao[j];
+        solucao[j] = temp;    
     }
+    return solucao;
 
-    i = 0;
-    double weight = 0;
-    double penalty = 0;
-    double demandAtual = 0;
-    int IdDemandaAtual = 0;
-    double capMaxVeiculo = retornaCapacidadeMaxVeiculo(grafo);
-
-    if (num_of_depots != retornaNVeiculos(grafo)){
-        for(i = 0;i < tamlist; i++){
-            demandAtual = retornaDemanda(retornaPontoPosicaoNaLista(i,solucao));
-            weight += demandAtual;
-            IdDemandaAtual = (demandAtual + 0.1); // demanda do depot = 0;
-            if (IdDemandaAtual == 0){
-                if (weight > capMaxVeiculo){
-                    // penalty*50 performed better
-                    penalty += (weight - capMaxVeiculo)*50;
-                    cost += penalty;
-                    weight = 0;
-                }
-            }
-        }
-    } 
-
-    return cost;
 }
 
-// entra a solucao, remove os depots, aplica ajustar e retorna ListaPonto*
-ListaPonto* tornarFactivel(ListaPonto* solucao, Grafo* grafo, ListaPonto* entradaInicial){
-    int nCidades = retornaNCidades(grafo);
+int* distribuirZerosNaSolu(int* solucao, Grafo* grafo, VetorPontos* entrada){
+    int i = 0;
+    double cargaAtual = 0;
+    double reachedTotalDemand = 0;
+    double capacidadeVeiculo = retornaCapacidadeMaxVeiculo(grafo);
+    double totalDemand = retornaDemandaTotal(grafo);
+    int vetTamMax = retornaNCidades(grafo)+(retornaNVeiculos(grafo)*2)-1;
+    int j = 0;
+    while(reachedTotalDemand < totalDemand){
+        Ponto* cidadeAtual = procuraPontoPeloId(solucao[i], entrada);
+        int demandaAtual = retornaDemanda(cidadeAtual);
+        cargaAtual += demandaAtual;
 
-    // boleanos para fazer ajuste de cidades repetidas e que faltam
-    int duplicados = 0;
-    int i1 = 0;
-    int i2 = 0;
-    int idpos1 = 0;
-    int idpos2 = 0;
-    // ListaPonto *p1, *p2;
-    int cidadeId = 1; // começa pela cidade1 (desconsidera depot)
-    int tamlist = tamanhoLista(solucao);
-
-    // imprimeListaPonto(solucao);
-
-
-    // adjust n esta funfando direito!!!
-    removeDepositosDaLista(solucao);
-
-
-    int ajustar = 1;
-    while(ajustar){
-        ajustar = 0;
-        for(i1 = 0; i1 < tamanhoLista(solucao);i1++){
-            for(i2 = 0; i2 < i1; i2++){
-                idpos1 = retornId(retornaPontoPosicaoNaLista(i1,solucao));
-                idpos2 = retornId(retornaPontoPosicaoNaLista(i2,solucao));
-                if(idpos1==idpos2){
-                    duplicados = 1;
-                    for(cidadeId = 1; cidadeId < nCidades; cidadeId++){
-                        if(procuraPontoPeloId(cidadeId,solucao)==NULL){
-                            Ponto* Pfaltando = procuraPontoPeloId(cidadeId,entradaInicial);
-                            atualizarPontoAtPos(i1,Pfaltando,solucao);
-                            duplicados = 0;
-                            break;
-                        }
-                    if (duplicados)
-                        removePontoNaPos(i1,solucao);
-                    }
-                    ajustar = 1;
-                }
-                if (ajustar)
-                    break;
+        reachedTotalDemand += demandaAtual;
+        if(cargaAtual > capacidadeVeiculo){
+            //trecho para inserir o Depot antes de sobrecarregar
+            for(j = vetTamMax-1; j >= i-1 ; j--){
+                solucao[j+1] = solucao[j];
             }
-            if (ajustar)
-                break;
+            solucao[i] = 0;
+            reachedTotalDemand -= demandaAtual;
+            cargaAtual = 0;
         }
+        if(j != vetTamMax-1)
+            i++;
     }
-
-    distribuirZeros(solucao, grafo, entradaInicial);
-    removeDepositosDaLista(solucao);
-
+    solucao[i] = -1;   // delimitador de fim da solucao
     return solucao;
 }
 
-ListaPopulacao* criarPopulacaoInicial(ListaPonto* listaEntrada, Grafo* grafo, int tamPop){
-    ListaPopulacao* initialPop = AlocarPoplist();
-    int tam = 0;
-    while(tam < tamPop){
-        ListaPonto* solucao = shuffleListaPonto(listaEntrada);
-        solucao = tornarFactivel(solucao, grafo, listaEntrada);
-        appendSolucaoNaPopulacao(solucao,initialPop);        
-        tam++;
-    }
-    return initialPop;
-}
 
-ListaPonto* aplicarMutacao(ListaPonto* solucao, double probMutate, ListaPonto* entrada){
-    int prob0a100 = rand() % 100;
-    double rprob = (double)prob0a100/100;
-    if (rprob < probMutate){
-        int tamL = (tamanhoLista(solucao)-1); // -1 porque começa de 0.
-        int index1 = rand() % tamL;
-        int index2 = rand() % (tamL-index1);
-        index2 += index1 +1;
-        reverseEntreCuts(solucao, index1,index2, entrada);
+// double fitness(int* solucao, Grafo* grafo){
+//     double cost = 0;
+//     int i = 0;
+//     int tamlist = tamSolucaoInt(solucao);
+
+//     //1º nó da 1ª rota. Id do Depot == 1!!
+//     cost += retornaDistancia(grafo, 0, solucao[i]);
+    
+//     for(i = 0; i < tamlist-1; i++)
+//         cost += retornaDistancia(grafo,solucao[i],solucao[i+1]);
+
+//     //último nó da última rota
+//     cost += retornaDistancia(grafo, solucao[i], 0);
+
+// }
+
+int* criarSolucaoInt(VetorPontos* vet, Grafo* grafo){
+    int vetTamMax = retornaNCidades(grafo)+(retornaNVeiculos(grafo)*2);
+    int* solucao = (int*)malloc(sizeof(int)*vetTamMax);
+    for(int i =0; i < (vetPtsTamInicial(vet)-1); i++){
+        solucao[i] = i+1;
     }
     return solucao;
 }
 
 
-ListaPonto* retornaSolucaoNoIndexDaPopulacao(int i, ListaPopulacao* poplist){
-    Celula* p = poplist->prim;
-    int j;
-    for(j = 0; p!=NULL; p=p->prox){
-        if(i==j){
-            return p->listap;
-        }
-        j++;
-    }
-    return NULL;
-}
 
-ListaPonto* tournamentSelect(ListaPopulacao* popList, Grafo* grafo){
-    int tamPopList = retornaNCidades(grafo)*2;
-    int numSelects = round(tamPopList/10 -0.5);
-    double best = 999999;
-    double fitSelected;
-    int i, irand, iSelecionado;
-
-    for(i = 0; i < numSelects; i++){
-        irand = rand() % tamPopList;
-        ListaPonto* selecionado = retornaSolucaoNoIndexDaPopulacao(irand,popList);
-        fitSelected = fitness(selecionado,grafo);
-        if (fitSelected < best){
-            best = fitSelected;
-            iSelecionado = irand;
-        }
-    }
-   return retornaSolucaoNoIndexDaPopulacao(iSelecionado, popList);
-}
-// ------------- NÃO FUNCIONANDO!!! ----------------
-ListaPopulacao* duplicarPopulacao(ListaPopulacao* oldPop){
-    ListaPopulacao* newPop = AlocarPoplist();
-    Celula* p;
-    Celula* t;
-    p = oldPop->prim;
-
-    while(p!=NULL){
-        appendSolucaoNaPopulacao(p->listap, newPop);
-        t = p->prox;
-        p = t;
-    }
-
-    return newPop;
-}
-
-ListaPopulacao* SelectApplyCrossoverMutateAndAppendToNewPop(ListaPonto* entrada,  double probMutate, Grafo* grafo, ListaPopulacao* oldPop){
-    ListaPopulacao* newPop = AlocarPoplist();
-    newPop = duplicarPopulacao(oldPop);
-
-    // Para termos a população constante, iteramos o tamanho da população divido por 2
-    // já que em cada iteração são gerado 2 membros da nova geração
+int** criarPopulacaoInicial(VetorPontos* entrada, Grafo* grafo){
     int tamPop = retornaNCidades(grafo)*2;
-    int half_pop = (tamPop/2);
-    for(int i = 0; i < half_pop; i++){
-        ListaPonto* lp1 = tournamentSelect(oldPop, grafo);
-        ListaPonto* lp2 = tournamentSelect(oldPop, grafo);
 
-        int tamL1 = (tamanhoLista(lp1)-1);
-        int tamL2 = (tamanhoLista(lp2)-1);
-        int tamLMin = (tamL1<tamL2) ? tamL1 : tamL2 ; // -1 porque começa de 0.
-        int index1 = rand() % tamLMin;      // index de cortes
-        int index2 = rand() % (tamLMin-index1);
-        index2 += index1 +1;
-        // faz com que as listas lp1 e lp2 se tornem os decendentes da prox geracao
-        // novaListaEntreCuts == Crossover()
-        aplicarCrossover(lp1, lp2, index1, index2, entrada);
-    
-        lp1 = aplicarMutacao(lp1, probMutate, entrada);
-        lp2 = aplicarMutacao(lp2, probMutate, entrada);
+    int** populacao = (int**)malloc(sizeof(int*)*tamPop);
 
-        lp1 = tornarFactivel(lp1, grafo, entrada);
-        lp2 = tornarFactivel(lp2, grafo, entrada);
-
-        // appendSolucaoNaPopulacao(lp1, newPop);
-        // appendSolucaoNaPopulacao(lp2, newPop);
+    for(int i = 0; i < tamPop; i++){
+        int* novoElem = criarSolucaoInt(entrada, grafo);
+        shuffleVetInt(novoElem, grafo);
+        distribuirZerosNaSolu(novoElem, grafo, entrada);
+        populacao[i] = novoElem;
     }
-    destroiPopulacao(oldPop);
-    // return newPop;
-    return oldPop;
+
+
+    return populacao;
 }
 
-ListaPonto* runGeneticAlgorithm(double timeToExec, ListaPonto* entrada,  double probMutate, Grafo* grafo){
+
+
+void imprimirSolInt(int* solucao, Grafo* grafo){
+    for(int j = 0; solucao[j]!= -1; j++){
+        printf("%d ",solucao[j]);
+    }    
+}
+
+
+void imprimirElemsPopulacao(int** populacao, Grafo* grafo){
     int tamPop = retornaNCidades(grafo)*2;
-    ListaPopulacao* poplist = criarPopulacaoInicial(entrada, grafo, tamPop);
-    clock_t start_t, end_t;
-    start_t = clock();
-    double total_t;
-    double currentMutatProb = probMutate;
-    ListaPonto* solutionAtIndex = NULL;
-    ListaPonto* bestSolutionAtual = NULL;
-    ListaPonto* bestSolutionGlobal = NULL;  
-    double bestFitAtual = 999999;
-    double bestFitGlobal = 999999;
-    double fitAtIndex = 0;
-    double time_to_best_solution = 0;
-
-    int index_geracao_atual = 0;
-    int iteracoes_sem_melhora = 0;
-    int num_iteracoes_melhor_solucao = 0;
-
-    
-    while(1){
-        index_geracao_atual++;
-
-        poplist = SelectApplyCrossoverMutateAndAppendToNewPop(entrada, currentMutatProb, grafo, poplist);
-
-        for(int i = 0; i< tamPop; i++){
-            solutionAtIndex = retornaSolucaoNoIndexDaPopulacao(i, poplist);
-            fitAtIndex = fitness(solutionAtIndex, grafo);
-            if(fitAtIndex < bestFitAtual){
-                bestFitAtual = fitAtIndex;
-                bestSolutionAtual = solutionAtIndex;
-            }
+    for(int i =0 ; i < tamPop; i++){
+        for(int j = 0; populacao[i][j]!= -1; j++){
+            printf("%d, ",populacao[i][j]);
         }
-        if(bestFitAtual >= bestFitGlobal){
-            iteracoes_sem_melhora++;
-            currentMutatProb += 0.01;
-        }else{
-            bestSolutionGlobal = bestSolutionAtual;
-            bestFitGlobal = bestFitAtual;
-            iteracoes_sem_melhora = 0;
-            num_iteracoes_melhor_solucao = index_geracao_atual;
-            currentMutatProb = probMutate;
-            end_t = clock();
-            total_t = (double)end_t - (double)start_t;
-            total_t = (total_t/ CLOCKS_PER_SEC);
-            time_to_best_solution = total_t;
-        }
-
-        end_t = clock();
-        total_t = (double)end_t - (double)start_t;
-        total_t = (total_t/ CLOCKS_PER_SEC);
-        if (total_t >= timeToExec){
-            printf("Total time taken by CPU: %lf\n", total_t ); //Em microsegundos (10^-6)
-            break;            
-        }
-
+        printf("\n");
     }
-    printf("-----------------------------------------------------------------------------\n");
-    printf("fitness melhor entre todas gerações: %lf -- melhor fitness atual: %lf \n",bestFitGlobal, bestFitAtual);
-    printf("num de iterações: %d, iterações sem melhora: %d, iterações pra melhor solução: %d, tempo de exc da melhor solução: %lf \n", index_geracao_atual, iteracoes_sem_melhora, num_iteracoes_melhor_solucao, time_to_best_solution);
-    printf("-----------------------------------------------------------------------------\n");
-    imprimeListaPonto(bestSolutionGlobal);
-
-    destroiPopulacao(poplist);
-
-    return bestSolutionGlobal;
-
 }
 
 
-void imprimePopulation(ListaPopulacao* pop){
-    Celula* p;
-    Celula* t;
-    p = pop->prim;
-    int len = 0;
-    printf("[ ");
-    while(p!=NULL){
-        t = p->prox;
-        imprimeListaPonto(p->listap);
-        p = t;
-        
-        len++;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void destroiPopulacao(int** populacao, Grafo* grafo){
+    int tamPop = retornaNCidades(grafo)*2;
+    for(int i =0 ; i < tamPop; i++){
+        free(populacao[i]);
     }
-    printf("]\n");
-    // printf("] len:%d \n",len);
+    free(populacao);
+
 }

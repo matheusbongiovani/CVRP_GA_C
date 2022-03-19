@@ -8,6 +8,6 @@
 #include "grafo.h"
 
 FILE* inicializaArquivo(FILE* file, char* nomeArq);
-void leArquivo(FILE* file, char* buffer, size_t bufsize, ListaPonto* lista, Grafo* grafo);
+void leArquivo(FILE* file, char* buffer, size_t bufsize, VetorPontos* vet, Grafo* grafo);
 
 #endif // LEITURA_H

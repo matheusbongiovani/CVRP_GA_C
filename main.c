@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "leitura.h"
 #include "ponto.h"
 #include "vetorPontos.h"
 #include "grafo.h"
 #include "genetics.h"
-#include <time.h>
 
 char* defineBuffer (FILE* file, size_t bufsize);
 
@@ -29,31 +29,28 @@ int main(int argc, char** argv) {
     char* buffer = defineBuffer(file, bufsize);
 
     // Inicializa lista que guarda todos os pontos
-    // AO INVÉS DE LISTA, USAR VET[N+(k*2)], o VET[entrada] eh fixo!
-    vetorPontos* vetorPontosEntrada = inicializaVetorPonto();
+    VetorPontos* vetorPontosEntrada = inicializaVetorPonto();
 
     // Inicializa grafo que conterá informações lidas 
     Grafo* grafo = criaGrafo();
 
     // Lê o arquivo e preenche a lista de pontos com todos os pontos(cidades), suas coordenadas e demandas 
-    leArquivo(file, buffer, bufsize, listaEntrada, grafo);
+    leArquivo(file, buffer, bufsize, vetorPontosEntrada, grafo);
 
     // Geração da matriz que guarda distancia entre cidades 
-    geraMatrizDistancias(grafo, listaEntrada);
+    geraMatrizDistancias(grafo, vetorPontosEntrada);
 //----------------------------------------------------------------------
 
-    // JÁ QUE NÃO É LISTA, TER QUE FICAR USANDO ARITMÉTICA DE PONTEIROS...?
-    imprimeListaPonto(listaEntrada);
-
-    int tamEntrada = retornaNCidades(grafo)*2; // TAM DA POPULAÇÃO
+    // imprimeVetPtsInicial(vetorPontosEntrada);
 
 
+    int vetTamMax = retornaNCidades(grafo)+(retornaNVeiculos(grafo)*2); // TAM DA POPULAÇÃO
 
 
 
+    int** populacaoInicial = criarPopulacaoInicial(vetorPontosEntrada, grafo);
 
-
-
+    imprimirElemsPopulacao(populacaoInicial, grafo);
 
 
 
@@ -62,46 +59,9 @@ int main(int argc, char** argv) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    destroiPopulacao(populacaoInicial, grafo);
+    destroiGrafo(grafo);
+    destroiVetPtsEntrada(vetorPontosEntrada);
 
 
 
