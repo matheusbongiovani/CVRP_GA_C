@@ -11,7 +11,9 @@ int* shuffleVetInt(int* solucao, Grafo* grafo);
 int* removeZerosNaSolu(int* solucao, Grafo* grafo);
 int* removeZerosDoLado(int* solucao);
 
-// double fitness(int* solucao, Grafo* grafo);
+double fitness(int* solucao, Grafo* grafo, VetorPontos* entrada);
+
+
 
 int* criarSolucaoInt(VetorPontos* vet, Grafo* grafo);
 int** criarPopulacaoInicial(VetorPontos* vet, Grafo* grafo);

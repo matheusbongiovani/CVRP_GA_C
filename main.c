@@ -29,45 +29,34 @@ int main(int argc, char** argv) {
     char* buffer = defineBuffer(file, bufsize);
 
     // Inicializa lista que guarda todos os pontos
-    VetorPontos* vetorPontosEntrada = inicializaVetorPonto();
+    VetorPontos* entrada = inicializaVetorPonto();
 
     // Inicializa grafo que conterá informações lidas 
     Grafo* grafo = criaGrafo();
 
     // Lê o arquivo e preenche a lista de pontos com todos os pontos(cidades), suas coordenadas e demandas 
-    leArquivo(file, buffer, bufsize, vetorPontosEntrada, grafo);
+    leArquivo(file, buffer, bufsize, entrada, grafo);
 
     // Geração da matriz que guarda distancia entre cidades 
-    geraMatrizDistancias(grafo, vetorPontosEntrada);
+    geraMatrizDistancias(grafo, entrada);
 //----------------------------------------------------------------------
 
-    // imprimeVetPtsInicial(vetorPontosEntrada);
+    // imprimeVetPtsInicial(entrada);
 
 
     int vetTamMax = retornaNCidades(grafo)+(retornaNVeiculos(grafo)*2); // TAM DA POPULAÇÃO
 
+    int** populacaoInicial = criarPopulacaoInicial(entrada, grafo);    
+    // imprimirElemsPopulacao(populacaoInicial, grafo);
 
 
-    int** populacaoInicial = criarPopulacaoInicial(vetorPontosEntrada, grafo);
-
-
-    removeZerosNaSolu(populacaoInicial[0], grafo);
-
-    imprimirElemsPopulacao(populacaoInicial, grafo);
-
-    int zeroos[] = {0, 0, 0, 1, 2, 3, 0, 0, 0, 0, 0, 0, 0, 20, 0, 0, 5, 4, 8, 7, 6, 0, 0, 10, 12, 11, 0, 0, 0, -1};
-
-
-    removeZerosDoLado(zeroos);
-
-    imprimirSolInt(zeroos);
 
 
 
 
     destroiPopulacao(populacaoInicial, grafo);
     destroiGrafo(grafo);
-    destroiVetPtsEntrada(vetorPontosEntrada);
+    destroiVetPtsEntrada(entrada);
 
 
 

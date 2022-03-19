@@ -41,6 +41,54 @@ int* removeZerosDoLado(int* solucao){
     return solucao;
 }
 
+int contarDepositosNaSolu(int* solucao){
+    int count = 0;
+    for(int i = 0; solucao[i]!= -1; i++){
+        if (solucao[i] == 0)
+            count++;
+    }
+    return count;   
+}
+
+
+double fitness(int* solucao, Grafo* grafo, VetorPontos* entrada){
+    removeZerosDoLado(solucao);
+    double cost = 0;
+    int i = 0;
+
+    cost += retornaDistancia(grafo, 0, solucao[0]); //1º nó da 1ª rota
+
+    for(i =0; solucao[i] != -1; i++){
+        cost += retornaDistancia(grafo, solucao[i], solucao[i+1]);
+        if(solucao[i+2] == -1){
+            i++;
+            break;
+        }
+    }
+    cost += retornaDistancia(grafo, solucao[i], 0);
+
+    int numDepot = contarDepositosNaSolu(solucao);
+
+    if (numDepot+1 != retornaNVeiculos(grafo)){
+        int j = 0;
+        double capMaxVeic = retornaCapacidadeMaxVeiculo(grafo);
+        double weight = 0;
+        double penalty = 0;
+        for(j = 0; solucao[j] != -1; j++){
+            weight += retornaDemanda(procuraPontoPeloId(solucao[j], entrada));
+            if(solucao[j]==0){
+                if (weight > capMaxVeic){
+                    // penalty*50 performed better
+                    penalty += (weight - capMaxVeic)*50;
+                    cost += penalty;
+                    weight = 0;
+                }
+            }
+        }
+    }
+
+    return cost;
+}
 
 
 
@@ -121,7 +169,7 @@ int** criarPopulacaoInicial(VetorPontos* entrada, Grafo* grafo){
 
 void imprimirSolInt(int* solucao){
     for(int j = 0; solucao[j]!= -1; j++){
-        printf("%d ",solucao[j]);
+        printf("%d, ",solucao[j]);
     }    
 }
 
