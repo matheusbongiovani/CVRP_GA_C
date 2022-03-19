@@ -13,8 +13,36 @@ int* shuffleVetInt(int* solucao, Grafo* grafo){
         solucao[j] = temp;    
     }
     return solucao;
-
 }
+
+int* removeZerosNaSolu(int* solucao, Grafo* grafo){
+    int i, j;
+    int vetTamMax = retornaNCidades(grafo)+(retornaNVeiculos(grafo)*2)-1;
+    for(i = 0; solucao[i]!= -1; i++){
+        if (solucao[i] == 0){
+            for(j = i; solucao[j] != -1 ; j++){
+                solucao[j] = solucao[j+1];
+            }
+        }
+    }
+    return solucao;
+}
+
+int* removeZerosDoLado(int* solucao){
+    int i, j;
+    for(i = 0; solucao[i]!= -1; i++){
+        if (solucao[i] == 0 && solucao[i+1]== 0){
+            for(j = i; solucao[j] != -1 ; j++){
+                solucao[j] = solucao[j+1];
+                i--;
+            }
+        }
+    }
+    return solucao;
+}
+
+
+
 
 int* distribuirZerosNaSolu(int* solucao, Grafo* grafo, VetorPontos* entrada){
     int i = 0;
@@ -86,13 +114,12 @@ int** criarPopulacaoInicial(VetorPontos* entrada, Grafo* grafo){
         populacao[i] = novoElem;
     }
 
-
     return populacao;
 }
 
 
 
-void imprimirSolInt(int* solucao, Grafo* grafo){
+void imprimirSolInt(int* solucao){
     for(int j = 0; solucao[j]!= -1; j++){
         printf("%d ",solucao[j]);
     }    

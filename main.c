@@ -50,11 +50,17 @@ int main(int argc, char** argv) {
 
     int** populacaoInicial = criarPopulacaoInicial(vetorPontosEntrada, grafo);
 
+
+    removeZerosNaSolu(populacaoInicial[0], grafo);
+
     imprimirElemsPopulacao(populacaoInicial, grafo);
 
+    int zeroos[] = {0, 0, 0, 1, 2, 3, 0, 0, 0, 0, 0, 0, 0, 20, 0, 0, 5, 4, 8, 7, 6, 0, 0, 10, 12, 11, 0, 0, 0, -1};
 
 
+    removeZerosDoLado(zeroos);
 
+    imprimirSolInt(zeroos);
 
 
 
