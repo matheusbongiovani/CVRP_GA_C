@@ -166,6 +166,12 @@ int** criarPopulacaoInicial(VetorPontos* entrada, Grafo* grafo){
 }
 
 
+int tamanhoSolucao(int* solucao){
+    int j = 0;
+    for(j = 0; solucao[j]!= -1; j++);
+
+    return j;
+}
 
 void imprimirSolInt(int* solucao){
     for(int j = 0; solucao[j]!= -1; j++){
@@ -184,6 +190,40 @@ void imprimirElemsPopulacao(int** populacao, Grafo* grafo){
     }
 }
 
+int* reverseEntreCuts(int* solucao, int cut1, int cut2){
+    int N = tamanhoSolucao(solucao);
+    int elem[N];
+    int toReverse[(cut2-cut1)+1];
+    int i = 0;
+    int j = 0;
+
+    for(i = cut2, j = 0; i >= cut1; i--, j++){
+        toReverse[j] = solucao[i];
+    }
+
+    for(i = cut1, j = 0; i <=cut2; i++, j++){
+        solucao[i] = toReverse[j];
+    }
+
+    return solucao;
+}
+
+
+
+int* mutacao(int* solucao, double probMutate, Grafo* grafo, VetorPontos* entrada){
+    removeZerosNaSolu(solucao, grafo);
+    int prob0a100 = rand() % 100;
+    double rprob = (double)prob0a100/100;
+    if(rprob < probMutate){
+        int tam = tamanhoSolucao(solucao)-1;
+        int cut1 = rand() % tam;
+        int cut2 = rand() % (tam - cut1);
+        cut2 += cut1 +1;
+        reverseEntreCuts(solucao, cut1, cut2);
+    }
+    distribuirZerosNaSolu(solucao, grafo, entrada);
+    return solucao;
+}
 
 
 

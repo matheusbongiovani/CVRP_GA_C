@@ -46,12 +46,32 @@ int main(int argc, char** argv) {
 
     int vetTamMax = retornaNCidades(grafo)+(retornaNVeiculos(grafo)*2); // TAM DA POPULAÇÃO
 
-    int** populacaoInicial = criarPopulacaoInicial(entrada, grafo);    
+    int** populacaoInicial = criarPopulacaoInicial(entrada, grafo);
+
+
+    int* sol1 = criarSolucaoInt(entrada, grafo);
+    distribuirZerosNaSolu(sol1, grafo, entrada);
+
+    
+    imprimirSolInt(sol1);
+    printf("\nantes ^^^... dps: \n");
+
+    mutacao(sol1, 0.99, grafo, entrada);
+
+    imprimirSolInt(sol1);
+
+
+
+
+
+    int tsmdfsa = tamanhoSolucao(sol1);
+
+
+    double fitva = fitness(sol1, grafo, entrada);
+
+    // free(sol1);
+
     // imprimirElemsPopulacao(populacaoInicial, grafo);
-
-
-
-
 
 
     destroiPopulacao(populacaoInicial, grafo);
