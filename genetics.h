@@ -11,6 +11,7 @@ int* shuffleVetInt(int* solucao, Grafo* grafo);
 int* removeZerosNaSolu(int* solucao, Grafo* grafo);
 int* removeZerosDoLado(int* solucao);
 int* distribuirZerosNaSoluInicial(int* solucao, Grafo* grafo, VetorPontos* entrada);
+void distribuirZerosRecorrente(int* solucao, Grafo* grafo, VetorPontos* entrada);
 int* removeIdNaPos(int pos, int* solucao);
 void insereZeroAntesPos(int pos, int* solucao, Grafo* grafo);
 
