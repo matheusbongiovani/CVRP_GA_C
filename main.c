@@ -58,17 +58,21 @@ int main(int argc, char** argv) {
         // imprimirSolInt(sol1);
         // int tsmdfsa = tamanhoSolucao(sol1);
         // double fitva = fitness(sol1, grafo, entrada);
+        // // printf("%d \n", idEstaContidoNaSolu(2,sol1));
+
         // free(sol1);
 
 
-    // int** oldPop = criarPopulacaoInicial(entrada, grafo);
+
+    int** oldPop = criarPopulacaoInicial(entrada, grafo);
+
     // imprimirElemsPopulacao(oldPop, grafo);
     // destroiPopulacao(oldPop, grafo);
 
 
-    // int** newPop = criarNOVApopulacao(oldPop, 0.05, grafo, entrada);
-    // imprimirElemsPopulacao(newPop, grafo);
-    // destroiPopulacao(newPop, grafo);
+    int** newPop = criarNOVApopulacao(oldPop, 0.05, grafo, entrada);
+    imprimirElemsPopulacao(newPop, grafo);
+    destroiPopulacao(newPop, grafo);
 
 
 

@@ -14,6 +14,7 @@ int* distribuirZerosNaSoluInicial(int* solucao, Grafo* grafo, VetorPontos* entra
 void distribuirZerosRecorrente(int* solucao, Grafo* grafo, VetorPontos* entrada);
 int* removeIdNaPos(int pos, int* solucao);
 void insereZeroAntesPos(int pos, int* solucao, Grafo* grafo);
+int idEstaContidoNaSolu(int id, int* solucao);
 
 int tamanhoSolucao(int* solucao);
 int* reverseEntreCuts(int* solucao, int cut1, int cut2);

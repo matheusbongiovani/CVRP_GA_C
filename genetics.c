@@ -18,9 +18,11 @@ int* shuffleVetInt(int* solucao, Grafo* grafo){
 int idEstaContidoNaSolu(int id, int* solucao){
     int contido = 0;
     for(int i = 0; solucao[i]!= -1; i++){
-        if(solucao[i]==id)
+        int blub;
+        if(solucao[i]==id){
             contido = 1;
             break;
+        }
     }
     return contido;
 }
