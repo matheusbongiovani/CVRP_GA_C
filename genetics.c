@@ -40,13 +40,14 @@ int* removeZerosNaSolu(int* solucao, Grafo* grafo){
     return solucao;
 }
 
+///////////////need fix/////////////////////
 int* removeZerosDoLado(int* solucao){
     int i, j;
     for(i = 0; solucao[i]!= -1; i++){
         if (solucao[i] == 0 && solucao[i+1]== 0){
             for(j = i; solucao[j] != -1 ; j++){
                 solucao[j] = solucao[j+1];
-                i--;
+                // i--;
             }
         }
     }
@@ -140,7 +141,7 @@ void distribuirZerosRecorrente(int* solucao, Grafo* grafo, VetorPontos* entrada)
     while(i < tamanhoSolucao(solucao)){
         demandaCidadeI = retornaDemanda(procuraPontoPeloId(solucao[i], entrada));
         total += demandaCidadeI;
-        if(total > kCapMax){
+        if(total > kCapMax && total!= 0){
             insereZeroAntesPos(i, solucao, grafo);
             total = 0;
         }
