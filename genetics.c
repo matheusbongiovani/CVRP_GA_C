@@ -225,10 +225,10 @@ int* tornarFactivel(int* solucao, Grafo* grafo, VetorPontos* entrada){
 }
 
 
-int* criarSolucaoInt(VetorPontos* vet, Grafo* grafo){
+int* criarSolucaoInt(VetorPontos* entrada, Grafo* grafo){
     int vetTamMax = retornaNCidades(grafo)+(retornaNVeiculos(grafo)*2);
     int* solucao = (int*)malloc(sizeof(int)*vetTamMax);
-    for(int i =0; i < (vetPtsTamInicial(vet)-1); i++){
+    for(int i =0; i < (vetPtsTamInicial(entrada)-1); i++){
         solucao[i] = i+1;
     }
     return solucao;
@@ -391,7 +391,7 @@ int** criarNOVApopulacao(int** oldPop, double prob_mutate, Grafo* grafo, VetorPo
 }
 
 
-int* runGeneticAlgorithm(double timeToExec, double probMutate, VetorPontos* entrada, Grafo* grafo){
+void runGeneticAlgorithm(double timeToExec, double probMutate, VetorPontos* entrada, Grafo* grafo){
     int tamPop = retornaNCidades(grafo)*2;
     int** populacao = criarPopulacaoInicial(entrada, grafo);
     clock_t start_t, end_t;
@@ -442,7 +442,8 @@ int* runGeneticAlgorithm(double timeToExec, double probMutate, VetorPontos* entr
                 populacao = criarPopulacaoInicial(entrada, grafo);
             }
         }else{
-            bestSolutionGlobal = bestSolutionAtual;
+            free(bestSolutionGlobal);
+            bestSolutionGlobal = duplicarSolucaoInt(bestSolutionAtual, grafo);
             bestFitGlobal = bestFitAtual;
             iteracoes_sem_melhora = 0;
             num_iteracoes_melhor_solucao = index_geracao_atual;
@@ -463,24 +464,18 @@ int* runGeneticAlgorithm(double timeToExec, double probMutate, VetorPontos* entr
 
     }
 
-    printf("nº de Hard resets: %d\n",numHardReset);
-
-
     printf("------------------------------------------------------------------------------------------------------------------------------------\n");
-    printf("fitness melhor entre todas gerações: %lf -- melhor fitness atual: %lf \n",bestFitGlobal, bestFitAtual);
+    printf("fitness melhor entre todas gerações: %lf -- melhor fitness atual: %lf -- nº de Hard Resests na população: %d  \n",bestFitGlobal, bestFitAtual, numHardReset);
     printf("num de iterações: %d, iterações sem melhora: %d, iterações pra melhor solução: %d, tempo de exc da melhor solução: %lf \n", index_geracao_atual, iteracoes_sem_melhora, num_iteracoes_melhor_solucao, time_to_best_solution);
     printf("------------------------------------------------------------------------------------------------------------------------------------\nSOLUÇÃO: ");
-
-
-
 
 
     imprimirSolInt(bestSolutionGlobal);
     imprimeDemandaRotas(bestSolutionGlobal, entrada, grafo);
 
+    free(bestSolutionGlobal);
     destroiPopulacao(populacao, grafo);
 
-    return bestSolutionGlobal;
 }
 
 

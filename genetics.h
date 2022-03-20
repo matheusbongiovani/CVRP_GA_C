@@ -28,10 +28,10 @@ double fitness(int* solucao, Grafo* grafo, VetorPontos* entrada);
 int* tornarFactivel(int* solucao, Grafo* grafo, VetorPontos* entrada);
 
 
-int* criarSolucaoInt(VetorPontos* vet, Grafo* grafo);
-int** criarPopulacaoInicial(VetorPontos* vet, Grafo* grafo);
+int* criarSolucaoInt(VetorPontos* entrada, Grafo* grafo);
+int** criarPopulacaoInicial(VetorPontos* entrada, Grafo* grafo);
 int** criarNOVApopulacao(int** oldPop, double prob_mutate, Grafo* grafo, VetorPontos* entrada);
-int* runGeneticAlgorithm(double timeToExec, double probMutate, VetorPontos* entrada, Grafo* grafo);
+void runGeneticAlgorithm(double timeToExec, double probMutate, VetorPontos* entrada, Grafo* grafo);
 
 
 
