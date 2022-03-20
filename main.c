@@ -39,36 +39,14 @@ int main(int argc, char** argv) {
     geraMatrizDistancias(grafo, entrada);
 //----------------------------------------------------------------------
 
-    // imprimeVetPtsInicial(entrada);
 
 
-        // int* sol1 = criarSolucaoInt(entrada, grafo);
-        // distribuirZerosNaSoluInicial(sol1, grafo, entrada);
-        // imprimirSolInt(sol1);
-        // printf("\nantes ^^^... dps: \n");
-        // // removeIdNaPos(0, sol1);
-        // // insereZeroAntesPos(0, sol1, grafo);
-        // // removeZerosDoLado(sol1);
-        // imprimirSolInt(sol1);
-        // int tsmdfsa = tamanhoSolucao(sol1);
-        // double fitva = fitness(sol1, grafo, entrada);
-        // // printf("%d \n", idEstaContidoNaSolu(2,sol1));
-
-        // free(sol1);
-
-
-
-    // int** oldPop = criarPopulacaoInicial(entrada, grafo);
-
-    // // imprimirElemsPopulacao(oldPop, grafo);
-    // // destroiPopulacao(oldPop, grafo);
-
-
-    // int** newPop = criarNOVApopulacao(oldPop, 0.05, grafo, entrada);
-    // imprimirElemsPopulacao(newPop, grafo);
-    // destroiPopulacao(newPop, grafo);
-
+    // EXECUTAR ALGORITMO: void runGeneticAlgorithm(timeToExec,probMutate, entrada, grafo)
     runGeneticAlgorithm(10, 0.05, entrada, grafo);
+
+
+
+//----------------------------------------------------------------------
 
 
 
@@ -76,20 +54,3 @@ int main(int argc, char** argv) {
     destroiVetPtsEntrada(entrada);
     return 0;
 }
-
-
-
-
-    // // //////////////// FUNCTION LOOP TIME
-    // end_t = clock();
-    // while(1){
-    //     end_t = clock();
-    //     total_t = (double)end_t - (double)start_t;
-    //     total_t =  (total_t/ CLOCKS_PER_SEC); // Sem funções printf(), o tempo dá certo
-    //     // printf("current elapseed: %lf\n", total_t );
-    //     if (total_t > 0.5){
-    //         // printf("Total time taken by CPU: %lf\n", total_t ); //Em microsegundos (10^-6)
-    //         // printf("Exiting of the program...\n");
-    //         break;
-    //     }
-    // }
