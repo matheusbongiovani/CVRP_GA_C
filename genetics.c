@@ -79,6 +79,18 @@ int contarDepositosNaSolu(int* solucao){
     return count;   
 }
 
+void insereZeroAntesPos(int pos, int* solucao, Grafo* grafo){
+    int vetTamMax = retornaNCidades(grafo)+(retornaNVeiculos(grafo)*2)-1;
+    int j;
+
+    for(j = vetTamMax; j >= pos; j--){
+        solucao[j+1] = solucao[j];
+    }
+    solucao[pos] = 0;
+
+}
+
+
 int tamanhoSolucao(int* solucao){
     int j = 0;
     for(j = 0; solucao[j]!= -1; j++);
@@ -87,7 +99,7 @@ int tamanhoSolucao(int* solucao){
 }
 
 
-int* distribuirZerosNaSolu(int* solucao, Grafo* grafo, VetorPontos* entrada){
+int* distribuirZerosNaSoluInicial(int* solucao, Grafo* grafo, VetorPontos* entrada){
     int i = 0;
     double cargaAtual = 0;
     double reachedTotalDemand = 0;
@@ -116,6 +128,32 @@ int* distribuirZerosNaSolu(int* solucao, Grafo* grafo, VetorPontos* entrada){
     solucao[i] = -1;   // delimitador de fim da solucao
     return solucao;
 }
+
+// void distribuirZerosRecorrente(int* solucao, Grafo* grafo, VetorPontos* entrada){
+//     double total = 0;
+//     double demandaCidadeI = 0;
+//     int i = 0;
+//     double kCapMax = retornaCapacidadeMaxVeiculo(grafo);
+//     Ponto* depot = procuraPontoPeloId(0,entradaInicial);
+
+//     while(i < tamanhoSolucao(solucao)){
+//         demandaCidadeI = retornaDemanda(retornaPontoPosicaoNaLista(i,solucao));
+//         total += demandaCidadeI;
+//         if(total > kCapMax){
+//             insereDepotAantesPos(i, depot, solucao);
+//             total = 0;
+//         }
+//         i++;
+//     }    
+
+
+
+
+
+
+// }
+
+
 
 double fitness(int* solucao, Grafo* grafo, VetorPontos* entrada){
     removeZerosDoLado(solucao);
@@ -190,7 +228,7 @@ int* tornarFactivel(int* solucao, Grafo* grafo, VetorPontos* entrada){
                 break;
         }
     }
-    distribuirZerosNaSolu(solucao, grafo, entrada);
+    distribuirZerosNaSoluInicial(solucao, grafo, entrada);
 
     return solucao;
 }
@@ -308,12 +346,12 @@ int** crossover(int* p1, int* p2, Grafo* grafo, VetorPontos* entrada){
         f2[i] = entreCuts1[j];
     }
 
-    distribuirZerosNaSolu(p1, grafo, entrada);
-    distribuirZerosNaSolu(p2, grafo, entrada);
+    distribuirZerosNaSoluInicial(p1, grafo, entrada);
+    distribuirZerosNaSoluInicial(p2, grafo, entrada);
 
     int** childs = (int**)malloc(2*sizeof(int*));
-    distribuirZerosNaSolu(f1, grafo, entrada);
-    distribuirZerosNaSolu(f2, grafo, entrada);
+    distribuirZerosNaSoluInicial(f1, grafo, entrada);
+    distribuirZerosNaSoluInicial(f2, grafo, entrada);
     childs[0] = f1;
     childs[1] = f2;
     return childs;
@@ -328,7 +366,7 @@ int** criarPopulacaoInicial(VetorPontos* entrada, Grafo* grafo){
     for(int i = 0; i < tamPop; i++){
         int* novoElem = criarSolucaoInt(entrada, grafo);
         shuffleVetInt(novoElem, grafo);
-        distribuirZerosNaSolu(novoElem, grafo, entrada);
+        distribuirZerosNaSoluInicial(novoElem, grafo, entrada);
         // mutacao(novoElem, 0.99);
         populacao[i] = novoElem;
     }

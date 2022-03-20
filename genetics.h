@@ -10,8 +10,9 @@
 int* shuffleVetInt(int* solucao, Grafo* grafo);
 int* removeZerosNaSolu(int* solucao, Grafo* grafo);
 int* removeZerosDoLado(int* solucao);
-int* distribuirZerosNaSolu(int* solucao, Grafo* grafo, VetorPontos* entrada);
+int* distribuirZerosNaSoluInicial(int* solucao, Grafo* grafo, VetorPontos* entrada);
 int* removeIdNaPos(int pos, int* solucao);
+void insereZeroAntesPos(int pos, int* solucao, Grafo* grafo);
 
 int tamanhoSolucao(int* solucao);
 int* reverseEntreCuts(int* solucao, int cut1, int cut2);

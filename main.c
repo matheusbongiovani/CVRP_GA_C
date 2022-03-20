@@ -49,10 +49,11 @@ int main(int argc, char** argv) {
 
 
     // int* sol1 = criarSolucaoInt(entrada, grafo);
-    // distribuirZerosNaSolu(sol1, grafo, entrada);
+    // distribuirZerosNaSoluInicial(sol1, grafo, entrada);
     // imprimirSolInt(sol1);
     // printf("\nantes ^^^... dps: \n");
     // removeIdNaPos(0, sol1);
+    // // insereZeroAntesPos(2, sol1, grafo);
     // Ponto* aufdsf =  procuraPontoPeloId(0, entrada);
     // imprimirSolInt(sol1);
     // int tsmdfsa = tamanhoSolucao(sol1);
@@ -61,18 +62,17 @@ int main(int argc, char** argv) {
 
 
     int** oldPop = criarPopulacaoInicial(entrada, grafo);
-
-    int** newPop = criarNOVApopulacao(oldPop, 0.05, grafo, entrada);
-
-    imprimirElemsPopulacao(newPop, grafo);
+    imprimirElemsPopulacao(oldPop, grafo);
+    destroiPopulacao(oldPop, grafo);
 
 
-    destroiPopulacao(newPop, grafo);
+    // int** newPop = criarNOVApopulacao(oldPop, 0.05, grafo, entrada);
+    // imprimirElemsPopulacao(newPop, grafo);
+    // destroiPopulacao(newPop, grafo);
 
 
-
-    destroiGrafo(grafo);
-    destroiVetPtsEntrada(entrada);
+    // destroiGrafo(grafo);
+    // destroiVetPtsEntrada(entrada);
 
 
 
