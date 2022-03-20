@@ -8,8 +8,6 @@
 #include "grafo.h"
 #include "genetics.h"
 
-char* defineBuffer (FILE* file, size_t bufsize);
-
 int main(int argc, char** argv) {
     if (argc != 2){
         printf("Sintaxe: ./main A-n32-k5.vrp\n");
@@ -83,15 +81,7 @@ int main(int argc, char** argv) {
     return 0;
 }
 
-char* defineBuffer (FILE* file, size_t bufsize){
-    // Lê a primeira linha do arquivo e guarda no buffer 
 
-    char* buffer = NULL;
-    buffer = (char*)malloc(bufsize* sizeof(char));
-    getline(&buffer, &bufsize, file);
-
-    return buffer;
-}
 
 
     // // //////////////// FUNCTION LOOP TIME

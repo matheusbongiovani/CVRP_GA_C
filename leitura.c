@@ -1,5 +1,15 @@
 #include "leitura.h"
 
+char* defineBuffer (FILE* file, size_t bufsize){
+    // Lê a primeira linha do arquivo e guarda no buffer 
+
+    char* buffer = NULL;
+    buffer = (char*)malloc(bufsize* sizeof(char));
+    getline(&buffer, &bufsize, file);
+
+    return buffer;
+}
+
 FILE *inicializaArquivo(FILE *file, char *nomeArq)
 {
     file = fopen(nomeArq, "r");
