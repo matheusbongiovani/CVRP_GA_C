@@ -11,22 +11,23 @@ int* shuffleVetInt(int* solucao, Grafo* grafo);
 int* removeZerosNaSolu(int* solucao, Grafo* grafo);
 int* removeZerosDoLado(int* solucao);
 int* distribuirZerosNaSolu(int* solucao, Grafo* grafo, VetorPontos* entrada);
-
+int* removeIdNaPos(int pos, int* solucao);
 
 int tamanhoSolucao(int* solucao);
 int* reverseEntreCuts(int* solucao, int cut1, int cut2);
-int* mutacao(int* solucao, double probMutate, Grafo* grafo, VetorPontos* entrada);
+int* mutacao(int* solucao, double probMutate);
+int** crossover(int* p1, int* p2, Grafo* grafo, VetorPontos* entrada);
 
 
 
 
 double fitness(int* solucao, Grafo* grafo, VetorPontos* entrada);
-
+int* tornarFactivel(int* solucao, Grafo* grafo, VetorPontos* entrada);
 
 
 int* criarSolucaoInt(VetorPontos* vet, Grafo* grafo);
 int** criarPopulacaoInicial(VetorPontos* vet, Grafo* grafo);
-
+int** criarNOVApopulacao(int** oldPop, double prob_mutate, Grafo* grafo, VetorPontos* entrada);
 
 
 

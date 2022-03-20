@@ -41,40 +41,36 @@ int main(int argc, char** argv) {
     geraMatrizDistancias(grafo, entrada);
 //----------------------------------------------------------------------
 
-    // imprimeVetPtsInicial(entrada);
+    imprimeVetPtsInicial(entrada);
 
 
     int vetTamMax = retornaNCidades(grafo)+(retornaNVeiculos(grafo)*2); // TAM DA POPULAÇÃO
 
-    int** populacaoInicial = criarPopulacaoInicial(entrada, grafo);
 
 
-    int* sol1 = criarSolucaoInt(entrada, grafo);
-    distribuirZerosNaSolu(sol1, grafo, entrada);
-
-    
-    imprimirSolInt(sol1);
-    printf("\nantes ^^^... dps: \n");
-
-    mutacao(sol1, 0.99, grafo, entrada);
-
-    imprimirSolInt(sol1);
-
-
-
-
-
-    int tsmdfsa = tamanhoSolucao(sol1);
-
-
-    double fitva = fitness(sol1, grafo, entrada);
-
+    // int* sol1 = criarSolucaoInt(entrada, grafo);
+    // distribuirZerosNaSolu(sol1, grafo, entrada);
+    // imprimirSolInt(sol1);
+    // printf("\nantes ^^^... dps: \n");
+    // removeIdNaPos(0, sol1);
+    // Ponto* aufdsf =  procuraPontoPeloId(0, entrada);
+    // imprimirSolInt(sol1);
+    // int tsmdfsa = tamanhoSolucao(sol1);
+    // double fitva = fitness(sol1, grafo, entrada);
     // free(sol1);
 
-    // imprimirElemsPopulacao(populacaoInicial, grafo);
+
+    int** oldPop = criarPopulacaoInicial(entrada, grafo);
+
+    int** newPop = criarNOVApopulacao(oldPop, 0.05, grafo, entrada);
+
+    imprimirElemsPopulacao(newPop, grafo);
 
 
-    destroiPopulacao(populacaoInicial, grafo);
+    destroiPopulacao(newPop, grafo);
+
+
+
     destroiGrafo(grafo);
     destroiVetPtsEntrada(entrada);
 
