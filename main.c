@@ -54,7 +54,7 @@ int main(int argc, char** argv) {
         // printf("\nantes ^^^... dps: \n");
         // // removeIdNaPos(0, sol1);
         // // insereZeroAntesPos(0, sol1, grafo);
-        // Ponto* aufdsf =  procuraPontoPeloId(0, entrada);
+        // // removeZerosDoLado(sol1);
         // imprimirSolInt(sol1);
         // int tsmdfsa = tamanhoSolucao(sol1);
         // double fitva = fitness(sol1, grafo, entrada);
@@ -73,13 +73,6 @@ int main(int argc, char** argv) {
     int** newPop = criarNOVApopulacao(oldPop, 0.05, grafo, entrada);
     imprimirElemsPopulacao(newPop, grafo);
     destroiPopulacao(newPop, grafo);
-
-
-
-
-
-
-
 
 
 
