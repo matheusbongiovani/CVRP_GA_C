@@ -31,13 +31,13 @@ int* tornarFactivel(int* solucao, Grafo* grafo, VetorPontos* entrada);
 int* criarSolucaoInt(VetorPontos* vet, Grafo* grafo);
 int** criarPopulacaoInicial(VetorPontos* vet, Grafo* grafo);
 int** criarNOVApopulacao(int** oldPop, double prob_mutate, Grafo* grafo, VetorPontos* entrada);
+int* runGeneticAlgorithm(double timeToExec, double probMutate, VetorPontos* entrada, Grafo* grafo);
 
 
 
 
 
-
-
+void imprimeDemandaRotas(int* solucao, VetorPontos* entrada, Grafo* grafo);
 void imprimirSolInt(int* solucao);
 void imprimirElemsPopulacao(int** populacao, Grafo* grafo);
 

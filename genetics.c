@@ -391,7 +391,111 @@ int** criarNOVApopulacao(int** oldPop, double prob_mutate, Grafo* grafo, VetorPo
 }
 
 
+int* runGeneticAlgorithm(double timeToExec, double probMutate, VetorPontos* entrada, Grafo* grafo){
+    int tamPop = retornaNCidades(grafo)*2;
+    int** populacao = criarPopulacaoInicial(entrada, grafo);
+    clock_t start_t, end_t;
+    start_t = clock();
+    double total_t;
+    double currentMutatProb = probMutate;
+    int* solutionAtIndex = NULL;
+    int* bestSolutionAtual = NULL;
+    int* bestSolutionGlobal = NULL;  
+    double bestFitAtual = 999999;
+    double bestFitGlobal = 999999;
+    double fitAtIndex = 0;
+    double time_to_best_solution = 0;
 
+    int hardReset = 0;
+    int numHardReset = 0;
+    int resetarProbMutate = 0;
+
+    int index_geracao_atual = 0;
+    int iteracoes_sem_melhora = 0;
+    int num_iteracoes_melhor_solucao = 0;
+
+    while(1){
+        index_geracao_atual++;
+        populacao = criarNOVApopulacao(populacao, probMutate, grafo, entrada); 
+        for(int i = 0; i< tamPop; i++){
+            solutionAtIndex = populacao[i];
+            fitAtIndex = fitness(solutionAtIndex, grafo, entrada);
+            if(fitAtIndex < bestFitAtual){
+                bestFitAtual = fitAtIndex;
+                bestSolutionAtual = solutionAtIndex;
+            }
+        }
+        if(bestFitAtual >= bestFitGlobal){
+            iteracoes_sem_melhora++;
+            currentMutatProb += 0.01;
+            hardReset++;
+            resetarProbMutate++;
+            if(resetarProbMutate > 100){
+                resetarProbMutate = 0;
+                currentMutatProb = probMutate;
+            }
+            if(hardReset > 1000){
+                numHardReset++;
+                hardReset = 0;
+                currentMutatProb = probMutate;
+                destroiPopulacao(populacao, grafo);
+                populacao = criarPopulacaoInicial(entrada, grafo);
+            }
+        }else{
+            bestSolutionGlobal = bestSolutionAtual;
+            bestFitGlobal = bestFitAtual;
+            iteracoes_sem_melhora = 0;
+            num_iteracoes_melhor_solucao = index_geracao_atual;
+            currentMutatProb = probMutate;
+            end_t = clock();
+            total_t = (double)end_t - (double)start_t;
+            total_t = (total_t/ CLOCKS_PER_SEC);
+            time_to_best_solution = total_t;
+        }
+
+        end_t = clock();
+        total_t = (double)end_t - (double)start_t;
+        total_t = (total_t/ CLOCKS_PER_SEC);
+        if (total_t >= timeToExec){
+            printf("Tempo de Exc. do Algoritmo: %lf\n", total_t ); //Em microsegundos (10^-6)
+            break;            
+        }
+
+    }
+
+    printf("nº de Hard resets: %d\n",numHardReset);
+
+
+    printf("------------------------------------------------------------------------------------------------------------------------------------\n");
+    printf("fitness melhor entre todas gerações: %lf -- melhor fitness atual: %lf \n",bestFitGlobal, bestFitAtual);
+    printf("num de iterações: %d, iterações sem melhora: %d, iterações pra melhor solução: %d, tempo de exc da melhor solução: %lf \n", index_geracao_atual, iteracoes_sem_melhora, num_iteracoes_melhor_solucao, time_to_best_solution);
+    printf("------------------------------------------------------------------------------------------------------------------------------------\nSOLUÇÃO: ");
+
+
+
+
+
+    imprimirSolInt(bestSolutionGlobal);
+    imprimeDemandaRotas(bestSolutionGlobal, entrada, grafo);
+
+    destroiPopulacao(populacao, grafo);
+
+    return bestSolutionGlobal;
+}
+
+
+void imprimeDemandaRotas(int* solucao, VetorPontos* entrada, Grafo* grafo){
+    printf("Carga de cada Rota: [");
+    double cargaRota = 0;
+    for(int j = 0; solucao[j]!= -1; j++){
+        cargaRota += retornaDemanda(procuraPontoPeloId(solucao[j], entrada));
+        if(solucao[j] == 0){
+            printf(" %.2f,",cargaRota);
+            cargaRota = 0;
+        }
+    }
+    printf(" %.2f ]\n",cargaRota);       
+}
 
 
 
@@ -400,10 +504,11 @@ int** criarNOVApopulacao(int** oldPop, double prob_mutate, Grafo* grafo, VetorPo
 
 
 void imprimirSolInt(int* solucao){
+    printf("[0");
     for(int j = 0; solucao[j]!= -1; j++){
-        printf("%d, ",solucao[j]);
+        printf(" %d",solucao[j]);
     }
-    printf("\n");   
+    printf(" 0]\n");   
 }
 
 

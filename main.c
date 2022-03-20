@@ -42,10 +42,6 @@ int main(int argc, char** argv) {
     // imprimeVetPtsInicial(entrada);
 
 
-    int vetTamMax = retornaNCidades(grafo)+(retornaNVeiculos(grafo)*2); // TAM DA POPULAÇÃO
-
-
-
         // int* sol1 = criarSolucaoInt(entrada, grafo);
         // distribuirZerosNaSoluInicial(sol1, grafo, entrada);
         // imprimirSolInt(sol1);
@@ -62,17 +58,17 @@ int main(int argc, char** argv) {
 
 
 
-    int** oldPop = criarPopulacaoInicial(entrada, grafo);
+    // int** oldPop = criarPopulacaoInicial(entrada, grafo);
 
-    // imprimirElemsPopulacao(oldPop, grafo);
-    // destroiPopulacao(oldPop, grafo);
-
-
-    int** newPop = criarNOVApopulacao(oldPop, 0.05, grafo, entrada);
-    imprimirElemsPopulacao(newPop, grafo);
-    destroiPopulacao(newPop, grafo);
+    // // imprimirElemsPopulacao(oldPop, grafo);
+    // // destroiPopulacao(oldPop, grafo);
 
 
+    // int** newPop = criarNOVApopulacao(oldPop, 0.05, grafo, entrada);
+    // imprimirElemsPopulacao(newPop, grafo);
+    // destroiPopulacao(newPop, grafo);
+
+    runGeneticAlgorithm(10, 0.05, entrada, grafo);
 
 
 
