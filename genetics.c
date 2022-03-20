@@ -194,34 +194,29 @@ int* tornarFactivel(int* solucao, Grafo* grafo, VetorPontos* entrada){
 
     int nCidades = retornaNCidades(grafo);
     // boleanos para fazer ajuste de cidades repetidas e que faltam
-    int duplicados = 0;
+    int nextDup = 0;
     int i1 = 0;
     int i2 = 0;
     int cidadeId = 1; // começa pela cidade1 (desconsidera depot)
     int ajustar = 1;
     while(ajustar){
-        ajustar = 0;
         for(i1 = 0; i1< (nCidades-1); i1++){
+            nextDup = 0;
             for(i2 = 0; i2 < i1; i2++){
                 if(solucao[i1]==solucao[i2]){
-                    duplicados = 1;
                     for(cidadeId=1; cidadeId < nCidades; cidadeId++){
                         if(idEstaContidoNaSolu(cidadeId, solucao) == 0){
                             solucao[i1] = cidadeId;
-                            duplicados = 0;
                             break;
                         }
-                    if(duplicados)
-                        removeIdNaPos(i1,solucao);
                     }
-                    ajustar = 1;
+                    nextDup = 1;
                 }
-                if(ajustar)
+                if(nextDup)
                     break;
             }
-            if(ajustar)
-                break;
         }
+        ajustar = 0;
     }
     distribuirZerosRecorrente(solucao, grafo, entrada);
 
