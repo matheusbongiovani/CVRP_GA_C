@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
 
 
     // EXECUTAR ALGORITMO: void runGeneticAlgorithm(timeToExec,probMutate, entrada, grafo)
-    runGeneticAlgorithm(10, 0.05, entrada, grafo);
+    runGeneticAlgorithm(300, 0.05, entrada, grafo);
 
 
 

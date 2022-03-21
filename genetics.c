@@ -458,16 +458,16 @@ void runGeneticAlgorithm(double timeToExec, double probMutate, VetorPontos* entr
         total_t = (double)end_t - (double)start_t;
         total_t = (total_t/ CLOCKS_PER_SEC);
         if (total_t >= timeToExec){
-            printf("Tempo de Exc. do Algoritmo: %lf\n", total_t ); //Em microsegundos (10^-6)
+            printf("Tempo de Exc. do Algoritmo: %.2f\n", total_t ); //Em microsegundos (10^-6)
             break;            
         }
 
     }
 
     printf("------------------------------------------------------------------------------------------------------------------------------------\n");
-    printf("fitness melhor entre todas gerações: %lf -- melhor fitness atual: %lf -- nº de Hard Resests na população: %d  \n",bestFitGlobal, bestFitAtual, numHardReset);
-    printf("num de iterações: %d, iterações sem melhora: %d, iterações pra melhor solução: %d, tempo de exc da melhor solução: %lf \n", index_geracao_atual, iteracoes_sem_melhora, num_iteracoes_melhor_solucao, time_to_best_solution);
-    printf("------------------------------------------------------------------------------------------------------------------------------------\nSOLUÇÃO: ");
+    printf("Melhor fitness entre todas gerações: %.2f -- Melhor fitness da geração atual: %.2f -- nº de Hard Resests na população: %d  \n",bestFitGlobal, bestFitAtual, numHardReset);
+    printf("Nº de iterações: %d, Iterações sem melhora: %d, Iterações pra melhor solução: %d, Tempo de exc da melhor solução: %.2f \n", index_geracao_atual, iteracoes_sem_melhora, num_iteracoes_melhor_solucao, time_to_best_solution);
+    printf("------------------------------------------------------------------------------------------------------------------------------------\nCOST: %lf, SOLUÇÃO: ", bestFitGlobal);
 
 
     imprimirSolInt(bestSolutionGlobal);
