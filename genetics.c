@@ -1,7 +1,5 @@
 #include "genetics.h"
 
-
-
 int* shuffleVetInt(int* solucao, Grafo* grafo){
     int N = retornaNCidades(grafo)-1 ;
     int i = 0;
@@ -40,7 +38,6 @@ int* removeZerosNaSolu(int* solucao, Grafo* grafo){
     return solucao;
 }
 
-///////////////need fix/////////////////////
 int* removeZerosDoLado(int* solucao){
     int i, j;
     for(i = 0; solucao[i]!= -1; i++){
@@ -53,6 +50,7 @@ int* removeZerosDoLado(int* solucao){
     }
     return solucao;
 }
+
 int* removeIdNaPos(int pos, int* solucao){
     int i, j;
     if(pos == 0){
@@ -90,9 +88,7 @@ void insereZeroAntesPos(int pos, int* solucao, Grafo* grafo){
         solucao[j+1] = solucao[j];
     }
     solucao[pos] = 0;
-
 }
-
 
 int tamanhoSolucao(int* solucao){
     int j = 0;
@@ -100,7 +96,6 @@ int tamanhoSolucao(int* solucao){
 
     return j;
 }
-
 
 int* distribuirZerosNaSoluInicial(int* solucao, Grafo* grafo, VetorPontos* entrada){
     int i = 0;
@@ -156,8 +151,10 @@ double fitness(int* solucao, Grafo* grafo, VetorPontos* entrada){
     double cost = 0;
     int i = 0;
 
-    cost += retornaDistancia(grafo, 0, solucao[0]); //1º nó da 1ª rota
+    // Distância do Depot até a 1ª cidade da 1ª rota
+    cost += retornaDistancia(grafo, 0, solucao[0]); 
 
+    // Distância entre as cidades no vetor da solução.
     for(i =0; solucao[i] != -1; i++){
         cost += retornaDistancia(grafo, solucao[i], solucao[i+1]);
         if(solucao[i+2] == -1){
@@ -165,7 +162,8 @@ double fitness(int* solucao, Grafo* grafo, VetorPontos* entrada){
             break;
         }
     }
-    cost += retornaDistancia(grafo, solucao[i], 0);
+    // Distância da última cidade da última rota até o Depot
+    cost += retornaDistancia(grafo, solucao[i], 0); //
 
     int numDepot = contarDepositosNaSolu(solucao);
 
@@ -186,7 +184,6 @@ double fitness(int* solucao, Grafo* grafo, VetorPontos* entrada){
             }
         }
     }
-
     return cost;
 }
 
@@ -194,7 +191,7 @@ int* tornarFactivel(int* solucao, Grafo* grafo, VetorPontos* entrada){
     removeZerosNaSolu(solucao, grafo);
 
     int nCidades = retornaNCidades(grafo);
-    // boleanos para fazer ajuste de cidades repetidas e que faltam
+    // boleanos para fazer ajuste de cidades repetidas e que faltam na solução
     int nextDup = 0;
     int i1 = 0;
     int i2 = 0;
@@ -262,18 +259,6 @@ int* reverseEntreCuts(int* solucao, int cut1, int cut2){
     return solucao;
 }
 
-// int* solucaoNaPosDaPopulacao(int pos, int** populacao, Grafo* grafo){
-//     int tamPop = retornaNCidades(grafo)*2;
-//     int i;
-//     for(i = 0; i < tamPop; i++){
-//         if(i = pos)
-//             return populacao[i];
-//     }
-
-
-// }
-
-
 int* selecaoPorTorneio(int** populacao, Grafo* grafo, VetorPontos* entrada){
     int tamPop = retornaNCidades(grafo)*2;
     int numSelects = round(tamPop/10 -0.5);
@@ -292,9 +277,6 @@ int* selecaoPorTorneio(int** populacao, Grafo* grafo, VetorPontos* entrada){
     }
     return populacao[iSelecionado];
 }
-
-
-
 
 int* mutacao(int* solucao, double probMutate){
     int prob0a100 = rand() % 100;
@@ -317,7 +299,7 @@ int** crossover(int* p1, int* p2, Grafo* grafo, VetorPontos* entrada){
     int* f1 = duplicarSolucaoInt(p1, grafo);
     int* f2 = duplicarSolucaoInt(p2, grafo);
 
-    int N = tamanhoSolucao(p1)-1; // -1 porque começa de 0.
+    int N = retornaNCidades(grafo)-1;
 
     int cut1 = rand() % N;      // index de cortes
     int cut2 = rand() % (N-cut1);
@@ -345,15 +327,13 @@ int** crossover(int* p1, int* p2, Grafo* grafo, VetorPontos* entrada){
     distribuirZerosRecorrente(f2, grafo, entrada);
     childs[0] = f1;
     childs[1] = f2;
-    // imprimirSolInt(f1);
-    // imprimirSolInt(f2);
+
     return childs;
 }
 
 
 int** criarPopulacaoInicial(VetorPontos* entrada, Grafo* grafo){
     int tamPop = retornaNCidades(grafo)*2;
-
     int** populacao = (int**)malloc(tamPop*sizeof(int*));
 
     for(int i = 0; i < tamPop; i++){
@@ -405,14 +385,12 @@ void runGeneticAlgorithm(double timeToExec, double probMutate, VetorPontos* entr
     double bestFitGlobal = 999999;
     double fitAtIndex = 0;
     double time_to_best_solution = 0;
-
-    int hardReset = 0;
-    int numHardReset = 0;
-    int resetarProbMutate = 0;
-
     int index_geracao_atual = 0;
     int iteracoes_sem_melhora = 0;
     int num_iteracoes_melhor_solucao = 0;
+
+    int hardReset = 0;
+    int numHardReset = 0;
 
     while(1){
         index_geracao_atual++;
@@ -429,11 +407,6 @@ void runGeneticAlgorithm(double timeToExec, double probMutate, VetorPontos* entr
             iteracoes_sem_melhora++;
             currentMutatProb += 0.01;
             hardReset++;
-            resetarProbMutate++;
-            if(resetarProbMutate > 100){
-                resetarProbMutate = 0;
-                currentMutatProb = probMutate;
-            }
             if(hardReset > 1000){
                 numHardReset++;
                 hardReset = 0;
@@ -453,24 +426,22 @@ void runGeneticAlgorithm(double timeToExec, double probMutate, VetorPontos* entr
             total_t = (total_t/ CLOCKS_PER_SEC);
             time_to_best_solution = total_t;
         }
-
         end_t = clock();
         total_t = (double)end_t - (double)start_t;
         total_t = (total_t/ CLOCKS_PER_SEC);
         if (total_t >= timeToExec){
-            printf("Tempo de Exc. do Algoritmo: %.2f\n", total_t ); //Em microsegundos (10^-6)
+            printf("Tempo de Execução do Algoritmo: %.2fs\n", total_t ); 
             break;            
         }
-
     }
 
     printf("------------------------------------------------------------------------------------------------------------------------------------\n");
     printf("Melhor fitness entre todas gerações: %.2f -- Melhor fitness da geração atual: %.2f -- nº de Hard Resests na população: %d  \n",bestFitGlobal, bestFitAtual, numHardReset);
-    printf("Nº de iterações: %d, Iterações sem melhora: %d, Iterações pra melhor solução: %d, Tempo de exc da melhor solução: %.2f \n", index_geracao_atual, iteracoes_sem_melhora, num_iteracoes_melhor_solucao, time_to_best_solution);
-    printf("------------------------------------------------------------------------------------------------------------------------------------\nCOST: %lf, SOLUÇÃO: ", bestFitGlobal);
-
+    printf("Nº de iterações: %d -- Iterações sem melhora: %d -- Iterações pra melhor solução: %d -- Tempo de exc da melhor solução: %.2f \n", index_geracao_atual, iteracoes_sem_melhora, num_iteracoes_melhor_solucao, time_to_best_solution);
+    printf("------------------------------------------------------------------------------------------------------------------------------------\nCUSTO: %lf, SOLUÇÃO:\n", bestFitGlobal);
 
     imprimirSolInt(bestSolutionGlobal);
+    printf("------------------------------------------------------------------------------------------------------------------------------------\n");
     imprimeDemandaRotas(bestSolutionGlobal, entrada, grafo);
 
     free(bestSolutionGlobal);
@@ -480,32 +451,33 @@ void runGeneticAlgorithm(double timeToExec, double probMutate, VetorPontos* entr
 
 
 void imprimeDemandaRotas(int* solucao, VetorPontos* entrada, Grafo* grafo){
-    printf("Carga de cada Rota: [");
+    printf("Capacidade máxima dos veículos: %.1f -- Carga em cada rota: [", retornaCapacidadeMaxVeiculo(grafo));
     double cargaRota = 0;
+    int numVeiculosMin = 0;
     for(int j = 0; solucao[j]!= -1; j++){
         cargaRota += retornaDemanda(procuraPontoPeloId(solucao[j], entrada));
         if(solucao[j] == 0){
-            printf(" %.2f,",cargaRota);
+            printf("%.1f, ",cargaRota);
+            numVeiculosMin++;
             cargaRota = 0;
         }
     }
-    printf(" %.2f ]\n",cargaRota);       
+    printf(" %.1f]\n",cargaRota);
+    numVeiculosMin++;
+    if(numVeiculosMin != retornaNVeiculos(grafo)){
+        printf("NÃO FOI POSSÍVEL ACHAR UMA SOLUÇÃO FACTÍVEL UTILIZANDO O Nº MÍNIMO DE VEÍCULOS DISPONÍVEIS");
+        printf("Nº MÍNIMO DE VEÍCULOS DISPONÍVEIS: %d", retornaNVeiculos(grafo));
+        printf("VEÍCULOS UTILIZADOS NESTA SOLUÇÃO: %d", numVeiculosMin);
+    }
 }
 
-
-
-
-
-
-
 void imprimirSolInt(int* solucao){
-    printf("[0");
+    printf("[0,");
     for(int j = 0; solucao[j]!= -1; j++){
-        printf(" %d",solucao[j]);
+        printf(" %d,",solucao[j]);
     }
     printf(" 0]\n");   
 }
-
 
 void imprimirElemsPopulacao(int** populacao, Grafo* grafo){
     int tamPop = retornaNCidades(grafo)*2;
