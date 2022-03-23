@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${fileDirname}/${fileBasenameNoExtension}",
             "args": [
-                "A-n32-k5.vrp"
+                "A-n37-k6.vrp"
             ],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",

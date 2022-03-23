@@ -27,7 +27,7 @@ int idEstaContidoNaSolu(int id, int* solucao){
 
 int* removeZerosNaSolu(int* solucao, Grafo* grafo){
     int i, j;
-    int vetTamMax = retornaNCidades(grafo)+(retornaNVeiculos(grafo)*3)-1;
+    int vetTamMax = retornaNCidades(grafo)+(retornaNVeiculos(grafo)*2)-1;
     for(i = 0; solucao[i]!= -1; i++){
         if (solucao[i] == 0){
             for(j = i; solucao[j] != -1 ; j++){
@@ -81,7 +81,7 @@ int contarDepositosNaSolu(int* solucao){
 }
 
 void insereZeroAntesPos(int pos, int* solucao, Grafo* grafo){
-    int vetTamMax = retornaNCidades(grafo)+(retornaNVeiculos(grafo)*3)-2;
+    int vetTamMax = retornaNCidades(grafo)+(retornaNVeiculos(grafo)*2)-2;
     int j;
 
     for(j = vetTamMax; j >= pos; j--){
@@ -103,7 +103,7 @@ int* distribuirZerosNaSoluInicial(int* solucao, Grafo* grafo, VetorPontos* entra
     double reachedTotalDemand = 0;
     double capacidadeVeiculo = retornaCapacidadeMaxVeiculo(grafo);
     double totalDemand = retornaDemandaTotal(grafo);
-    int vetTamMax = retornaNCidades(grafo)+(retornaNVeiculos(grafo)*3)-1;
+    int vetTamMax = retornaNCidades(grafo)+(retornaNVeiculos(grafo)*2)-1;
     int j = 0;
     while(reachedTotalDemand < totalDemand){
         Ponto* cidadeAtual = procuraPontoPeloId(solucao[i], entrada);
@@ -176,8 +176,8 @@ double fitness(int* solucao, Grafo* grafo, VetorPontos* entrada){
             weight += retornaDemanda(procuraPontoPeloId(solucao[j], entrada));
             if(solucao[j]==0){
                 if (weight > capMaxVeic){
-                    // penalty*50 performed better
-                    penalty += (weight - capMaxVeic)*50;
+                    // penalty*100 performed better
+                    penalty += (weight - capMaxVeic)*100;
                     cost += penalty;
                     weight = 0;
                 }
@@ -223,7 +223,7 @@ int* tornarFactivel(int* solucao, Grafo* grafo, VetorPontos* entrada){
 
 
 int* criarSolucaoInt(VetorPontos* entrada, Grafo* grafo){
-    int vetTamMax = retornaNCidades(grafo)+(retornaNVeiculos(grafo)*3);
+    int vetTamMax = retornaNCidades(grafo)+(retornaNVeiculos(grafo)*2);
     int* solucao = (int*)malloc(sizeof(int)*vetTamMax);
     for(int i =0; i < (vetPtsTamInicial(entrada)-1); i++){
         solucao[i] = i+1;
@@ -232,7 +232,7 @@ int* criarSolucaoInt(VetorPontos* entrada, Grafo* grafo){
 }
 
 int* duplicarSolucaoInt(int* pai, Grafo* grafo){
-    int vetTamMax = retornaNCidades(grafo)+(retornaNVeiculos(grafo)*3);
+    int vetTamMax = retornaNCidades(grafo)+(retornaNVeiculos(grafo)*2);
     int* filho = (int*)malloc(sizeof(int)*vetTamMax);
     int i;
     for(i = 0; pai[i] != -1; i++)
@@ -389,6 +389,9 @@ void runGeneticAlgorithm(double timeToExec, double probMutate, VetorPontos* entr
     int iteracoes_sem_melhora = 0;
     int num_iteracoes_melhor_solucao = 0;
 
+    int hardReset = 0;
+    int numHardReset = 0;
+
     while(1){
         index_geracao_atual++;
         populacao = criarNOVApopulacao(populacao, probMutate, grafo, entrada); 
@@ -402,7 +405,15 @@ void runGeneticAlgorithm(double timeToExec, double probMutate, VetorPontos* entr
         }
         if(bestFitAtual >= bestFitGlobal){
             iteracoes_sem_melhora++;
-            currentMutatProb += 0.001;
+            currentMutatProb += 0.01;
+            hardReset++;
+            if(hardReset > 1000){
+                numHardReset++;
+                hardReset = 0;
+                currentMutatProb = probMutate;
+                destroiPopulacao(populacao, grafo);
+                populacao = criarPopulacaoInicial(entrada, grafo);
+            }
         }else{
             free(bestSolutionGlobal);
             bestSolutionGlobal = duplicarSolucaoInt(bestSolutionAtual, grafo);
@@ -425,7 +436,7 @@ void runGeneticAlgorithm(double timeToExec, double probMutate, VetorPontos* entr
     }
 
     printf("------------------------------------------------------------------------------------------------------------------------------------\n");
-    printf("Melhor fitness entre todas gerações: %.2f -- Melhor fitness da geração atual: %.2f \n",bestFitGlobal, bestFitAtual);
+    printf("Melhor fitness entre todas gerações: %.2f -- Melhor fitness da geração atual: %.2f -- nº de Hard Resests na população: %d  \n",bestFitGlobal, bestFitAtual, numHardReset);
     printf("Nº de iterações: %d -- Iterações sem melhora: %d -- Iterações pra melhor solução: %d -- Tempo de exc da melhor solução: %.2f \n", index_geracao_atual, iteracoes_sem_melhora, num_iteracoes_melhor_solucao, time_to_best_solution);
     printf("------------------------------------------------------------------------------------------------------------------------------------\nCUSTO: %lf, SOLUÇÃO:\n", bestFitGlobal);
 
