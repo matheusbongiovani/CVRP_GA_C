@@ -262,7 +262,7 @@ int* reverseEntreCuts(int* solucao, int cut1, int cut2){
 int* selecaoPorTorneio(int** populacao, Grafo* grafo, VetorPontos* entrada){
     int tamPop = retornaNCidades(grafo)*2;
     int numSelects = round(tamPop/10 -0.5);
-    double best = 999999;
+    double best = 999999999999;
     double fitSelected;
     int i, irand, iSelecionado;
 
@@ -381,8 +381,8 @@ void runGeneticAlgorithm(double timeToExec, double probMutate, VetorPontos* entr
     int* solutionAtIndex = NULL;
     int* bestSolutionAtual = NULL;
     int* bestSolutionGlobal = NULL;  
-    double bestFitAtual = 999999;
-    double bestFitGlobal = 999999;
+    double bestFitAtual = 999999999999;
+    double bestFitGlobal = 999999999999;
     double fitAtIndex = 0;
     double time_to_best_solution = 0;
     int index_geracao_atual = 0;
@@ -403,6 +403,8 @@ void runGeneticAlgorithm(double timeToExec, double probMutate, VetorPontos* entr
         if(bestFitAtual >= bestFitGlobal){
             iteracoes_sem_melhora++;
             currentMutatProb += 0.001;
+            if(currentMutatProb > 1)
+                currentMutatProb = 0.05;
         }else{
             free(bestSolutionGlobal);
             bestSolutionGlobal = duplicarSolucaoInt(bestSolutionAtual, grafo);
@@ -454,9 +456,9 @@ void imprimeDemandaRotas(int* solucao, VetorPontos* entrada, Grafo* grafo){
     printf(" %.1f]\n",cargaRota);
     numVeiculosMin++;
     if(numVeiculosMin != retornaNVeiculos(grafo)){
-        printf("NÃO FOI POSSÍVEL ACHAR UMA SOLUÇÃO FACTÍVEL UTILIZANDO O Nº MÍNIMO DE VEÍCULOS DISPONÍVEIS");
-        printf("Nº MÍNIMO DE VEÍCULOS DISPONÍVEIS: %d", retornaNVeiculos(grafo));
-        printf("VEÍCULOS UTILIZADOS NESTA SOLUÇÃO: %d", numVeiculosMin);
+        printf("NÃO FOI POSSÍVEL ACHAR UMA SOLUÇÃO FACTÍVEL UTILIZANDO O Nº MÍNIMO DE VEÍCULOS DISPONÍVEIS\n");
+        printf("Nº MÍNIMO DE VEÍCULOS DISPONÍVEIS: %d \n", retornaNVeiculos(grafo));
+        printf("VEÍCULOS UTILIZADOS NESTA SOLUÇÃO: %d \n", numVeiculosMin);
     }
 }
 
