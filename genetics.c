@@ -175,7 +175,6 @@ double fitness(int* solucao, Grafo* grafo, VetorPontos* entrada){
             weight += retornaDemanda(procuraPontoPeloId(solucao[j], entrada));
             if(solucao[j]==0){
                 if (weight > capMaxVeic){
-                    // penalty*50 performed better
                     penalty += (weight - capMaxVeic)*50;
                     cost += penalty;
                     weight = 0;
