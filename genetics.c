@@ -150,10 +150,8 @@ double fitness(int* solucao, Grafo* grafo, VetorPontos* entrada){
     removeZerosDoLado(solucao);
     double cost = 0;
     int i = 0;
-
     // Distância do Depot até a 1ª cidade da 1ª rota
     cost += retornaDistancia(grafo, 0, solucao[0]); 
-
     // Distância entre as cidades no vetor da solução.
     for(i =0; solucao[i] != -1; i++){
         cost += retornaDistancia(grafo, solucao[i], solucao[i+1]);
@@ -165,6 +163,7 @@ double fitness(int* solucao, Grafo* grafo, VetorPontos* entrada){
     // Distância da última cidade da última rota até o Depot
     cost += retornaDistancia(grafo, solucao[i], 0); //
 
+    // Checar nº de rotas, e aplicar penalidade caso exceda capacidade máxima
     int numDepot = contarDepositosNaSolu(solucao);
 
     if (numDepot+1 != retornaNVeiculos(grafo)){
